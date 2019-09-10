@@ -8,11 +8,8 @@ defmodule Bonfire do
 
   ## Examples
 
-      iex> Bonfire.hello()
-      :world
-
   """
-  def hello do
-    :world
+  defmacro defrule args do
+
   end
 end
