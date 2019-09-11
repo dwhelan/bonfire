@@ -25,13 +25,27 @@ defmodule Core do
   end
 
   defp decode_zero_or_more(input, acc, f) do
-    input
-    |> Enum.reduce_while({acc, ''}, fn char, {chars, rest} ->
-      case f.(char) do
-        true -> {:cont, {[char | chars], rest}}
-        false -> {:halt, {chars, [char | rest]}}
-      end
-    end)
+    {chars, rest} =
+      input
+      |> Enum.reduce_while({acc, ''}, fn char, {acc, rest} ->
+        case f.(char) do
+          true -> {:cont, {[char | acc], rest}}
+          false -> {:halt, {acc, [char | rest]}}
+        end
+      end)
+
+    {Enum.reverse(chars), rest}
+  end
+
+  defp decode_one([char | rest], f) do
+    case f.(char) do
+      true -> {[char], rest}
+      false -> nil
+    end
+  end
+
+  defp decode_one(_, _) do
+    nil
   end
 
   defp decode(input, type, first, subsequent) do
@@ -40,7 +54,7 @@ defmodule Core do
         case first.(char) do
           true ->
             {chars, rest} = decode_zero_or_more(rest, [char], subsequent)
-            {token(type, Enum.reverse(chars)), rest}
+            {token(type, chars), rest}
 
           false ->
             nil
