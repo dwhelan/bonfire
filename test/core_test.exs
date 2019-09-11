@@ -7,24 +7,24 @@ defmodule CoreTest do
 
   describe "rulename" do
     test "first character" do
-      {valid, invalid} = build_charlist([?A..?Z, ?a..?z])
+      {valid, invalid} = build_test_charlist([?A..?Z, ?a..?z])
       Enum.each(valid, &assert_rulename([&1]))
-      Enum.each(invalid, &assert(rulename([&1]) == nil))
+      Enum.each(invalid, &assert_rulename_error([&1]))
     end
 
     test "subsequent characters" do
-      {valid, invalid} = build_charlist([?A..?Z, ?a..?z, ?0..?9, ?-])
+      {valid, invalid} = build_test_charlist([?A..?Z, ?a..?z, ?0..?9, ?-])
       Enum.each(valid, &assert_rulename([?a, &1]))
       Enum.each(invalid, &assert_rulename([?a, &1], [&1]))
     end
 
     test "invalid input" do
-      assert(rulename(:not_a_list) == nil)
-      assert(rulename(["abc"]) == nil)
+      assert_rulename_error(:not_a_list)
+      assert_rulename_error(["abc"])
     end
   end
 
-  defp build_charlist(values) do
+  defp build_test_charlist(values) do
     valid =
       Enum.map(
         values,
@@ -41,6 +41,10 @@ defmodule CoreTest do
 
   defp assert_rulename(input) do
     assert rulename(input) == {%{type: :rulename, value: input, code: nil, comments: nil}, []}
+  end
+
+  defp assert_rulename_error(input) do
+    assert rulename(input) == nil
   end
 
   defp assert_rulename(input, rest) do
