@@ -21,17 +21,30 @@ defmodule Core do
 
   # rulename = ALPHA *(ALPHA / DIGIT / "-")
   def rulename(input) do
-    case input do
-      [char | rest] when is_alpha(char) ->
-        {chars, rest} =
-          Enum.reduce_while(rest, {[char], ''}, fn char, {chars, rest} ->
-            case is_rulename_char(char) do
-              true -> {:cont, {[char | chars], rest}}
-              false -> {:halt, {chars, [char | rest]}}
-            end
-          end)
+    decode(input, :rulename, &is_alpha/1, &is_rulename_char/1)
+  end
 
-        {token(:rulename, Enum.reverse(chars)), rest}
+  defp decode_zero_or_more(input, acc, f) do
+    input
+    |> Enum.reduce_while({acc, ''}, fn char, {chars, rest} ->
+      case f.(char) do
+        true -> {:cont, {[char | chars], rest}}
+        false -> {:halt, {chars, [char | rest]}}
+      end
+    end)
+  end
+
+  defp decode(input, type, first, subsequent) do
+    case input do
+      [char | rest] ->
+        case first.(char) do
+          true ->
+            {chars, rest} = decode_zero_or_more(rest, [char], subsequent)
+            {token(type, Enum.reverse(chars)), rest}
+
+          false ->
+            nil
+        end
 
       _ ->
         nil
