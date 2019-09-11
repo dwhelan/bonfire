@@ -17,11 +17,6 @@ defmodule CoreTest do
       Enum.each(valid, &assert_rulename([?a, &1]))
       Enum.each(invalid, &assert_rulename([?a, &1], [&1]))
     end
-
-    test "invalid input" do
-      assert_rulename_error(:not_a_list)
-      assert_rulename_error(["abc"])
-    end
   end
 
   defp build_test_charlist(values) do
