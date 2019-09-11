@@ -3,7 +3,7 @@ defmodule BonfireTest do
   import Bonfire
   doctest Bonfire
 
-  test "rule form " do
+  test "rule form" do
     defrule "a = b"
   end
 end
