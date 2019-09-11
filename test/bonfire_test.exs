@@ -4,6 +4,6 @@ defmodule BonfireTest do
   doctest Bonfire
 
   test "rule form" do
-    defrule "a = b"
+    defrule("a = b")
   end
 end

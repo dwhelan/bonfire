@@ -9,7 +9,6 @@ defmodule Bonfire do
   ## Examples
 
   """
-  defmacro defrule definition do
-
+  defmacro defrule(definition) do
   end
 end

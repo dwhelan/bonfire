@@ -1,56 +1,34 @@
-defmodule Foo do
-  defguard is_alpha(char) when (char >= 0x41 and char <= 0x5A) or (char >= 0x61 and char <= 0x7A)
+defmodule Guards do
+  @spec is_octet(char) :: boolean
+  defguard is_octet(char) when char >= 0 and char <= 255
+
+  @spec is_alpha(char) :: boolean
+  defguard is_alpha(char) when (char >= ?a and char <= ?z) or (char >= ?A and char <= ?Z)
+
+  @spec is_digit(char) :: boolean
+  defguard is_digit(char) when char >= ?0 and char <= ?9
+
+  @spec is_rulename(char) :: boolean
+  defguard is_rulename(char) when is_alpha(char) or is_digit(char) or char === ?-
 end
 
 defmodule Core do
   @moduledoc false
 
-  import Bonfire
+  import Guards
 
-  defrule "CR = %x0D"
+  # rulename = ALPHA *(ALPHA / DIGIT / "-")
+  def rulename([char | rest]) when is_alpha(char), do: rulename(rest, [char])
+  def rulename(_), do: nil
+  defp rulename([char | rest], acc) when is_rulename(char), do: rulename(rest, [char | acc])
+  defp rulename(rest, acc), do: {token(:rulename, Enum.reverse(acc)), rest}
 
-  def name(input) do
-    case input do
-      [char | rest] ->
-        if Core.alpha?(char) do
-          name_tail(rest, [char])
-        else
-          nil
-        end
-
-      _ ->
-        nil
-    end
-  end
-
-  defp name_tail(input, acc) do
-    case input do
-      [char | rest] ->
-        if Core.alpha?(char) or Core.digit?(char) or char === ?- do
-          name_tail(rest, [char | acc])
-        else
-          {token(:name, Enum.reverse(acc)), input}
-        end
-
-      _ ->
-#        {token(:name, Util.name(Enum.reverse(acc))), input}
-        {token(:name, Enum.reverse(acc)), input}
-    end
-  end
-
-  defp token(type, value, comments \\ nil) do
+  defp token(type, value, code \\ nil, comments \\ nil) do
     %{
-      element: type,
+      type: type,
       value: value,
-      code: nil,
+      code: code,
       comments: comments
     }
   end
-
-  @spec alpha?(char) :: boolean
-  def alpha?(char) do
-    (char >= 0x41 and char <= 0x5A) or
-      (char >= 0x61 and char <= 0x7A)
-  end
-
 end
