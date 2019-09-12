@@ -1,10 +1,10 @@
-defmodule Foo do
-end
-
 defmodule Core do
   @moduledoc false
 
   import Guards
+
+  def repetition(input, from: from, to: to) do
+  end
 
   # rulename = ALPHA *(ALPHA / DIGIT / "-")
   def rulename(chars) do

@@ -19,6 +19,16 @@ defmodule Test do
     {valid, invalid}
   end
 
+  def assert_codec(codec, input, rest \\ []) do
+    assert_decode(codec, input, rest)
+    assert_encode(codec, input, rest)
+  end
+
+  def assert_codec_error(codec, input) do
+    assert_decode_error(codec, input)
+    assert_encode_error(codec, input)
+  end
+
   def assert_decode(codec, input, rest \\ []) do
     {chars, rest} = Enum.split(input, length(input) - length(rest))
     assert {^chars, ^rest} = codec.decode(input)
