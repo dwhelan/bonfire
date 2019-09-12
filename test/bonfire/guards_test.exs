@@ -6,7 +6,7 @@ defmodule GuardsTest do
 
   test "is_alpha" do
     {valid, invalid} = build_test_charlist([?A..?Z, ?a..?z])
-    Enum.each(valid, &(assert is_alpha(&1)))
-    Enum.each(invalid, &(refute is_alpha(&1)))
+    Enum.each(valid, &assert(is_alpha(&1)))
+    Enum.each(invalid, &refute(is_alpha(&1)))
   end
 end
