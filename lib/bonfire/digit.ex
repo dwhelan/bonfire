@@ -32,7 +32,11 @@ defmodule Rule do
     end
   end
 
-  defmacro defcodec(module) do
+  def shift_left({[char | chars], rest}) do
+      {[char], chars ++ rest}
+  end
+
+  defmacro defaction name do
     quote do
 
     end
@@ -72,25 +76,24 @@ defmodule Digit do
   use Rule
 
   defmodule Decode do
-    def apply({[char | chars], rest}) when is_digit(char) do
-      {[char], chars ++ rest}
+    def apply({[char | _ ], _} = input) when is_digit(char) do
+      shift_left input
     end
   end
 
   defmodule Encode do
-    def apply({[char | rest], foo}) when is_digit(char) do
-      {[char], rest ++ foo}
+    def apply({[char | _ ], _} = input) when is_digit(char) do
+      shift_left input
     end
   end
 
   defrule do
-#    defdelegate decode(left, right), to: Decode, as: :apply
-    def decode({[char | rest], foo}) when is_digit(char) do
-      Decode.apply({[char], rest ++ foo})
+    def decode({[char | rest], right}) when is_digit(char) do
+      Decode.apply({[char], rest ++ right})
     end
 
-    def encode({[char | rest], foo}) when is_digit(char) do
-      Encode.apply({[char], rest ++ foo})
+    def encode({[char | rest], right}) when is_digit(char) do
+      Encode.apply({[char], rest ++ right})
     end
   end
 
