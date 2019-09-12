@@ -34,17 +34,13 @@ defmodule CoreTest do
     {valid, invalid}
   end
 
-  defp assert_rulename(input) do
-    assert rulename(input) == {%{type: :rulename, value: input, code: nil, comments: nil}, []}
+  defp assert_rulename(input, rest \\ []) do
+    {chars, _} = Enum.split(input, length(input) - length(rest))
+    assert rulename(input) == {%{type: :rulename, chars: chars}, rest}
   end
 
   defp assert_rulename_error(input) do
     assert rulename(input) == nil
-  end
-
-  defp assert_rulename(input, rest) do
-    {value, _} = Enum.split(input, length(input) - length(rest))
-    assert rulename(input) == {%{type: :rulename, value: value, code: nil, comments: nil}, rest}
   end
 
   @tag :skip
