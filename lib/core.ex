@@ -1,3 +1,6 @@
+defmodule Foo do
+end
+
 defmodule Core do
   @moduledoc false
 
@@ -51,7 +54,7 @@ defmodule Core do
   defp token(type, chars) do
     %{
       type: type,
-      chars: chars,
+      chars: chars
     }
   end
 end
