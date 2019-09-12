@@ -5,6 +5,9 @@ defmodule Alpha do
 
       iex> decode 'a'
       {'a', ''}
+
+      iex> decode :non_alpha
+      nil
   """
   import Guards
 
