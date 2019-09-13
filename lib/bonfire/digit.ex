@@ -1,12 +1,21 @@
 defmodule Foo do
-  defmacro defcodec1(f, do: block) do
+  defmacro defdecode1(f, p) do
     quote do
-      def decode(input) do
-        unquote(__CALLER__.module).Decode.apply(input)
-      end
+      defmodule Decode do
+        def apply([_ | _] = chars) do
+          apply({[], chars})
+        end
 
-      def encode(input) do
-        unquote(__CALLER__.module).Encode.apply(input)
+        def apply(input) do
+          case input do
+            {_, [char | _]} ->
+              case unquote(p).(char) do
+                true -> unquote(f).(input)
+                false -> nil
+              end
+              _ -> nil
+          end
+        end
       end
     end
   end
@@ -51,14 +60,11 @@ defmodule Digit do
       nil
   """
   use Rule
+  import Foo
+
+  defdecode1(fn input -> shift_left(input) end, &is_digit/1)
 
   defcodec
-
-  defdecode do
-    def apply({_, [char | _]} = input) when is_digit(char) do
-      shift_left(input)
-    end
-  end
 
   defencode do
     def apply({[value | _], _} = input) when is_digit(value) do
