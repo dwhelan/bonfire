@@ -62,11 +62,7 @@ defmodule Rule do
           apply({[], chars})
         end
 
-        def apply({[char | _], _} = input) when is_digit(char) do
-          shift_right(input)
-        end
-
-        #        unquote(block)
+        unquote(block)
 
         def apply(_) do
           nil
@@ -117,39 +113,18 @@ defmodule Digit do
   import Guards
   use Rule
 
-  defmodule Decode do
-    source = """
-          defaction decode, is_digit, shift_left
-    """
-
-    code = Code.string_to_quoted!(source)
-
-    IO.inspect(block: source, code: inspect(code))
-
-    def apply([_ | _] = chars) do
-      apply({[], chars})
-    end
-
+  defdecode do
     def apply({_, [char | _]} = input) when is_digit(char) do
       shift_left(input)
     end
-
-    def apply(_) do
-      nil
-    end
   end
 
-  #  defdecode do
-  #    def apply({[char | _ ], _} = input) when is_digit(char) do
-  #      shift_right input
-  #    end
-  #  end
   defmodule Encode do
     def apply([_ | _] = values) do
       apply({values, []})
     end
 
-    def apply({[char | _], _} = input) when is_digit(char) do
+    def apply({[value | _], _} = input) when is_digit(value) do
       shift_right(input)
     end
 
