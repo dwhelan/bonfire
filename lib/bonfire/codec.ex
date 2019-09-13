@@ -8,29 +8,32 @@ defmodule Codec do
 
   defmacro defcodec1(p) do
     quote do
-      def decode(input) do
-        unquote(__CALLER__.module).Decode.apply(input)
+      def decode({dest, [_|_] = source}) when is_list(dest) do
+        case unquote(__CALLER__.module).Decode.apply({Enum.reverse(dest), source}) do
+          nil -> nil
+         {dest, source} -> {Enum.reverse(dest), source}
+       end
       end
 
-      def encode(input) do
-        unquote(__CALLER__.module).Encode.apply(input)
+      def decode(source) when is_list(source) do
+        decode({[], source})
+      end
+
+      def decode(_) do
+        nil
       end
 
       defmodule Decode do
-        def apply([_ | _] = chars) do
-          apply({[], chars})
-        end
-
         def apply({_, [char | _]} = input) do
           case unquote(p).(char) do
             true -> shift_left(input)
             false -> nil
           end
         end
+      end
 
-        def apply(_) do
-          nil
-        end
+      def encode(input) do
+        unquote(__CALLER__.module).Encode.apply(input)
       end
 
       defmodule Encode do
@@ -53,7 +56,7 @@ defmodule Codec do
   end
 
   def shift_left({values, [char | rest]}) do
-    {values ++ [char], rest}
+    {[char | values], rest}
   end
 
   def shift_right({[value | values], rest}) do
