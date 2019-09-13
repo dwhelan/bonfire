@@ -17,17 +17,13 @@ defmodule Codec do
         decode({[], source})
       end
 
-      @spec decode({charlist, nonempty_list(char)}) :: {nonempty_list(char), list(char)}
+      @spec decode({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)}
       def decode({dest, [_ | _] = source}) do
         case unquote(codec).Decode.apply({Enum.reverse(dest), source}) do
           nil -> nil
           {dest, source} -> {Enum.reverse(dest), source}
         end
       end
-
-#      def decode(_) do
-#        nil
-#      end
 
       defmodule Decode do
         def apply({dest, [char | rest]}) when is_list(dest) do
@@ -38,19 +34,17 @@ defmodule Codec do
         end
       end
 
+      @spec encode(nonempty_list(char)) :: {list(char), nonempty_list(char)}
+      def encode([_ | _] = source) do
+        encode({source, []})
+      end
+
+      @spec encode({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)}
       def encode({[_ | _] = source, dest}) do
         case unquote(codec).Encode.apply({source, Enum.reverse(dest)}) do
           nil -> nil
           {source, dest} -> {source, Enum.reverse(dest)}
         end
-      end
-
-      def encode(source) when is_list(source) do
-        encode({source, []})
-      end
-
-      def encode(_) do
-        nil
       end
 
       defmodule Encode do
