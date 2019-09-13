@@ -16,11 +16,5 @@ defmodule Alpha do
 
   defcodec
 
-  defdecode1(&is_alpha/1)
-
-  defencode do
-    def apply({[value | _], _} = input) when is_alpha(value) do
-      shift_right(input)
-    end
-  end
+  defcodec1(&is_alpha/1)
 end

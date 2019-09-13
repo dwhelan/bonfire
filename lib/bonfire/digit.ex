@@ -39,11 +39,5 @@ defmodule Digit do
   use Rule
 
   defcodec
-  defdecode1(&is_digit/1)
-
-  defencode do
-    def apply({[value | _], _} = input) when is_digit(value) do
-      shift_right(input)
-    end
-  end
+  defcodec1(&is_digit/1)
 end
