@@ -4,16 +4,9 @@ defmodule AlphaTest do
   import Alpha
   doctest Alpha
 
-  test "decode" do
+  test "codec" do
     {valid, invalid} = build_test_charlist([?A..?Z, ?a..?z])
-    Enum.each(valid, &assert_decode(Alpha, [&1]))
-    Enum.each(invalid, &assert_decode_error(Alpha, [&1]))
-  end
-
-  @tag :skip
-  test "encode" do
-    {valid, invalid} = build_test_charlist([?A..?Z, ?a..?z])
-    Enum.each(valid, &assert_encode(Alpha, [&1]))
-    Enum.each(invalid, &assert_decode_error(Alpha, [&1]))
+    Enum.each(valid, &assert_codec(Alpha, [&1]))
+    Enum.each(invalid, &assert_codec_error(Alpha, [&1]))
   end
 end
