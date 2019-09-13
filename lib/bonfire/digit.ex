@@ -1,3 +1,17 @@
+defmodule Codec do
+  defmacro defcodec do
+    quote do
+      def decode(input) do
+        unquote(__CALLER__.module).Decode.apply(input)
+      end
+
+      def encode(input) do
+        unquote(__CALLER__.module).Encode.apply(input)
+      end
+    end
+  end
+end
+
 defmodule Digit do
   @moduledoc """
 
@@ -38,7 +52,9 @@ defmodule Digit do
   """
   import Guards
   import Rule
+  import Codec
 
+  defcodec
   defdecode do
     def apply({_, [char | _]} = input) when is_digit(char) do
       shift_left(input)
@@ -49,13 +65,5 @@ defmodule Digit do
     def apply({[value | _], _} = input) when is_digit(value) do
       shift_right(input)
     end
-  end
-
-  def decode(input) do
-    Decode.apply(input)
-  end
-
-  def encode(input) do
-    Encode.apply(input)
   end
 end
