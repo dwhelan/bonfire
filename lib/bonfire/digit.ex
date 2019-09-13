@@ -1,77 +1,3 @@
-defmodule Rule do
-  defmacro __using__(opts \\ []) do
-    quote do
-      import Rule, unquote(opts)
-    end
-  end
-
-  defmacro defrule do
-    quote do
-      def decode([_ | _] = list) do
-        decode({list, ''})
-      end
-    end
-  end
-
-  defmacro defrule(do: block) do
-    quote do
-      unquote(block)
-
-      def decode([_ | _] = chars) do
-        decode({[], chars})
-      end
-
-      def decode(_) do
-        nil
-      end
-
-      def encode([_ | _] = values) do
-        encode({values, []})
-      end
-
-      def encode([char | rest]) when is_digit(char) do
-        {[char], rest}
-      end
-    end
-  end
-
-  def shift_left({values, [char | rest]}) do
-    {values ++ [char], rest}
-  end
-
-  def shift_right({[value | values], rest}) do
-    {values, rest ++ [value]}
-  end
-
-  defmacro defaction(name) do
-    quote do
-      source = """
-            defaction decode, is_digit, shift_left
-      """
-
-      code = Code.string_to_quoted!(source)
-
-      IO.inspect(block: source, code: inspect(code))
-    end
-  end
-
-  defmacro defdecode(do: block) do
-    quote do
-      defmodule Decode do
-        def apply([_ | _] = chars) do
-          apply({[], chars})
-        end
-
-        unquote(block)
-
-        def apply(_) do
-          nil
-        end
-      end
-    end
-  end
-end
-
 defmodule Digit do
   @moduledoc """
 
@@ -119,27 +45,17 @@ defmodule Digit do
     end
   end
 
-  defmodule Encode do
-    def apply([_ | _] = values) do
-      apply({values, []})
-    end
-
+  defencode do
     def apply({[value | _], _} = input) when is_digit(value) do
       shift_right(input)
     end
-
-    def apply(_) do
-      nil
-    end
   end
 
-  defrule do
-    def decode(input) do
-      Decode.apply(input)
-    end
+  def decode(input) do
+    Decode.apply(input)
+  end
 
-    def encode(input) do
-      Encode.apply(input)
-    end
+  def encode(input) do
+    Encode.apply(input)
   end
 end
