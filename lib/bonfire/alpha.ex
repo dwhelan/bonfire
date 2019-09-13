@@ -12,9 +12,7 @@ defmodule Alpha do
       iex> encode 'abc'
       {'bc', 'a'}
   """
-  use Rule
-
-  defcodec
+  use Codec
 
   defcodec1(&is_alpha/1)
 end

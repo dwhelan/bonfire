@@ -36,8 +36,7 @@ defmodule Digit do
       iex> encode :non_digit
       nil
   """
-  use Rule
+  use Codec
 
-  defcodec
   defcodec1(&is_digit/1)
 end
