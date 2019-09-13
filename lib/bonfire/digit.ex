@@ -1,26 +1,3 @@
-defmodule Foo do
-  defmacro defdecode1(f, p) do
-    quote do
-      defmodule Decode do
-        def apply([_ | _] = chars) do
-          apply({[], chars})
-        end
-
-        def apply(input) do
-          case input do
-            {_, [char | _]} ->
-              case unquote(p).(char) do
-                true -> unquote(f).(input)
-                false -> nil
-              end
-              _ -> nil
-          end
-        end
-      end
-    end
-  end
-end
-
 defmodule Digit do
   @moduledoc """
 
@@ -60,11 +37,9 @@ defmodule Digit do
       nil
   """
   use Rule
-  import Foo
-
-  defdecode1(fn input -> shift_left(input) end, &is_digit/1)
 
   defcodec
+  defdecode1(&is_digit/1)
 
   defencode do
     def apply({[value | _], _} = input) when is_digit(value) do

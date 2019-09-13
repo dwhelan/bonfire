@@ -15,14 +15,19 @@ defmodule Rule do
     {values, rest ++ [value]}
   end
 
-  defmacro defdecode(do: block) do
+  defmacro defdecode1(p) do
     quote do
       defmodule Decode do
         def apply([_ | _] = chars) do
           apply({[], chars})
         end
 
-        unquote(block)
+        def apply({_, [char | _]} = input) do
+          case unquote(p).(char) do
+            true -> shift_left(input)
+            false -> nil
+          end
+        end
 
         def apply(_) do
           nil
