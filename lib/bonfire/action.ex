@@ -20,6 +20,8 @@ defmodule Action do
       {'bc', 'a'}
   """
   @type t :: {module, module}
+
+  @spec apply(t, Bonfire.t) :: Bonfire.t | nil
   def apply({element, verb}, arg) do
     Module.concat([element, verb]).apply(arg)
   end
