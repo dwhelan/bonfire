@@ -26,6 +26,8 @@ defmodule Codec do
       end
 
       defmodule Decode do
+        @moduledoc false
+
         @spec apply({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
         def apply({dest, [char | rest]}) when is_list(dest) do
           case unquote(predicate).(char) do
@@ -49,6 +51,8 @@ defmodule Codec do
       end
 
       defmodule Encode do
+        @moduledoc false
+
         @spec apply({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)} | nil
         def apply({[char | rest], dest} = input) do
           case unquote(predicate).(char) do
