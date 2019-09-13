@@ -37,7 +37,7 @@ defmodule Digit do
       nil
   """
   import Guards
-  use Rule
+  import Rule
 
   defdecode do
     def apply({_, [char | _]} = input) when is_digit(char) do

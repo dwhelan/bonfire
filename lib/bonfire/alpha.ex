@@ -10,23 +10,28 @@ defmodule Alpha do
       nil
 
       iex> encode 'abc'
-      {'a', 'bc'}
+      {'bc', 'a'}
   """
   import Guards
+  import Rule
 
-  def decode([char | rest]) when is_alpha(char) do
-    {[char], rest}
+  defdecode do
+    def apply({_, [char | _]} = input) when is_alpha(char) do
+      shift_left(input)
+    end
   end
 
-  def decode(_) do
-    nil
+  defencode do
+    def apply({[value | _], _} = input) when is_alpha(value) do
+      shift_right(input)
+    end
   end
 
-  def encode([char | rest]) when is_alpha(char) do
-    {[char], rest}
+  def decode(input) do
+    Decode.apply(input)
   end
 
-  def encode(_) do
-    nil
+  def encode(input) do
+    Encode.apply(input)
   end
 end
