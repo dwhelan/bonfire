@@ -11,4 +11,3 @@ defmodule Codec do
     end
   end
 end
-

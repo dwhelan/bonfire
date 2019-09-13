@@ -1,6 +1,8 @@
 defmodule Rule do
   defmacro __using__(opts \\ []) do
     quote do
+      import Guards, unquote(opts)
+      import Codec, unquote(opts)
       import Rule, unquote(opts)
     end
   end
@@ -11,18 +13,6 @@ defmodule Rule do
 
   def shift_right({[value | values], rest}) do
     {values, rest ++ [value]}
-  end
-
-  defmacro defaction(name) do
-    quote do
-      source = """
-            defaction decode, is_digit, shift_left
-      """
-
-      code = Code.string_to_quoted!(source)
-
-      IO.inspect(block: source, code: inspect(code))
-    end
   end
 
   defmacro defdecode(do: block) do

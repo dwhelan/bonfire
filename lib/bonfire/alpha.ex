@@ -12,8 +12,9 @@ defmodule Alpha do
       iex> encode 'abc'
       {'bc', 'a'}
   """
-  import Guards
-  import Rule
+  use Rule
+
+  defcodec
 
   defdecode do
     def apply({_, [char | _]} = input) when is_alpha(char) do
@@ -25,13 +26,5 @@ defmodule Alpha do
     def apply({[value | _], _} = input) when is_alpha(value) do
       shift_right(input)
     end
-  end
-
-  def decode(input) do
-    Decode.apply(input)
-  end
-
-  def encode(input) do
-    Encode.apply(input)
   end
 end

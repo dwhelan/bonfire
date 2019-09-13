@@ -1,3 +1,17 @@
+defmodule Foo do
+  defmacro defcodec1(f, do: block) do
+    quote do
+      def decode(input) do
+        unquote(__CALLER__.module).Decode.apply(input)
+      end
+
+      def encode(input) do
+        unquote(__CALLER__.module).Encode.apply(input)
+      end
+    end
+  end
+end
+
 defmodule Digit do
   @moduledoc """
 
@@ -36,11 +50,10 @@ defmodule Digit do
       iex> encode :non_digit
       nil
   """
-  import Guards
-  import Rule
-  import Codec
+  use Rule
 
   defcodec
+
   defdecode do
     def apply({_, [char | _]} = input) when is_digit(char) do
       shift_left(input)
