@@ -1,13 +1,19 @@
 defmodule Action do
-  defmacro defaction(name) do
-    quote do
-      source = """
-            defaction decode, is_digit, shift_left
-      """
+  @moduledoc """
+  Functions to apply actions.
+  """
+  @doc """
+  Invokes an action.
+  
+  ## Examples
+  
+      iex> Action.apply {Alpha, Decode}, {'', 'abc'}
+      {'a', 'bc'}
 
-      code = Code.string_to_quoted!(source)
-
-      IO.inspect(block: source, code: inspect(code))
-    end
+      iex> Action.apply {Alpha, Encode}, {'abc', ''}
+      {'bc', 'a'}
+  """
+  def apply({element, verb}, arg) do
+    Module.concat([element, verb]).apply(arg)
   end
 end
