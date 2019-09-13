@@ -12,13 +12,14 @@ defmodule Action do
   function in that module with `arg`.
 
   ## Examples
-  
+
       iex> Action.apply {Alpha, Decode}, {'', 'abc'}
       {'a', 'bc'}
 
       iex> Action.apply {Alpha, Encode}, {'abc', ''}
       {'bc', 'a'}
   """
+  @type t :: {module, module}
   def apply({element, verb}, arg) do
     Module.concat([element, verb]).apply(arg)
   end

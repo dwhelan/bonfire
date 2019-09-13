@@ -1,4 +1,6 @@
 defmodule Codec do
+  @type t :: {charlist, charlist}
+
   defmacro __using__(opts \\ []) do
     quote do
       import Guards, unquote(opts)
@@ -52,7 +54,7 @@ defmodule Codec do
       defmodule Encode do
         def apply({[char | rest], dest} = input) do
           case unquote(predicate).(char) do
-            true -> {rest, [char|dest]}
+            true -> {rest, [char | dest]}
             false -> nil
           end
         end
