@@ -1,7 +1,7 @@
 defmodule GuardsTest do
   use Test, async: true
-
   import Guards
+
   doctest Guards
 
   test "is_alpha" do
