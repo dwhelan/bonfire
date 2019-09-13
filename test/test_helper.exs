@@ -39,8 +39,8 @@ defmodule Test do
   end
 
   def assert_encode(codec, input, rest \\ []) do
-    {chars, rest} = Enum.split(input, length(input) - length(rest))
-    assert {^chars, ^rest} = codec.encode(input)
+    {value, rest} = Enum.split(input, length(input) - length(rest))
+    assert {^rest, ^value} = codec.encode(input)
   end
 
   def assert_encode_error(codec, input) do
