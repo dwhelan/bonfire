@@ -6,9 +6,6 @@ defmodule Alpha do
       iex> decode 'abc'
       {'a', 'bc'}
 
-      iex> decode :non_alpha
-      nil
-
       iex> encode 'abc'
       {'bc', 'a'}
   """

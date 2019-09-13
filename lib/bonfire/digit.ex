@@ -15,12 +15,6 @@ defmodule Digit do
       iex> decode {'12', '3'}
       {'123', ''}
 
-      iex> decode {'123', ''}
-      nil
-
-      iex> decode :non_digit
-      nil
-
       iex> encode '123'
       {'23', '1'}
 
@@ -32,9 +26,6 @@ defmodule Digit do
 
       iex> encode {'3', '12'}
       {'', '123'}
-
-      iex> encode :non_digit
-      nil
   """
   use Codec
 

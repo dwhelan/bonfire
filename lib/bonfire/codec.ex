@@ -1,5 +1,5 @@
 defmodule Codec do
-  @type t :: {charlist, charlist}
+  @type t :: {list(char), list(char)}
 
   defmacro __using__(opts \\ []) do
     quote do
@@ -12,20 +12,22 @@ defmodule Codec do
     codec = __CALLER__.module
 
     quote do
-      def decode({dest, [_ | _] = source}) when is_list(dest) do
+      @spec decode(nonempty_list(char)) :: {nonempty_list(char), list(char)}
+      def decode([_ | _] = source) do
+        decode({[], source})
+      end
+
+      @spec decode({charlist, nonempty_list(char)}) :: {nonempty_list(char), list(char)}
+      def decode({dest, [_ | _] = source}) do
         case unquote(codec).Decode.apply({Enum.reverse(dest), source}) do
           nil -> nil
           {dest, source} -> {Enum.reverse(dest), source}
         end
       end
 
-      def decode(source) when is_list(source) do
-        decode({[], source})
-      end
-
-      def decode(_) do
-        nil
-      end
+#      def decode(_) do
+#        nil
+#      end
 
       defmodule Decode do
         def apply({dest, [char | rest]}) when is_list(dest) do
