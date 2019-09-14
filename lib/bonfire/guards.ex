@@ -40,6 +40,25 @@ defmodule Guards do
   defguard is_bit(char) when char == 0 or char == 1
 
   @doc """
+  Determine if a character is a `CHAR`.
+
+  ## Examples
+
+      iex> is_char 1
+      true
+
+      iex> is_char 127
+      true
+
+      iex> is_char 0
+      false
+
+      iex> is_char 128
+      false
+  """
+  defguard is_char(char) when 1 <= char and char <= 127
+
+  @doc """
   Determine if a character is a `DIGIT`.
 
   ## Examples

@@ -1,4 +1,4 @@
-defmodule BitTest do
+defmodule BITTest do
   use Test, async: true
 
   import BIT

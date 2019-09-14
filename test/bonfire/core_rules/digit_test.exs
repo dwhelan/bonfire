@@ -1,4 +1,4 @@
-defmodule DigitTest do
+defmodule DIGITTest do
   use Test, async: true
 
   import DIGIT
