@@ -1,5 +1,7 @@
 defmodule Encode do
-  def defencode(codec, predicate) do
+  def defencode(codec, predicate, opts \\ [])
+
+  def defencode(codec, predicate, []) do
     [base(codec), encode_module(predicate)]
   end
 
@@ -26,7 +28,7 @@ defmodule Encode do
         @moduledoc false
 
         @spec apply({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)} | nil
-        def apply({[char | rest], dest}) do
+        def apply({[char | rest] = source, dest}) do
           case unquote(predicate).(char) do
             true -> {rest, [char | dest]}
             false -> nil

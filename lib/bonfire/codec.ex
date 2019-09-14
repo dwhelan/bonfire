@@ -1,4 +1,7 @@
 defmodule Codec do
+  import Decode
+  import Encode
+
   defmacro __using__(opts \\ []) do
     quote do
       import Guards, unquote(opts)
@@ -8,8 +11,8 @@ defmodule Codec do
 
   defmacro defcodec_1_char(predicate) do
     [
-      Decode.defdecode(__CALLER__.module, predicate),
-      Encode.defencode(__CALLER__.module, predicate)
+      defdecode(__CALLER__.module, predicate),
+      defencode(__CALLER__.module, predicate)
     ]
   end
 end

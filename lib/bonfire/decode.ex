@@ -1,5 +1,7 @@
 defmodule Decode do
-  def defdecode(codec, predicate) do
+  def defdecode(codec, predicate, opts \\ [])
+
+  def defdecode(codec, predicate, []) do
     [base(codec), decode_module(predicate)]
   end
 
