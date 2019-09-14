@@ -19,5 +19,5 @@ defmodule BIT do
   """
   use Codec
 
-  defcodec_1_char(&is_bit/1)
+  defcodec(&is_bit/1)
 end

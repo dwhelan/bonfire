@@ -23,5 +23,5 @@ defmodule HEXDIGIT do
   """
   use Codec
 
-  defcodec_1_char(&is_hex_digit/1)
+  defcodec(&is_hex_digit/1)
 end

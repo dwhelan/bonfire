@@ -9,7 +9,7 @@ defmodule Codec do
     end
   end
 
-  defmacro defcodec_1_char(predicate) do
+  defmacro defcodec(predicate) do
     [
       defdecode(__CALLER__.module, predicate),
       defencode(__CALLER__.module, predicate)

@@ -16,5 +16,5 @@ defmodule ALPHA do
   """
   use Codec
 
-  defcodec_1_char(&is_alpha/1)
+  defcodec(&is_alpha/1)
 end

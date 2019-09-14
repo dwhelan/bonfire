@@ -34,5 +34,5 @@ defmodule DIGIT do
   """
   use Codec
 
-  defcodec_1_char(&is_digit/1)
+  defcodec(&is_digit/1)
 end

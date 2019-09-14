@@ -19,5 +19,5 @@ defmodule CHAR do
   """
   use Codec
 
-  defcodec_1_char(&is_char/1)
+  defcodec(&is_char/1)
 end
