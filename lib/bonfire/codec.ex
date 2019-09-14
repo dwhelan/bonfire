@@ -5,7 +5,7 @@ defmodule Decode do
     end
   end
 
-  defmacro defdecode1(codec, predicate) do
+  def defdecode1(codec, predicate) do
     quote do
       @spec decode(nonempty_list(char)) :: {nonempty_list(char), list(char)} | nil
       def decode([_ | _] = source) do
@@ -31,12 +31,13 @@ defmodule Decode do
           end
         end
       end
-    end
+      end
   end
 end
 
 defmodule Codec do
   @type t :: {list(char), list(char)}
+  require Decode
 
   defmacro __using__(opts \\ []) do
     quote do
@@ -46,34 +47,9 @@ defmodule Codec do
   end
 
   defmacro defcodec1(predicate) do
-    codec = __CALLER__.module
+    decode = Decode.defdecode1(__CALLER__.module, predicate)
 
-    quote do
-      @spec decode(nonempty_list(char)) :: {nonempty_list(char), list(char)} | nil
-      def decode([_ | _] = source) do
-        decode({[], source})
-      end
-
-      @spec decode({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
-      def decode({dest, [_ | _] = source}) do
-        case unquote(codec).Decode.apply({Enum.reverse(dest), source}) do
-          nil -> nil
-          {dest, source} -> {Enum.reverse(dest), source}
-        end
-      end
-
-      defmodule Decode do
-        @moduledoc false
-
-        @spec apply({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
-        def apply({dest, [char | rest]}) when is_list(dest) do
-          case unquote(predicate).(char) do
-            true -> {[char | dest], rest}
-            false -> nil
-          end
-        end
-      end
-
+    encode = quote do
       @spec encode(nonempty_list(char)) :: {list(char), nonempty_list(char)} | nil
       def encode([_ | _] = source) do
         encode({source, []})
@@ -99,5 +75,7 @@ defmodule Codec do
         end
       end
     end
+
+    [ decode, encode]
   end
 end
