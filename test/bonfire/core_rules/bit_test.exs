@@ -4,9 +4,5 @@ defmodule BITTest do
   import BIT
   doctest BIT
 
-  test "codec" do
-    {valid, invalid} = build_test_charlist([0, 1])
-    Enum.each(valid, &assert_codec(BIT, [&1]))
-    Enum.each(invalid, &assert_codec_error(BIT, [&1]))
-  end
+  test_codec(BIT, [0, 1])
 end
