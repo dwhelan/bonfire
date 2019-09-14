@@ -13,10 +13,10 @@ defmodule Action do
 
   ## Examples
 
-      iex> Action.apply {Alpha, Decode}, {'', 'abc'}
+      iex> Action.apply {ALPHA, Decode}, {'', 'abc'}
       {'a', 'bc'}
 
-      iex> Action.apply {Alpha, Encode}, {'abc', ''}
+      iex> Action.apply {ALPHA, Encode}, {'abc', ''}
       {'bc', 'a'}
   """
   @type t :: {module, module}

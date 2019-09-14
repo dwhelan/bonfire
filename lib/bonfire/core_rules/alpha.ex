@@ -1,4 +1,4 @@
-defmodule Alpha do
+defmodule ALPHA do
   @moduledoc """
   A codec for a single `ALPHA` character.
 
