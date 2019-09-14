@@ -1,5 +1,9 @@
 defmodule Decode do
-  defp defdecode(codec) do
+  def defdecode(codec, predicate) do
+    [base(codec), decode_module(predicate)]
+  end
+
+  defp base(codec) do
     quote do
       @spec decode(nonempty_list(char)) :: {nonempty_list(char), list(char)} | nil
       def decode([_ | _] = source) do
@@ -16,7 +20,7 @@ defmodule Decode do
     end
   end
 
-  defp defdecode1Module(predicate) do
+  defp decode_module(predicate) do
     quote do
       defmodule Decode do
         @moduledoc false
@@ -30,12 +34,5 @@ defmodule Decode do
         end
       end
     end
-  end
-
-  def defdecode1(codec, predicate) do
-    [
-      defdecode(codec),
-      defdecode1Module(predicate)
-    ]
   end
 end

@@ -13,5 +13,5 @@ defmodule HexVal do
   """
   use Codec
 
-  defcodec1(&is_alpha/1)
+  defcodec_1_char(&is_alpha/1)
 end
