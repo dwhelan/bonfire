@@ -1,5 +1,10 @@
 defmodule Alpha do
   @moduledoc """
+  A codec for a single `ALPHA` character.
+
+  ```
+  ALPHA = %x41-5A / %x61-7A ; A-Z / a-z
+  ```
 
   ## Examples
 

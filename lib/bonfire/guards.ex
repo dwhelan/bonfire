@@ -8,31 +8,7 @@ defmodule Guards do
   """
 
   @doc """
-  Determine if a character is in the range `0..255`.
-  
-  ```
-  OCTET = %x00-FF ; 8 bits of data
-  ```
-
-  ## Examples
-  
-      iex> is_octet 0
-      true
-
-      iex> is_octet 255
-      true
-
-      iex> is_octet 256
-      false
-  """
-  defguard is_octet(char) when char >= 0 and char <= 255
-
-  @doc """
-  Determine if a character is alphabetic.
-
-  ```
-  ALPHA = %x41-5A / %x61-7A ; A-Z / a-z
-  ```
+  Determine if a character is an `ALPHA`.
 
   ## Examples
 
@@ -47,13 +23,25 @@ defmodule Guards do
   """
   defguard is_alpha(char) when (char >= ?a and char <= ?z) or (char >= ?A and char <= ?Z)
 
+  @doc """
+  Determine if a character is a `Bit`.
+
+  ## Examples
+
+      iex> is_bit 0
+      true
+
+      iex> is_bit 1
+      true
+
+      iex> is_bit ?a
+      false
+  """
+  defguard is_bit(char) when char == 0 or char == 1
 
   @doc """
-  Determine if a character is a digit.
+  Determine if a character is a `Digit`.
 
-  ```
-  DIGIT =  %x30-39 ; 0-9
-  ```
   ## Examples
 
       iex> is_digit ?0
@@ -66,6 +54,26 @@ defmodule Guards do
       false
   """
   defguard is_digit(char) when char >= ?0 and char <= ?9
+
+  @doc """
+  Determine if a character is an `Octet`.
+
+  ```
+  OCTET = %x00-FF ; 8 bits of data
+  ```
+
+  ## Examples
+
+      iex> is_octet 0
+      true
+
+      iex> is_octet 255
+      true
+
+      iex> is_octet 256
+      false
+  """
+  defguard is_octet(char) when char >= 0 and char <= 255
 
 
   @doc """

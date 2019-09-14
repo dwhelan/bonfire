@@ -1,5 +1,10 @@
 defmodule Digit do
   @moduledoc """
+  A codec for a single `DIGIT` character.
+
+  ```
+  DIGIT =  %x30-39 ; 0-9
+  ```
 
   ## Examples
 
