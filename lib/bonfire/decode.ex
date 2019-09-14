@@ -1,5 +1,5 @@
 defmodule Decode do
-  def defdecode1(codec, predicate) do
+  defp defdecode(codec) do
     quote do
       @spec decode(nonempty_list(char)) :: {nonempty_list(char), list(char)} | nil
       def decode([_ | _] = source) do
@@ -13,7 +13,11 @@ defmodule Decode do
           {dest, source} -> {Enum.reverse(dest), source}
         end
       end
+    end
+  end
 
+  defp defdecode1Module(predicate) do
+    quote do
       defmodule Decode do
         @moduledoc false
 
@@ -26,5 +30,12 @@ defmodule Decode do
         end
       end
     end
+  end
+
+  def defdecode1(codec, predicate) do
+    [
+      defdecode(codec),
+      defdecode1Module(predicate)
+    ]
   end
 end
