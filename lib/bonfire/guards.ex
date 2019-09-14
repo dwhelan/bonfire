@@ -24,7 +24,7 @@ defmodule Guards do
   defguard is_alpha(char) when (char >= ?a and char <= ?z) or (char >= ?A and char <= ?Z)
 
   @doc """
-  Determine if a character is a `Bit`.
+  Determine if a character is a `BIT`.
 
   ## Examples
 

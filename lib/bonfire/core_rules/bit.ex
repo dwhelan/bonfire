@@ -1,4 +1,4 @@
-defmodule Bit do
+defmodule BIT do
   @moduledoc """
   A codec for a single `BIT` character.
 
