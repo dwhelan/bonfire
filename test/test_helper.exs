@@ -4,6 +4,16 @@ defmodule Test do
   import Guards
   import ExUnit.Assertions
 
+  defmacro test_codec(codec, valid_values) do
+    quote do
+      test "codec with #{inspect(unquote(valid_values))}}" do
+        {valid, invalid} = build_test_charlist(unquote(valid_values))
+        Enum.each(valid, &assert_codec(unquote(codec), [&1]))
+        Enum.each(invalid, &assert_codec_error(unquote(codec), [&1]))
+      end
+    end
+  end
+
   def build_test_charlist(values) do
     valid =
       Enum.map(

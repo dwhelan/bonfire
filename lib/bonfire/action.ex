@@ -21,7 +21,7 @@ defmodule Action do
   """
   @type t :: {module, module}
 
-  @spec apply(t, Bonfire.t) :: Bonfire.t | nil
+  @spec apply(t, Bonfire.t()) :: Bonfire.t() | nil
   def apply({element, verb}, arg) do
     Module.concat([element, verb]).apply(arg)
   end

@@ -11,17 +11,17 @@ defmodule HEXDIGIT do
       iex> decode '0'
       {'0', ''}
 
-      iex> decode '9'
-      {'9', ''}
+      iex> decode 'F'
+      {'F', ''}
 
       iex> encode '0'
       {'', '0'}
 
-      iex> encode '9'
-      {'', '9'}
+      iex> encode 'F'
+      {'', 'F'}
 
   """
   use Codec
 
-  defcodec1(&is_digit/1)
+  defcodec1(&is_hex_digit/1)
 end

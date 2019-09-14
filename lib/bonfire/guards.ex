@@ -59,6 +59,25 @@ defmodule Guards do
   defguard is_char(char) when 1 <= char and char <= 127
 
   @doc """
+  Determine if a character is a `HEXDIGIT`.
+
+  ## Examples
+
+      iex> is_hex_digit ?0
+      true
+
+      iex> is_hex_digit ?9
+      true
+
+      iex> is_hex_digit ?A
+      true
+
+      iex> is_hex_digit ?G
+      false
+  """
+  defguard is_hex_digit(char) when (?0 <= char and char <= ?9) or (?A <= char and char <= ?F)
+
+  @doc """
   Determine if a character is a `DIGIT`.
 
   ## Examples
@@ -93,7 +112,6 @@ defmodule Guards do
       false
   """
   defguard is_octet(char) when char >= 0 and char <= 255
-
 
   @doc """
   Determine if a character is valid for a rulename.
