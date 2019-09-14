@@ -1,7 +1,11 @@
 defmodule Decode do
-  defmacro defcodec1(predicate) do
-    codec = __CALLER__.module
+  defmacro __using__(opts \\ []) do
+    quote do
+      import Decode, unquote(opts)
+    end
+  end
 
+  defmacro defdecode1(codec, predicate) do
     quote do
       @spec decode(nonempty_list(char)) :: {nonempty_list(char), list(char)} | nil
       def decode([_ | _] = source) do
@@ -27,7 +31,7 @@ defmodule Decode do
           end
         end
       end
-      end
+    end
   end
 end
 

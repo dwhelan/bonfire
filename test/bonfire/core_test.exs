@@ -1,7 +1,5 @@
 defmodule CoreTest do
   use Test, async: true
-  import Core
-  import Guards
 
   doctest Core
 
@@ -12,8 +10,10 @@ defmodule CoreTest do
       Enum.each(invalid, &assert_decode_error(ALPHA, [&1]))
     end
 
+    # ALPHA only matches one char we need *ALPHA to support subsequent ALPHAs
+    @tag :skip
     test "subsequent characters" do
-      {valid, invalid} = build_test_charlist([?A..?Z, ?a..?z, ?0..?9, ?-])
+      #      {valid, invalid} = build_test_charlist([?A..?Z, ?a..?z, ?0..?9, ?-])
       #      Enum.each(valid, &assert_decode(ALPHA, [?a, &1]))
       #      Enum.each(invalid, &assert_decode(ALPHA, [?a, &1], [&1]))
     end
