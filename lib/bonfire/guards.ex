@@ -40,7 +40,7 @@ defmodule Guards do
   defguard is_bit(char) when char == 0 or char == 1
 
   @doc """
-  Determine if a character is a `Digit`.
+  Determine if a character is a `DIGIT`.
 
   ## Examples
 
