@@ -31,25 +31,13 @@ defmodule Decode do
           end
         end
       end
-      end
+    end
   end
 end
 
-defmodule Codec do
-  @type t :: {list(char), list(char)}
-  require Decode
-
-  defmacro __using__(opts \\ []) do
+defmodule Encode do
+  def defencode1(codec, predicate) do
     quote do
-      import Guards, unquote(opts)
-      import Codec, unquote(opts)
-    end
-  end
-
-  defmacro defcodec1(predicate) do
-    decode = Decode.defdecode1(__CALLER__.module, predicate)
-
-    encode = quote do
       @spec encode(nonempty_list(char)) :: {list(char), nonempty_list(char)} | nil
       def encode([_ | _] = source) do
         encode({source, []})
@@ -75,7 +63,24 @@ defmodule Codec do
         end
       end
     end
+  end
+end
 
-    [ decode, encode]
+defmodule Codec do
+  @type t :: {list(char), list(char)}
+  require Decode
+
+  defmacro __using__(opts \\ []) do
+    quote do
+      import Guards, unquote(opts)
+      import Codec, unquote(opts)
+    end
+  end
+
+  defmacro defcodec1(predicate) do
+    decode = Decode.defdecode1(__CALLER__.module, predicate)
+
+    encode = Encode.defencode1(__CALLER__.module, predicate)
+    [decode, encode]
   end
 end
