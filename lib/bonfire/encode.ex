@@ -7,7 +7,7 @@ defmodule Encode do
       end
 
       @spec encode({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)} | nil
-      def encode({[_ | _] = source, dest}) do
+      def encode({source, dest}) do
         case unquote(codec).Encode.apply({source, Enum.reverse(dest)}) do
           nil -> nil
           {source, dest} -> {source, Enum.reverse(dest)}

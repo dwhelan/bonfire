@@ -13,7 +13,7 @@ defmodule Decode do
       end
 
       @spec decode({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
-      def decode({dest, [_ | _] = source}) do
+      def decode({dest, source}) do
         case unquote(codec).Decode.apply({Enum.reverse(dest), source}) do
           nil -> nil
           {dest, source} -> {Enum.reverse(dest), source}
