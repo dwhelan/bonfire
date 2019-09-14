@@ -1,0 +1,2 @@
+defmodule LiteralText do
+end
