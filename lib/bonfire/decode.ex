@@ -2,7 +2,7 @@ defmodule Decode do
   def defdecode(codec, predicate, opts \\ [])
 
   def defdecode(codec, predicate, []) do
-    [base(codec), decode_one(predicate)]
+    [base(codec), create_decode_module(predicate)]
   end
 
   defp base(codec) do
@@ -22,7 +22,7 @@ defmodule Decode do
     end
   end
 
-  defp decode_one(predicate) do
+  defp create_decode_module(predicate) do
     quote do
       defmodule Decode do
         @moduledoc false

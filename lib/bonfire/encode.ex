@@ -2,7 +2,7 @@ defmodule Encode do
   def defencode(codec, predicate, opts \\ [])
 
   def defencode(codec, predicate, []) do
-    [base(codec), encode_one(predicate)]
+    [base(codec), create_encode_module(predicate)]
   end
 
   defp base(codec) do
@@ -22,7 +22,7 @@ defmodule Encode do
     end
   end
 
-  defp encode_one(predicate) do
+  defp create_encode_module(predicate) do
     quote do
       defmodule Encode do
         @moduledoc false
