@@ -12,9 +12,9 @@ defmodule Codec do
   end
 
   defmacro defcodec(predicate) do
-    [
-      defdecode(__CALLER__.module, predicate),
-      defencode(__CALLER__.module, predicate)
-    ]
+    quote do
+      defdecode(unquote(__CALLER__.module), unquote(predicate))
+      defencode(unquote(__CALLER__.module), unquote(predicate))
+    end
   end
 end

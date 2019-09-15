@@ -1,7 +1,5 @@
 defmodule Encode do
-  def defencode(codec, predicate, opts \\ [])
-
-  def defencode(codec, predicate, []) do
+  defmacro defencode(codec, predicate) do
     [base(codec), create_encode_module(predicate)]
   end
 
