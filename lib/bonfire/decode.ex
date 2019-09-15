@@ -39,7 +39,6 @@ defmodule Decode do
   end
 
   defp create_decode_module(char) when is_octet(char) do
-    IO.inspect char: char
     create_module(
       quote do
         def apply({dest, [unquote(char) | rest] = source} = input) do
@@ -55,6 +54,7 @@ defmodule Decode do
         @moduledoc false
         import :"Elixir.Decode"
 
+        @spec apply({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
         unquote(block)
 
         def apply(_) do

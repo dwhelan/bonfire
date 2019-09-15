@@ -1,9 +1,12 @@
 defmodule Encode do
-  defmacro defencode(codec, predicate) do
-    [base(codec), create_encode_module(predicate)]
+  defmacro defencode(predicate, codec) do
+    [
+      create_encode_functions(codec),
+      create_encode_module(predicate)
+    ]
   end
 
-  defp base(codec) do
+  defp create_encode_functions(codec) do
     quote do
       @spec encode(nonempty_list(char)) :: {list(char), nonempty_list(char)} | nil
       def encode([_ | _] = source) do
@@ -20,17 +23,30 @@ defmodule Encode do
     end
   end
 
-  defp create_encode_module(predicate) do
-    quote do
-      defmodule Encode do
-        @moduledoc false
-
-        @spec apply({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)} | nil
+  defp create_encode_module({:&, _, _} = predicate) do
+    create_module(
+      quote do
         def apply({[char | rest] = source, dest}) do
           case unquote(predicate).(char) do
             true -> {rest, [char | dest]}
             false -> nil
           end
+        end
+      end
+    )
+  end
+
+  defp create_module(block) do
+    quote do
+      defmodule Encode do
+        @moduledoc false
+        import :"Elixir.Encode"
+
+        @spec apply({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)} | nil
+        unquote(block)
+
+        def apply(_) do
+          nil
         end
       end
     end
