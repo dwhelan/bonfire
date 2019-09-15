@@ -31,7 +31,7 @@ defmodule Decode do
         @spec apply({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
         def apply({dest, [char | rest]} = input) do
           case unquote(predicate).(char) do
-            true -> take_one(input)
+            true -> {[char | dest], rest}
             false -> nil
           end
         end
@@ -39,7 +39,15 @@ defmodule Decode do
     end
   end
 
-  def take_one({dest, [char | rest]}) do
-    {[char | dest], rest}
+  defmacro decode_char char, f do
+    quote do
+      def apply({dest, [unquote(char) | rest] = source} = input) do
+        unquote(f).({[unquote(char) | dest], rest})
+      end
+
+      def apply(_) do
+        nil
+      end
+    end
   end
 end

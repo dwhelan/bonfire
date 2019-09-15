@@ -1,11 +1,7 @@
 defmodule LiteralTextTest do
   use ExUnit.Case
 
-  alias LiteralText
+  alias LiteralText.{Decode, Encode}
 
   doctest LiteralText
-
-  test "module exists" do
-    assert is_list(LiteralText.module_info())
-  end
 end

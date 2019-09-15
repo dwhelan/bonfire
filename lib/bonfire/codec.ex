@@ -6,6 +6,8 @@ defmodule Codec do
     quote do
       import Guards, unquote(opts)
       import Codec, unquote(opts)
+      import Decode
+      import Encode
     end
   end
 

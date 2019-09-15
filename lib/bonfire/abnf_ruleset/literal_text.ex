@@ -1,3 +1,24 @@
+defmodule Operators do
+  defmacro lhs ~> rhs do
+    quote do
+      case unquote(lhs) do
+        nil -> unquote(lhs)
+        _ -> unquote Macro.pipe(lhs, rhs, 0)
+      end
+    end
+  end
+
+  defmacro lhs ~>> rhs do
+    quote do
+      case unquote(lhs) do
+        nil -> unquote Macro.pipe(lhs, rhs, 0)
+        _ -> unquote(lhs)
+      end
+    end
+  end
+
+end
+
 defmodule LiteralText do
   @moduledoc """
   A codec for literal text strings.
@@ -6,32 +27,22 @@ defmodule LiteralText do
 
   ## Examples
 
-      iex> LiteralText.Decode.apply {'', '""'}
-      {'""', ''}
+      iex> Decode.apply {'', '"'}
+      {'"', ''}
 
-      iex> LiteralText.Decode.apply {'', '_"'}
+      iex> Decode.apply {'', '_"'}
       nil
 
-      iex> LiteralText.Encode.apply {'""', ''}
+      iex> Encode.apply {'""', ''}
       {'', '""'}
   """
 
   use Codec
 
   defmodule Decode do
-    @moduledoc false
+    import Operators
 
-    @spec apply({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
-    def apply({dest, [?" | rest]}) do
-      {'""', ''}
-    end
-
-    def apply({dest, [char | rest]}) do
-      nil
-    end
-
-    def apply2({dest, [char | rest]}) do
-    end
+    decode_char ?", fn {dest, source} -> {dest, source} end
   end
 
   defmodule Encode do
