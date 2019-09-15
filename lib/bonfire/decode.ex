@@ -26,15 +26,20 @@ defmodule Decode do
     quote do
       defmodule Decode do
         @moduledoc false
+        import :"Elixir.Decode"
 
         @spec apply({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
-        def apply({dest, [char | rest]}) do
+        def apply({dest, [char | rest]} = input) do
           case unquote(predicate).(char) do
-            true -> {[char | dest], rest}
+            true -> take_one(input)
             false -> nil
           end
         end
       end
     end
+  end
+
+  def take_one({dest, [char | rest]}) do
+    {[char | dest], rest}
   end
 end

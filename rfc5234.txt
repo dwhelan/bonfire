@@ -199,7 +199,7 @@ RFC 5234                          ABNF                      January 2008
    character set (such as ASCII) will be specified.
 
    Terminals are specified by one or more numeric characters, with the
-   base interpretation of those characters indicated explicitly.  The
+   base interpretation of those characters indicated explicitly.  Thel
    following bases are currently defined:
 
          b           =  binary
