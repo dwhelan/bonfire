@@ -1,10 +1,10 @@
 defmodule Decode do
   import Guards
 
-  defmacro defdecode(predicate, codec \\ __CALLER__.module) do
+  defmacro defdecode(type, codec \\ __CALLER__.module) do
     [
       create_decode_functions(codec),
-      create_decode_module(predicate)
+      create_decode_module(type)
     ]
   end
 

@@ -114,6 +114,22 @@ defmodule Guards do
   defguard is_octet(char) when char >= 0 and char <= 255
 
   @doc """
+  Determine if a character is a `byte`.
+
+  ## Examples
+
+      iex> is_byte 0
+      true
+
+      iex> is_byte 255
+      true
+
+      iex> is_byte 256
+      false
+  """
+  defguard is_byte(char) when char >= 0 and char <= 255
+
+  @doc """
   Determine if a character is valid for a rulename.
 
   Note that the first character in a rulename must be alphabetic. This guard
