@@ -3,7 +3,7 @@ defmodule Operators do
     quote do
       case unquote(lhs) do
         nil -> unquote(lhs)
-        _ -> unquote Macro.pipe(lhs, rhs, 0)
+        _ -> unquote(Macro.pipe(lhs, rhs, 0))
       end
     end
   end
@@ -11,12 +11,11 @@ defmodule Operators do
   defmacro lhs ~>> rhs do
     quote do
       case unquote(lhs) do
-        nil -> unquote Macro.pipe(lhs, rhs, 0)
+        nil -> unquote(Macro.pipe(lhs, rhs, 0))
         _ -> unquote(lhs)
       end
     end
   end
-
 end
 
 defmodule LiteralText do
@@ -39,11 +38,7 @@ defmodule LiteralText do
 
   use Codec
 
-  defmodule Decode do
-    import Operators
-
-    decode_char ?", fn {dest, source} -> {dest, source} end
-  end
+  defdecode(?")
 
   defmodule Encode do
     @spec apply({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)} | nil

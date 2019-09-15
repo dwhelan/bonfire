@@ -1,9 +1,14 @@
 defmodule Decode do
-  defmacro defdecode(codec, predicate) do
-    [base(codec), create_decode_module(predicate)]
+  import Guards
+
+  defmacro defdecode(predicate, codec \\ __CALLER__.module) do
+    [
+      create_decode_functions(codec),
+      create_decode_module(predicate)
+    ]
   end
 
-  defp base(codec) do
+  defp create_decode_functions(codec) do
     quote do
       @spec decode(nonempty_list(char)) :: {nonempty_list(char), list(char)} | nil
       def decode([_ | _] = source) do
@@ -20,13 +25,9 @@ defmodule Decode do
     end
   end
 
-  defp create_decode_module(predicate) do
-    quote do
-      defmodule Decode do
-        @moduledoc false
-        import :"Elixir.Decode"
-
-        @spec apply({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
+  defp create_decode_module({:&, _, _} = predicate) do
+    create_module(
+      quote do
         def apply({dest, [char | rest]} = input) do
           case unquote(predicate).(char) do
             true -> {[char | dest], rest}
@@ -34,17 +35,31 @@ defmodule Decode do
           end
         end
       end
-    end
+    )
   end
 
-  defmacro decode_char char, f do
-    quote do
-      def apply({dest, [unquote(char) | rest] = source} = input) do
-        unquote(f).({[unquote(char) | dest], rest})
+  defp create_decode_module(char) when is_octet(char) do
+    IO.inspect char: char
+    create_module(
+      quote do
+        def apply({dest, [unquote(char) | rest] = source} = input) do
+          {[unquote(char) | dest], rest}
+        end
       end
+    )
+  end
 
-      def apply(_) do
-        nil
+  defp create_module(block) do
+    quote do
+      defmodule Decode do
+        @moduledoc false
+        import :"Elixir.Decode"
+
+        unquote(block)
+
+        def apply(_) do
+          nil
+        end
       end
     end
   end
