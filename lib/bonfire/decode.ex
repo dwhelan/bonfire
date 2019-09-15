@@ -10,12 +10,12 @@ defmodule Decode do
 
   defp create_decode_functions(codec) do
     quote do
-      @spec decode(nonempty_list(char)) :: {nonempty_list(char), list(char)} | nil
+      @spec decode(nonempty_list(byte)) :: {nonempty_list(byte), list(byte)} | nil
       def decode([_ | _] = source) do
         decode({[], source})
       end
 
-      @spec decode({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
+      @spec decode({list(byte), nonempty_list(byte)}) :: {nonempty_list(byte), list(byte)} | nil
       def decode({dest, source}) do
         case unquote(codec).Decode.apply({Enum.reverse(dest), source}) do
           nil -> nil
@@ -28,9 +28,9 @@ defmodule Decode do
   defp create_decode_module({:&, _, _} = predicate) do
     create_module(
       quote do
-        def apply({dest, [char | rest]} = input) do
-          case unquote(predicate).(char) do
-            true -> {[char | dest], rest}
+        def apply({dest, [byte | rest]} = input) do
+          case unquote(predicate).(byte) do
+            true -> {[byte | dest], rest}
             false -> nil
           end
         end
@@ -38,11 +38,11 @@ defmodule Decode do
     )
   end
 
-  defp create_decode_module(char) when is_octet(char) do
+  defp create_decode_module(byte) when is_octet(byte) do
     create_module(
       quote do
-        def apply({dest, [unquote(char) | rest] = source} = input) do
-          {[unquote(char) | dest], rest}
+        def apply({dest, [unquote(byte) | rest] = source} = input) do
+          {[unquote(byte) | dest], rest}
         end
       end
     )
@@ -54,7 +54,7 @@ defmodule Decode do
         @moduledoc false
         import :"Elixir.Decode"
 
-        @spec apply({list(char), nonempty_list(char)}) :: {nonempty_list(char), list(char)} | nil
+        @spec apply({list(byte), nonempty_list(byte)}) :: {nonempty_list(byte), list(byte)} | nil
         unquote(block)
 
         def apply(_) do

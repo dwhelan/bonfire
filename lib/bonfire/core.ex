@@ -7,25 +7,25 @@ defmodule Core do
   end
 
   # rulename = ALPHA *(ALPHA / DIGIT / "-")
-  def rulename(chars) do
-    decode(chars, :rulename, &is_alpha/1, &is_rulename_char/1)
+  def rulename(bytes) do
+    decode(bytes, :rulename, &is_alpha/1, &is_rulename_char/1)
   end
 
-  defp decode_zero_or_more(chars, acc, is_valid?) do
-    {chars, rest} =
-      Enum.reduce_while(chars, {acc, ''}, fn char, {acc, rest} ->
-        case is_valid?.(char) do
-          true -> {:cont, {[char | acc], rest}}
-          false -> {:halt, {acc, [char | rest]}}
+  defp decode_zero_or_more(bytes, acc, is_valid?) do
+    {bytes, rest} =
+      Enum.reduce_while(bytes, {acc, ''}, fn byte, {acc, rest} ->
+        case is_valid?.(byte) do
+          true -> {:cont, {[byte | acc], rest}}
+          false -> {:halt, {acc, [byte | rest]}}
         end
       end)
 
-    {Enum.reverse(chars), rest}
+    {Enum.reverse(bytes), rest}
   end
 
-  defp decode_one([char | rest], is_valid?) do
-    case is_valid?.(char) do
-      true -> {[char], rest}
+  defp decode_one([byte | rest], is_valid?) do
+    case is_valid?.(byte) do
+      true -> {[byte], rest}
       false -> nil
     end
   end
@@ -36,11 +36,11 @@ defmodule Core do
 
   defp decode(input, type, first, subsequent) do
     case input do
-      [char | rest] ->
-        case first.(char) do
+      [byte | rest] ->
+        case first.(byte) do
           true ->
-            {chars, rest} = decode_zero_or_more(rest, [char], subsequent)
-            {token(type, chars), rest}
+            {bytes, rest} = decode_zero_or_more(rest, [byte], subsequent)
+            {token(type, bytes), rest}
 
           false ->
             nil
@@ -51,10 +51,10 @@ defmodule Core do
     end
   end
 
-  defp token(type, chars) do
+  defp token(type, bytes) do
     %{
       type: type,
-      chars: chars
+      bytes: bytes
     }
   end
 end

@@ -40,8 +40,8 @@ defmodule Test do
   end
 
   def assert_decode(codec, input, rest \\ []) do
-    {chars, rest} = Enum.split(input, length(input) - length(rest))
-    assert {^chars, ^rest} = codec.decode(input)
+    {bytes, rest} = Enum.split(input, length(input) - length(rest))
+    assert {^bytes, ^rest} = codec.decode(input)
   end
 
   def assert_decode_error(codec, input) do
