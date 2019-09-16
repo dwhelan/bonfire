@@ -6,8 +6,8 @@ defmodule Zipper do
     quote do
       import Guards, unquote(opts)
       import Zipper, unquote(opts)
-      import Unzip
-      import Zip
+      import Zip, unquote(opts)
+      import Unzip, unquote(opts)
     end
   end
 

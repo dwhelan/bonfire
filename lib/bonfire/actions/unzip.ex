@@ -1,6 +1,4 @@
 defmodule Unzip do
-  import Guards
-
   defmacro defunzip(type, zipper \\ __CALLER__.module) do
     [
       create_unzip_functions(zipper),
@@ -9,7 +7,7 @@ defmodule Unzip do
   end
 
   defp create_unzip_functions(zipper) do
-    quote do
+    quote bind_quoted: [zipper: zipper] do
       @spec unzip(nonempty_list(byte)) :: {nonempty_list(byte), list(byte)} | nil
       def unzip([_ | _] = source) do
         unzip({[], source})
@@ -38,7 +36,7 @@ defmodule Unzip do
     )
   end
 
-  defp create_unzip_module(byte) when is_octet(byte) do
+  defp create_unzip_module(byte) do
     create_module(
       quote do
         def apply({dest, [unquote(byte) | rest] = source} = input) do

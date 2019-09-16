@@ -1,5 +1,5 @@
 defmodule Zip do
-  defmacro defzip(predicate, zipper) do
+  defmacro defzip(predicate, zipper \\ __CALLER__.module) do
     [
       create_zip_functions(zipper),
       create_zip_module(predicate)

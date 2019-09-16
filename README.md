@@ -16,11 +16,13 @@ end
 ```
 
 ## To do
-- rename Unzip -> Unzip, Zip -> Zip, Zipper -> Zipper
+- use operators
+- use ABNF element comments: error messages? docs?
+    - perhaps have `element.comments() :: binary` and `element.abnf() :: binary`
+    - maybe other useful functions?   
+- zip functions should expect lhs to be a list of charlists :: `{['first', 'second' | rest], 'charlist'}`
+- compose actions
 
-```elixir
-def
-``` 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/bonfire](https://hexdocs.pm/bonfire).
