@@ -1,4 +1,4 @@
-defmodule Decode do
+defmodule Unzip do
   import Guards
 
   defmacro defdecode(type, codec \\ __CALLER__.module) do
@@ -17,7 +17,7 @@ defmodule Decode do
 
       @spec decode({list(byte), nonempty_list(byte)}) :: {nonempty_list(byte), list(byte)} | nil
       def decode({dest, source}) do
-        case unquote(codec).Decode.apply({Enum.reverse(dest), source}) do
+        case unquote(codec).Unzip.apply({Enum.reverse(dest), source}) do
           nil -> nil
           {dest, source} -> {Enum.reverse(dest), source}
         end
@@ -50,9 +50,9 @@ defmodule Decode do
 
   defp create_module(block) do
     quote do
-      defmodule Decode do
+      defmodule Unzip do
         @moduledoc false
-        import :"Elixir.Decode"
+        import :"Elixir.Unzip"
 
         @spec apply({list(byte), nonempty_list(byte)}) :: {nonempty_list(byte), list(byte)} | nil
         unquote(block)

@@ -1,7 +1,7 @@
 defmodule LiteralTextTest do
   use ExUnit.Case
 
-  alias LiteralText.{Decode, Encode}
+  alias LiteralText.{Unzip, Encode}
 
   doctest LiteralText
 end

@@ -13,7 +13,7 @@ defmodule Action do
 
   ## Examples
 
-      iex> Action.apply {ALPHA, Decode}, {'', 'abc'}
+      iex> Action.apply {ALPHA, Unzip}, {'', 'abc'}
       {'a', 'bc'}
 
       iex> Action.apply {ALPHA, Encode}, {'abc', ''}

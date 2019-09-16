@@ -26,10 +26,10 @@ defmodule LiteralText do
 
   ## Examples
 
-      iex> Decode.apply {'', '"'}
+      iex> Unzip.apply {'', '"'}
       {'"', ''}
 
-      iex> Decode.apply {'', '_"'}
+      iex> Unzip.apply {'', '_"'}
       nil
 
       iex> Encode.apply {'""', ''}
