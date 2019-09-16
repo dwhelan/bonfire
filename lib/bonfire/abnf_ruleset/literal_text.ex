@@ -20,7 +20,7 @@ end
 
 defmodule LiteralText do
   @moduledoc """
-  A codec for literal text strings.
+  A zipper for literal text strings.
 
   Matches any printable ASCII character. That is, any character in the decimal range of [33..126].
 

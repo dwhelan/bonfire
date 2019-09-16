@@ -1,12 +1,12 @@
 defmodule Zip do
-  defmacro defzip(predicate, codec) do
+  defmacro defzip(predicate, zipper) do
     [
-      create_zip_functions(codec),
+      create_zip_functions(zipper),
       create_zip_module(predicate)
     ]
   end
 
-  defp create_zip_functions(codec) do
+  defp create_zip_functions(zipper) do
     quote do
       @spec zip(nonempty_list(byte)) :: {list(byte), nonempty_list(byte)} | nil
       def zip([_ | _] = source) do
@@ -15,7 +15,7 @@ defmodule Zip do
 
       @spec zip({nonempty_list(byte), list(byte)}) :: {list(byte), nonempty_list(byte)} | nil
       def zip({source, dest}) do
-        case unquote(codec).Zip.apply({source, Enum.reverse(dest)}) do
+        case unquote(zipper).Zip.apply({source, Enum.reverse(dest)}) do
           nil -> nil
           {source, dest} -> {source, Enum.reverse(dest)}
         end

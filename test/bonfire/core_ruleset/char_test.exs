@@ -4,5 +4,5 @@ defmodule CHARTest do
   import CHAR
   doctest CHAR
 
-  test_codec(CHAR, [1..127])
+  test_zipper(CHAR, [1..127])
 end

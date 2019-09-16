@@ -4,5 +4,5 @@ defmodule HEXDIGITTest do
 
   doctest HEXDIGIT
 
-  test_codec(HEXDIGIT, [?0..?9, ?A..?F])
+  test_zipper(HEXDIGIT, [?0..?9, ?A..?F])
 end

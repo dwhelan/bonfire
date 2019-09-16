@@ -4,5 +4,5 @@ defmodule DIGITTest do
   import DIGIT
   doctest DIGIT
 
-  test_codec(DIGIT, [?0..?9])
+  test_zipper(DIGIT, [?0..?9])
 end

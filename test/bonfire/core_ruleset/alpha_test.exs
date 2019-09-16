@@ -4,5 +4,5 @@ defmodule ALPHATest do
   import ALPHA
   doctest ALPHA
 
-  test_codec(ALPHA, [?A..?Z, ?a..?z])
+  test_zipper(ALPHA, [?A..?Z, ?a..?z])
 end

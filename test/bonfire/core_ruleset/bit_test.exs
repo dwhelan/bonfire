@@ -4,5 +4,5 @@ defmodule BITTest do
   import BIT
   doctest BIT
 
-  test_codec(BIT, [0, 1])
+  test_zipper(BIT, [0, 1])
 end

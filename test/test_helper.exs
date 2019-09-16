@@ -14,12 +14,12 @@ defmodule Test do
     end
   end
 
-  defmacro test_codec(codec, valid_values) do
+  defmacro test_zipper(zipper, valid_values) do
     quote do
-      test "codec with #{inspect(unquote(valid_values))}}" do
+      test "zipper with #{inspect(unquote(valid_values))}}" do
         {valid, invalid} = build_test_charlist(unquote(valid_values))
-        Enum.each(valid, fn value ->  assert_codec(unquote(codec), [value]) end)
-        Enum.each(invalid, fn value -> assert_codec_error(unquote(codec), [value]) end)
+        Enum.each(valid, fn value ->  assert_zipper(unquote(zipper), [value]) end)
+        Enum.each(invalid, fn value -> assert_zipper_error(unquote(zipper), [value]) end)
       end
     end
   end
@@ -39,32 +39,32 @@ defmodule Test do
     {valid, invalid}
   end
 
-  def assert_codec(codec, input, rest \\ []) do
-    assert_unzip(codec, input, rest)
-    assert_zip(codec, input, rest)
+  def assert_zipper(zipper, input, rest \\ []) do
+    assert_unzip(zipper, input, rest)
+    assert_zip(zipper, input, rest)
   end
 
-  def assert_codec_error(codec, input) do
-    assert_unzip_error(codec, input)
-    assert_zip_error(codec, input)
+  def assert_zipper_error(zipper, input) do
+    assert_unzip_error(zipper, input)
+    assert_zip_error(zipper, input)
   end
 
-  def assert_unzip(codec, input, rest \\ []) do
+  def assert_unzip(zipper, input, rest \\ []) do
     {bytes, rest} = Enum.split(input, length(input) - length(rest))
-    assert {^bytes, ^rest} = codec.unzip(input)
+    assert {^bytes, ^rest} = zipper.unzip(input)
   end
 
-  def assert_unzip_error(codec, input) do
-    assert codec.unzip(input) == nil
+  def assert_unzip_error(zipper, input) do
+    assert zipper.unzip(input) == nil
   end
 
-  def assert_zip(codec, input, rest \\ []) do
+  def assert_zip(zipper, input, rest \\ []) do
     {value, rest} = Enum.split(input, length(input) - length(rest))
-    assert {^rest, ^value} = codec.zip(input)
+    assert {^rest, ^value} = zipper.zip(input)
   end
 
-  def assert_zip_error(codec, input) do
-    assert codec.zip(input) == nil
+  def assert_zip_error(zipper, input) do
+    assert zipper.zip(input) == nil
   end
 
   defmacro __using__(opts \\ []) do

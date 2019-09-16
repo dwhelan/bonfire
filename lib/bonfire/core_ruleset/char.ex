@@ -1,6 +1,6 @@
 defmodule CHAR do
   @moduledoc """
-  A codec for a `CHAR`.
+  A zipper for a `CHAR`.
 
   ```
   CHAR = %x01-7F
@@ -19,5 +19,5 @@ defmodule CHAR do
   """
   use Zipper
 
-  defcodec(&is_char/1)
+  defzipper(&is_char/1)
 end
