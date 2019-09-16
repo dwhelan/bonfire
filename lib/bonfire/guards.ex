@@ -16,7 +16,7 @@ defmodule Guards do
       iex> is_alpha ?0
       false
   """
-  defguard is_alpha(term) when (term >= ?a and term <= ?z) or (term >= ?A and term <= ?Z)
+  defguard is_alpha(term) when term in ?a..?z or term in ?A..?Z
 
   @doc """
   Returns `true` if `term` is an ABNF `BIT`; otherwise returns `false`.
@@ -32,7 +32,7 @@ defmodule Guards do
       iex> is_bit ?a
       false
   """
-  defguard is_bit(term) when term == 0 or term == 1
+  defguard is_bit(term) when term in 0..1
 
   @doc """
   Returns `true` if `term` is an ABNF `CHAR`; otherwise returns `false`.
@@ -51,7 +51,7 @@ defmodule Guards do
       iex> is_char 128
       false
   """
-  defguard is_char(term) when 1 <= term and term <= 127
+  defguard is_char(term) when term in 1..127
 
   @doc """
   Returns `true` if `term` is an ABNF `HEXDIGIT`; otherwise returns `false`.
@@ -67,10 +67,13 @@ defmodule Guards do
       iex> is_hex_digit ?A
       true
 
-      iex> is_hex_digit ?G
+      iex> is_hex_digit ?F
+      true
+
+      iex> is_hex_digit ?x
       false
   """
-  defguard is_hex_digit(term) when (?0 <= term and term <= ?9) or (?A <= term and term <= ?F)
+  defguard is_hex_digit(term) when term in ?0..?9 or term in ?A..?F
 
   @doc """
   Returns `true` if `term` is an ABNF `DIGIT`; otherwise returns `false`.
@@ -86,14 +89,10 @@ defmodule Guards do
       iex> is_digit ?a
       false
   """
-  defguard is_digit(term) when term >= ?0 and term <= ?9
+  defguard is_digit(term) when term in ?0..?9
 
   @doc """
   Returns `true` if `term` is an ABNF `OCTET`; otherwise returns `false`.
-
-  ```
-  OCTET = %x00-FF ; 8 bits of data
-  ```
 
   ## Examples
 
@@ -106,7 +105,7 @@ defmodule Guards do
       iex> is_octet 256
       false
   """
-  defguard is_octet(term) when term >= 0 and term <= 255
+  defguard is_octet(term) when term in 0..255
 
   @doc """
   Returns `true` if `term` is a `byte`; otherwise returns `false`.
@@ -122,7 +121,7 @@ defmodule Guards do
       iex> is_byte 256
       false
   """
-  defguard is_byte(term) when term >= 0 and term <= 255
+  defguard is_byte(term) when term in 0..255
 
   @doc """
   Determine if a character is valid for a rulename.
@@ -132,6 +131,8 @@ defmodule Guards do
 
   ```
   (ALPHA / DIGIT / "-")
+
+  This should move to a Rulename module and made private
   ```
 
   ## Examples
