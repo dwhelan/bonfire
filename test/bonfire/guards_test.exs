@@ -5,9 +5,8 @@ defmodule GuardsTest do
   doctest Guards
 
   test_predicate(&is_alpha/1, [?A..?Z, ?a..?z])
-  test "is_alpha" do
-    {valid, invalid} = build_test_charlist([?A..?Z, ?a..?z])
-    Enum.each(valid, &assert(is_alpha(&1)))
-    Enum.each(invalid, &refute(is_alpha(&1)))
-  end
+  test_predicate(&is_bit/1, [0, 1])
+  test_predicate(&is_char/1, [1..127])
+  test_predicate(&is_digit/1, [?0..?9])
+  test_predicate(&is_hex_digit/1, [?0..?9, ?A..?F])
 end
