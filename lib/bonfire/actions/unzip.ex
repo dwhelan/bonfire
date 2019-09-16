@@ -1,4 +1,6 @@
 defmodule Unzip do
+  @callback unzip({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | nil
+
   defmacro defunzip(type, zipper \\ __CALLER__.module) do
     [
       create_unzip_functions(zipper),
@@ -8,12 +10,12 @@ defmodule Unzip do
 
   defp create_unzip_functions(zipper) do
     quote bind_quoted: [zipper: zipper] do
-      @spec unzip(nonempty_list(byte)) :: {nonempty_list(byte), list(byte)} | nil
+      @spec unzip(nonempty_list(byte)) :: {[byte, ...], [byte]} | nil
       def unzip([_ | _] = source) do
         unzip({[], source})
       end
 
-      @spec unzip({list(byte), nonempty_list(byte)}) :: {nonempty_list(byte), list(byte)} | nil
+      @spec unzip({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | nil
       def unzip({dest, source}) do
         case unquote(zipper).Unzip.apply({Enum.reverse(dest), source}) do
           nil -> nil
@@ -52,7 +54,9 @@ defmodule Unzip do
         @moduledoc false
         import :"Elixir.Unzip"
 
-        @spec apply({list(byte), nonempty_list(byte)}) :: {nonempty_list(byte), list(byte)} | nil
+        @behaviour :"Elixir.Unzip"
+
+        @impl :"Elixir.Unzip"
         unquote(block)
 
         def apply(_) do

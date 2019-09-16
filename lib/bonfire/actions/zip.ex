@@ -8,12 +8,12 @@ defmodule Zip do
 
   defp create_zip_functions(zipper) do
     quote do
-      @spec zip(nonempty_list(byte)) :: {list(byte), nonempty_list(byte)} | nil
+      @spec zip(nonempty_list(byte)) :: {[byte], [byte, ...]} | nil
       def zip([_ | _] = source) do
         zip({source, []})
       end
 
-      @spec zip({nonempty_list(byte), list(byte)}) :: {list(byte), nonempty_list(byte)} | nil
+      @spec zip({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def zip({source, dest}) do
         case unquote(zipper).Zip.apply({source, Enum.reverse(dest)}) do
           nil -> nil
@@ -52,7 +52,7 @@ defmodule Zip do
         @moduledoc false
         import :"Elixir.Zip"
 
-        @spec apply({nonempty_list(byte), list(byte)}) :: {list(byte), nonempty_list(byte)} | nil
+        @spec apply({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
         unquote(block)
 
         def apply(_) do
