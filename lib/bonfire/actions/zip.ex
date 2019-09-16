@@ -1,8 +1,8 @@
 defmodule Zip do
-  defmacro defzip(predicate, zipper \\ __CALLER__.module) do
+  defmacro defzip(type, zipper \\ __CALLER__.module) do
     [
       create_zip_functions(zipper),
-      create_zip_module(predicate)
+      create_zip_module(type)
     ]
   end
 
@@ -31,6 +31,16 @@ defmodule Zip do
             true -> {rest, [byte | dest]}
             false -> nil
           end
+        end
+      end
+    )
+  end
+
+  defp create_zip_module(byte) do
+    create_module(
+      quote do
+        def apply({[unquote(byte) | rest] = source, dest}) do
+          {rest, [unquote(byte) | dest]}
         end
       end
     )

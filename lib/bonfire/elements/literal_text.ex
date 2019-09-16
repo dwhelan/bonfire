@@ -32,22 +32,11 @@ defmodule LiteralText do
       iex> Unzip.apply {'', '_"'}
       nil
 
-      iex> Zip.apply {'""', ''}
-      {'', '""'}
+      iex> Zip.apply {'"', ''}
+      {'', '"'}
   """
 
   use Zipper
 
-  defunzip(?")
-
-  defmodule Zip do
-    @spec apply({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)} | nil
-    def apply({[char | rest] = source, dest}) do
-      {'', '""'}
-      #      case unquote(predicate).(char) do
-      #        true -> {rest, [char | dest]}
-      #        false -> nil
-      #      end
-    end
-  end
+  defzipper(?")
 end

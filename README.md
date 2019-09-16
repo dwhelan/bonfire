@@ -22,6 +22,7 @@ end
     - maybe other useful functions?   
 - zip functions should expect lhs to be a list of charlists :: `{['first', 'second' | rest], 'charlist'}`
 - compose actions
+- abstraction of property of `x | zip() | unzip() == x` for a pair of functions
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can

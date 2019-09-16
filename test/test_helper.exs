@@ -6,7 +6,7 @@ defmodule Test do
 
   defmacro test_guard(guard, valid_values) do
     quote do
-      test "#{unquote guard} with #{inspect(unquote(valid_values))}}" do
+      test "#{unquote(guard)} with #{inspect(unquote(valid_values))}}" do
         {valid, invalid} = build_test_charlist(unquote(valid_values))
         Enum.each(valid, fn value -> assert Guards.unquote(guard)(value) end)
         Enum.each(invalid, fn value -> refute Guards.unquote(guard)(value) end)
@@ -18,7 +18,7 @@ defmodule Test do
     quote do
       test "zipper with #{inspect(unquote(valid_values))}}" do
         {valid, invalid} = build_test_charlist(unquote(valid_values))
-        Enum.each(valid, fn value ->  assert_zipper(unquote(zipper), [value]) end)
+        Enum.each(valid, fn value -> assert_zipper(unquote(zipper), [value]) end)
         Enum.each(invalid, fn value -> assert_zipper_error(unquote(zipper), [value]) end)
       end
     end
