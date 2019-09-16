@@ -8,7 +8,7 @@ defmodule HexVal do
 
   ## Examples
 
-      iex> decode 'a'
+      iex> unzip 'a'
       {'a', ''}
   """
   use Zipper

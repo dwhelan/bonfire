@@ -40,31 +40,31 @@ defmodule Test do
   end
 
   def assert_codec(codec, input, rest \\ []) do
-    assert_decode(codec, input, rest)
-    assert_encode(codec, input, rest)
+    assert_unzip(codec, input, rest)
+    assert_zip(codec, input, rest)
   end
 
   def assert_codec_error(codec, input) do
-    assert_decode_error(codec, input)
-    assert_encode_error(codec, input)
+    assert_unzip_error(codec, input)
+    assert_zip_error(codec, input)
   end
 
-  def assert_decode(codec, input, rest \\ []) do
+  def assert_unzip(codec, input, rest \\ []) do
     {bytes, rest} = Enum.split(input, length(input) - length(rest))
-    assert {^bytes, ^rest} = codec.decode(input)
+    assert {^bytes, ^rest} = codec.unzip(input)
   end
 
-  def assert_decode_error(codec, input) do
-    assert codec.decode(input) == nil
+  def assert_unzip_error(codec, input) do
+    assert codec.unzip(input) == nil
   end
 
-  def assert_encode(codec, input, rest \\ []) do
+  def assert_zip(codec, input, rest \\ []) do
     {value, rest} = Enum.split(input, length(input) - length(rest))
-    assert {^rest, ^value} = codec.encode(input)
+    assert {^rest, ^value} = codec.zip(input)
   end
 
-  def assert_encode_error(codec, input) do
-    assert codec.encode(input) == nil
+  def assert_zip_error(codec, input) do
+    assert codec.zip(input) == nil
   end
 
   defmacro __using__(opts \\ []) do

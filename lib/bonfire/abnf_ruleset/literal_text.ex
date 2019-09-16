@@ -38,7 +38,7 @@ defmodule LiteralText do
 
   use Zipper
 
-  defdecode(?")
+  defunzip(?")
 
   defmodule Zip do
     @spec apply({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)} | nil

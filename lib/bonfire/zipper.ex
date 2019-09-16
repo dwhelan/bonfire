@@ -1,6 +1,6 @@
 defmodule Zipper do
-  import Unzip
   import Zip
+  import Unzip
 
   defmacro __using__(opts \\ []) do
     quote do
@@ -13,8 +13,8 @@ defmodule Zipper do
 
   defmacro defcodec(predicate) do
     quote do
-      defdecode(unquote(predicate), unquote(__CALLER__.module))
-      defencode(unquote(predicate), unquote(__CALLER__.module))
+      defunzip(unquote(predicate), unquote(__CALLER__.module))
+      defzip(unquote(predicate), unquote(__CALLER__.module))
     end
   end
 end

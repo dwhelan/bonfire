@@ -1,20 +1,20 @@
 defmodule Zip do
-  defmacro defencode(predicate, codec) do
+  defmacro defzip(predicate, codec) do
     [
-      create_encode_functions(codec),
-      create_encode_module(predicate)
+      create_zip_functions(codec),
+      create_zip_module(predicate)
     ]
   end
 
-  defp create_encode_functions(codec) do
+  defp create_zip_functions(codec) do
     quote do
-      @spec encode(nonempty_list(byte)) :: {list(byte), nonempty_list(byte)} | nil
-      def encode([_ | _] = source) do
-        encode({source, []})
+      @spec zip(nonempty_list(byte)) :: {list(byte), nonempty_list(byte)} | nil
+      def zip([_ | _] = source) do
+        zip({source, []})
       end
 
-      @spec encode({nonempty_list(byte), list(byte)}) :: {list(byte), nonempty_list(byte)} | nil
-      def encode({source, dest}) do
+      @spec zip({nonempty_list(byte), list(byte)}) :: {list(byte), nonempty_list(byte)} | nil
+      def zip({source, dest}) do
         case unquote(codec).Zip.apply({source, Enum.reverse(dest)}) do
           nil -> nil
           {source, dest} -> {source, Enum.reverse(dest)}
@@ -23,7 +23,7 @@ defmodule Zip do
     end
   end
 
-  defp create_encode_module({:&, _, _} = predicate) do
+  defp create_zip_module({:&, _, _} = predicate) do
     create_module(
       quote do
         def apply({[byte | rest] = source, dest}) do

@@ -8,10 +8,10 @@ defmodule ALPHA do
 
   ## Examples
 
-      iex> decode 'abc'
+      iex> unzip 'abc'
       {'a', 'bc'}
 
-      iex> encode 'abc'
+      iex> zip 'abc'
       {'bc', 'a'}
   """
   use Zipper

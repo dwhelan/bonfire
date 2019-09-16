@@ -11,10 +11,10 @@ defmodule BIT do
 
   ## Examples
 
-      iex> decode [0]
+      iex> unzip [0]
       {[0], ''}
 
-      iex> encode [0]
+      iex> zip [0]
       {[], [0]}
   """
   use Zipper
