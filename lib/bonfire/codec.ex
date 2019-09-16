@@ -1,13 +1,13 @@
 defmodule Codec do
   import Unzip
-  import Encode
+  import Zip
 
   defmacro __using__(opts \\ []) do
     quote do
       import Guards, unquote(opts)
       import Codec, unquote(opts)
       import Unzip
-      import Encode
+      import Zip
     end
   end
 

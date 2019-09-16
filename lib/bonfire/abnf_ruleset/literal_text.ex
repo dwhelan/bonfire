@@ -32,7 +32,7 @@ defmodule LiteralText do
       iex> Unzip.apply {'', '_"'}
       nil
 
-      iex> Encode.apply {'""', ''}
+      iex> Zip.apply {'""', ''}
       {'', '""'}
   """
 
@@ -40,7 +40,7 @@ defmodule LiteralText do
 
   defdecode(?")
 
-  defmodule Encode do
+  defmodule Zip do
     @spec apply({nonempty_list(char), list(char)}) :: {list(char), nonempty_list(char)} | nil
     def apply({[char | rest] = source, dest}) do
       {'', '""'}

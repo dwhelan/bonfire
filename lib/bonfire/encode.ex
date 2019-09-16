@@ -1,4 +1,4 @@
-defmodule Encode do
+defmodule Zip do
   defmacro defencode(predicate, codec) do
     [
       create_encode_functions(codec),
@@ -15,7 +15,7 @@ defmodule Encode do
 
       @spec encode({nonempty_list(byte), list(byte)}) :: {list(byte), nonempty_list(byte)} | nil
       def encode({source, dest}) do
-        case unquote(codec).Encode.apply({source, Enum.reverse(dest)}) do
+        case unquote(codec).Zip.apply({source, Enum.reverse(dest)}) do
           nil -> nil
           {source, dest} -> {source, Enum.reverse(dest)}
         end
@@ -38,9 +38,9 @@ defmodule Encode do
 
   defp create_module(block) do
     quote do
-      defmodule Encode do
+      defmodule Zip do
         @moduledoc false
-        import :"Elixir.Encode"
+        import :"Elixir.Zip"
 
         @spec apply({nonempty_list(byte), list(byte)}) :: {list(byte), nonempty_list(byte)} | nil
         unquote(block)
