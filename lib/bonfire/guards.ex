@@ -13,9 +13,6 @@ defmodule Guards do
       iex> is_alpha ?a
       true
 
-      iex> is_alpha ?Z
-      true
-
       iex> is_alpha ?0
       false
   """

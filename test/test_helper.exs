@@ -4,12 +4,12 @@ defmodule Test do
   import Guards
   import ExUnit.Assertions
 
-  defmacro test_predicate(predicate, true_values) do
+  defmacro test_guard(guard, true_values) do
     quote do
-      test "codec with #{inspect(unquote(true_values))}}" do
+      test "#{unquote guard} with #{inspect(unquote(true_values))}}" do
         {true_values, false_values} = build_test_charlist(unquote(true_values))
-        Enum.each(true_values, fn value -> assert unquote(predicate).(value) end)
-        Enum.each(false_values, fn value -> refute unquote(predicate).(value) end)
+        Enum.each(true_values, fn value -> assert Guards.unquote(guard)(value) end)
+        Enum.each(false_values, fn value -> refute Guards.unquote(guard)(value) end)
       end
     end
   end
