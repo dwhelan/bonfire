@@ -17,7 +17,7 @@ defmodule BIT do
       iex> encode [0]
       {[], [0]}
   """
-  use Codec
+  use Zipper
 
   defcodec(&is_bit/1)
 end

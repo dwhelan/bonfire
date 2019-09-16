@@ -16,7 +16,7 @@ end
 ```
 
 ## To do
-- rename Unzip -> Unzip, Zip -> Zip, Codec -> Zipper
+- rename Unzip -> Unzip, Zip -> Zip, Zipper -> Zipper
 
 ```elixir
 def

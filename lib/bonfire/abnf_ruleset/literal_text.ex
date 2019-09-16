@@ -36,7 +36,7 @@ defmodule LiteralText do
       {'', '""'}
   """
 
-  use Codec
+  use Zipper
 
   defdecode(?")
 

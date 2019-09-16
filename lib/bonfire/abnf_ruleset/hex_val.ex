@@ -11,7 +11,7 @@ defmodule HexVal do
       iex> decode 'a'
       {'a', ''}
   """
-  use Codec
+  use Zipper
 
   defcodec(&is_alpha/1)
 end

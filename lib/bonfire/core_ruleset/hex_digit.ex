@@ -21,7 +21,7 @@ defmodule HEXDIGIT do
       {'', 'F'}
 
   """
-  use Codec
+  use Zipper
 
   defcodec(&is_hex_digit/1)
 end

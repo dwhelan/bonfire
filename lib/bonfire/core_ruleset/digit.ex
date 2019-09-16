@@ -32,7 +32,7 @@ defmodule DIGIT do
       iex> encode {'3', '12'}
       {'', '123'}
   """
-  use Codec
+  use Zipper
 
   defcodec(&is_digit/1)
 end

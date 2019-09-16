@@ -14,7 +14,7 @@ defmodule ALPHA do
       iex> encode 'abc'
       {'bc', 'a'}
   """
-  use Codec
+  use Zipper
 
   defcodec(&is_alpha/1)
 end
