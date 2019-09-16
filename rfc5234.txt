@@ -709,7 +709,7 @@ Appendix B.  Core ABNF of ABNF
 
    This appendix contains some basic rules that are in common use.
    Basic rules are in uppercase.  Note that these rules are only valid
-   for ABNF encoded in 7-bit ASCII or in characters sets that are a
+   for ABNF encoded in 7-bit ASCII or in characters sets that arex a
    superset of 7-bit ASCII.
 
 B.1.  Core Rules

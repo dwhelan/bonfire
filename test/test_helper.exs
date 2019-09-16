@@ -4,12 +4,22 @@ defmodule Test do
   import Guards
   import ExUnit.Assertions
 
+  defmacro test_predicate(predicate, true_values) do
+    quote do
+      test "codec with #{inspect(unquote(true_values))}}" do
+        {true_values, false_values} = build_test_charlist(unquote(true_values))
+        Enum.each(true_values, fn value -> assert unquote(predicate).(value) end)
+        Enum.each(false_values, fn value -> refute unquote(predicate).(value) end)
+      end
+    end
+  end
+
   defmacro test_codec(codec, valid_values) do
     quote do
       test "codec with #{inspect(unquote(valid_values))}}" do
         {valid, invalid} = build_test_charlist(unquote(valid_values))
-        Enum.each(valid, &assert_codec(unquote(codec), [&1]))
-        Enum.each(invalid, &assert_codec_error(unquote(codec), [&1]))
+        Enum.each(valid, fn value ->  assert_codec(unquote(codec), [value]) end)
+        Enum.each(invalid, fn value -> assert_codec_error(unquote(codec), [value]) end)
       end
     end
   end
@@ -20,7 +30,7 @@ defmodule Test do
         values,
         fn
           char when is_octet(char) -> [char]
-          range -> Enum.to_list(range)
+          %Range{} = range -> Enum.to_list(range)
         end
       )
       |> List.flatten()

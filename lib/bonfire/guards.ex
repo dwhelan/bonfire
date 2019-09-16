@@ -1,14 +1,12 @@
 defmodule Guards do
   @moduledoc """
-  Guards for ABNF data.
+  Guards for ABNF fields.
 
-  These guards are intended to be used for encoding and decoding characters and are based on
-  definitions in RFC 5234 8.1 Core Fields.
-
+  These guards are based on definitions in RFC 5234 8.1 Core Fields.
   """
 
   @doc """
-  Determine if a character is an `ALPHA`.
+  Returns `true` if `term` is an ABNF `ALPHA` character; otherwise returns `false`.
 
   ## Examples
 
@@ -21,10 +19,10 @@ defmodule Guards do
       iex> is_alpha ?0
       false
   """
-  defguard is_alpha(char) when (char >= ?a and char <= ?z) or (char >= ?A and char <= ?Z)
+  defguard is_alpha(term) when (term >= ?a and term <= ?z) or (term >= ?A and term <= ?Z)
 
   @doc """
-  Determine if a character is a `BIT`.
+  Returns `true` if `term` is an ABNF `BIT`; otherwise returns `false`.
 
   ## Examples
 
@@ -37,10 +35,10 @@ defmodule Guards do
       iex> is_bit ?a
       false
   """
-  defguard is_bit(char) when char == 0 or char == 1
+  defguard is_bit(term) when term == 0 or term == 1
 
   @doc """
-  Determine if a character is a `CHAR`.
+  Returns `true` if `term` is an ABNF `CHAR`; otherwise returns `false`.
 
   ## Examples
 
@@ -56,10 +54,10 @@ defmodule Guards do
       iex> is_char 128
       false
   """
-  defguard is_char(char) when 1 <= char and char <= 127
+  defguard is_char(term) when 1 <= term and term <= 127
 
   @doc """
-  Determine if a character is a `HEXDIGIT`.
+  Returns `true` if `term` is an ABNF `HEXDIGIT`; otherwise returns `false`.
 
   ## Examples
 
@@ -75,10 +73,10 @@ defmodule Guards do
       iex> is_hex_digit ?G
       false
   """
-  defguard is_hex_digit(char) when (?0 <= char and char <= ?9) or (?A <= char and char <= ?F)
+  defguard is_hex_digit(term) when (?0 <= term and term <= ?9) or (?A <= term and term <= ?F)
 
   @doc """
-  Determine if a character is a `DIGIT`.
+  Returns `true` if `term` is an ABNF `DIGIT`; otherwise returns `false`.
 
   ## Examples
 
@@ -91,10 +89,10 @@ defmodule Guards do
       iex> is_digit ?a
       false
   """
-  defguard is_digit(char) when char >= ?0 and char <= ?9
+  defguard is_digit(term) when term >= ?0 and term <= ?9
 
   @doc """
-  Determine if a character is an `Octet`.
+  Returns `true` if `term` is an ABNF `OCTET`; otherwise returns `false`.
 
   ```
   OCTET = %x00-FF ; 8 bits of data
@@ -111,10 +109,10 @@ defmodule Guards do
       iex> is_octet 256
       false
   """
-  defguard is_octet(char) when char >= 0 and char <= 255
+  defguard is_octet(term) when term >= 0 and term <= 255
 
   @doc """
-  Determine if a character is a `byte`.
+  Returns `true` if `term` is a `byte`; otherwise returns `false`.
 
   ## Examples
 
@@ -127,7 +125,7 @@ defmodule Guards do
       iex> is_byte 256
       false
   """
-  defguard is_byte(char) when char >= 0 and char <= 255
+  defguard is_byte(term) when term >= 0 and term <= 255
 
   @doc """
   Determine if a character is valid for a rulename.
@@ -150,5 +148,5 @@ defmodule Guards do
       iex> is_digit ?a
       false
   """
-  defguard is_rulename_char(char) when is_alpha(char) or is_digit(char) or char === ?-
+  defguard is_rulename_char(term) when is_alpha(term) or is_digit(term) or term === ?-
 end
