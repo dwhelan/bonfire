@@ -16,7 +16,7 @@ end
 ```
 
 ## To do
-- use operators
+- a Zipper should have an `apply` that is an identity function <- what FP representation a 
 - use ABNF element comments: error messages? docs?
     - perhaps have `element.comments() :: binary` and `element.abnf() :: binary`
     - maybe other useful functions?   

@@ -30,8 +30,8 @@ defmodule Unzip do
       quote do
         def apply({dest, [byte | rest]} = input) do
           case unquote(predicate).(byte) do
-            true -> {[byte | dest], rest}
             false -> nil
+            true -> {[byte | dest], rest}
           end
         end
       end
