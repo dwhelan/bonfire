@@ -1,4 +1,6 @@
 defmodule Zip do
+  @callback apply({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
+
   defmacro defzip(type, zipper \\ __CALLER__.module) do
     [
       create_zip_functions(zipper),
@@ -52,7 +54,9 @@ defmodule Zip do
         @moduledoc false
         import :"Elixir.Zip"
 
-        @spec apply({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
+        @behaviour :"Elixir.Zip"
+
+        @impl :"Elixir.Zip"
         unquote(block)
 
         def apply(_) do

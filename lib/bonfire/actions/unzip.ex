@@ -1,5 +1,5 @@
 defmodule Unzip do
-  @callback unzip({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | nil
+  @callback apply({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | nil
 
   defmacro defunzip(type, zipper \\ __CALLER__.module) do
     [

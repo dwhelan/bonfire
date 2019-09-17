@@ -13,8 +13,8 @@ defmodule Zipper do
 
   defmacro defzipper(predicate) do
     quote do
-      defunzip(unquote(predicate), unquote(__CALLER__.module))
       defzip(unquote(predicate), unquote(__CALLER__.module))
+      defunzip(unquote(predicate), unquote(__CALLER__.module))
     end
   end
 end

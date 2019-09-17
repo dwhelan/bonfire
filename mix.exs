@@ -7,7 +7,11 @@ defmodule Bonfire.MixProject do
       version: "0.1.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases(),
+      preferred_cli_env: [
+        test: :test
+      ]
     ]
   end
 
@@ -21,8 +25,18 @@ defmodule Bonfire.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      {:ex_doc, "~> 0.19", only: :dev, runtime: false}
+      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false}
+    ]
+  end
+
+  defp aliases do
+    [
+      build: [
+        "compile",
+        "docs",
+        "dialyzer"
+      ]
     ]
   end
 end
