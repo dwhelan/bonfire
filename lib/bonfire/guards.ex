@@ -124,6 +124,28 @@ defmodule Guards do
   defguard is_octet(term) when term in 0..255
 
   @doc """
+  Returns `true` if `term` is an ABNF literal text character; otherwise returns `false`.
+
+  ## Examples
+
+      iex> is_text 0x21
+      true
+
+      iex> is_text 0x7E
+      true
+
+      iex> is_text 0x20
+      false
+
+      iex> is_text ?"
+      false
+
+      iex> is_text 0x7F
+      false
+  """
+  defguard is_text(term) when term in 0x21..0x7E and term != ?"
+
+  @doc """
   Returns `true` if `term` is an ABNF `VHAR`; otherwise returns `false`.
 
   ## Examples

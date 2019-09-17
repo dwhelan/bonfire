@@ -2,7 +2,20 @@ defmodule Text do
   @moduledoc """
   A zipper for literal text strings.
 
-  Matches any printable ASCII character. That is, any character in the decimal range of [33..126].
+  ```
+  ABNF permits the specification of literal text strings directly,
+  enclosed in quotation marks.  Hence:
+
+    command     =  "command string"
+
+  Literal text strings are interpreted as a concatenated set of
+  printable characters.
+
+  NOTE:
+
+      ABNF strings are case insensitive and the character set for these
+      strings is US-ASCII.
+  ```
 
   ## Examples
 
