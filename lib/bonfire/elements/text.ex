@@ -1,4 +1,4 @@
-defmodule LiteralText do
+defmodule Text do
   @moduledoc """
   A zipper for literal text strings.
 
