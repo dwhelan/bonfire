@@ -20,10 +20,10 @@ defmodule Pipes do
   """
   defmacro lhs ~> rhs do
     quote do
-      if unquote(lhs) do
-        unquote(Macro.pipe(lhs, rhs, 0))
+      unless unquote(lhs) do
+        unquote(lhs) # short circuit
       else
-        unquote(lhs)
+        unquote(Macro.pipe(lhs, rhs, 0))
       end
     end
   end
@@ -45,7 +45,7 @@ defmodule Pipes do
   defmacro lhs ~>> rhs do
     quote do
       if unquote(lhs) do
-        unquote(lhs)
+        unquote(lhs) # short circuit
       else
         unquote(Macro.pipe(lhs, rhs, 0))
       end

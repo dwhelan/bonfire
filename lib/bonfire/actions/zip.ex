@@ -49,6 +49,8 @@ defmodule Zip do
   end
 
   defp create_module(block) do
+    # Not using Module.create/3 because it seems simpler to just inject the new module
+    # rather than trying to computes its name.
     quote do
       defmodule Zip do
         @moduledoc false
