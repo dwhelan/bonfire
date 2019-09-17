@@ -35,6 +35,22 @@ defmodule Guards do
   defguard is_bit(term) when term in 0..1
 
   @doc """
+  Returns `true` if `term` is a `byte`; otherwise returns `false`.
+
+  ## Examples
+
+      iex> is_byte 0
+      true
+
+      iex> is_byte 255
+      true
+
+      iex> is_byte 256
+      false
+  """
+  defguard is_byte(term) when term in 0..255
+
+  @doc """
   Returns `true` if `term` is an ABNF `CHAR`; otherwise returns `false`.
 
   ## Examples
@@ -52,6 +68,22 @@ defmodule Guards do
       false
   """
   defguard is_char(term) when term in 1..127
+
+  @doc """
+  Returns `true` if `term` is an ABNF `DIGIT`; otherwise returns `false`.
+
+  ## Examples
+
+      iex> is_digit ?0
+      true
+
+      iex> is_digit ?9
+      true
+
+      iex> is_digit ?a
+      false
+  """
+  defguard is_digit(term) when term in ?0..?9
 
   @doc """
   Returns `true` if `term` is an ABNF `HEXDIGIT`; otherwise returns `false`.
@@ -76,22 +108,6 @@ defmodule Guards do
   defguard is_hex_digit(term) when term in ?0..?9 or term in ?A..?F
 
   @doc """
-  Returns `true` if `term` is an ABNF `DIGIT`; otherwise returns `false`.
-
-  ## Examples
-
-      iex> is_digit ?0
-      true
-
-      iex> is_digit ?9
-      true
-
-      iex> is_digit ?a
-      false
-  """
-  defguard is_digit(term) when term in ?0..?9
-
-  @doc """
   Returns `true` if `term` is an ABNF `OCTET`; otherwise returns `false`.
 
   ## Examples
@@ -108,20 +124,23 @@ defmodule Guards do
   defguard is_octet(term) when term in 0..255
 
   @doc """
-  Returns `true` if `term` is a `byte`; otherwise returns `false`.
+  Returns `true` if `term` is an ABNF `VHAR`; otherwise returns `false`.
 
   ## Examples
 
-      iex> is_byte 0
+      iex> is_vchar 1
       true
 
-      iex> is_byte 255
+      iex> is_vchar 0x7E
       true
 
-      iex> is_byte 256
+      iex> is_vchar 0
+      false
+
+      iex> is_vchar 0x7F
       false
   """
-  defguard is_byte(term) when term in 0..255
+  defguard is_vchar(term) when term in 1..0x7E
 
   @doc """
   Determine if a character is valid for a rulename.
