@@ -128,19 +128,19 @@ defmodule Guards do
 
   ## Examples
 
-      iex> is_vchar 1
+      iex> is_vchar 0x21
       true
 
       iex> is_vchar 0x7E
       true
 
-      iex> is_vchar 0
+      iex> is_vchar 0x20
       false
 
       iex> is_vchar 0x7F
       false
   """
-  defguard is_vchar(term) when term in 1..0x7E
+  defguard is_vchar(term) when term in 0x21..0x7E
 
   @doc """
   Determine if a character is valid for a rulename.
