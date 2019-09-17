@@ -1,4 +1,4 @@
-defmodule Operators do
+defmodule Pipes do
   defmacro lhs ~> rhs do
     quote do
       case unquote(lhs) do
