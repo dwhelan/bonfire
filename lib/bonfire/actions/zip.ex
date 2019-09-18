@@ -19,6 +19,14 @@ defmodule Zip do
     nil
   end
 
+  def zip_one({[byte | rest], dest}) do
+    {rest, [byte | dest]}
+  end
+
+  def zip_one(_) do
+    nil
+  end
+
   defp more({[byte | rest], dest} = input, predicate) do
     case predicate.(byte) do
       true -> more({rest, [byte | dest]}, predicate)
