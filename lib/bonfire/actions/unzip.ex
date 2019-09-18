@@ -15,9 +15,9 @@ defmodule Unzip do
     ]
   end
 
-  def unzip_one_or_more({dest, [byte | rest]}, predicate) do
+  def unzip_one_or_more({dest, [byte | rest]} = input, predicate) do
     case predicate.(byte) do
-      true -> more({[byte | dest], rest}, predicate)
+      true -> input |> unzip_one() |> more(predicate)
       false -> nil
     end
   end
@@ -34,17 +34,16 @@ defmodule Unzip do
     nil
   end
 
-  defp more({dest, [byte | rest]} = input, predicate) do
+  defp more({_, [byte | _]} = input, predicate) do
     case predicate.(byte) do
-      true -> more({[byte | dest], rest}, predicate)
+      true -> input |> unzip_one() |> more(predicate)
       false -> input
     end
   end
 
-  defp more(input, predicate) do
+  defp more(input, _) do
     input
   end
-
 
   defp create_unzip_functions(zipper) do
     quote bind_quoted: [zipper: zipper] do
@@ -66,10 +65,10 @@ defmodule Unzip do
   defp create_unzip_module({:&, _, _} = predicate) do
     create_module(
       quote do
-        def apply({dest, [byte | rest]} = input) do
+        def apply({_, [byte | _]} = input) do
           case unquote(predicate).(byte) do
             false -> nil
-            true -> {[byte | dest], rest}
+            true -> unzip_one(input)
           end
         end
       end
@@ -79,8 +78,8 @@ defmodule Unzip do
   defp create_unzip_module(byte) when is_integer(byte) do
     create_module(
       quote do
-        def apply({dest, [unquote(byte) | rest] = source} = input) do
-          {[unquote(byte) | dest], rest}
+        def apply({_, [unquote(byte) | _]} = input) do
+          unzip_one(input)
         end
       end
     )
@@ -89,8 +88,8 @@ defmodule Unzip do
   defp create_unzip_module(byte) when is_list(byte) do
     create_module(
       quote do
-        def apply({dest, [unquote(byte) | rest] = source} = input) do
-          {[unquote(byte) | dest], rest}
+        def apply({_, [unquote(byte) | _]} = input) do
+          unzip_one(input)
         end
       end
     )
