@@ -8,9 +8,9 @@ defmodule Zip do
     ]
   end
 
-  def zip_one_or_more({[byte | rest], dest}, predicate) do
+  def zip_one_or_more({[byte | _], _} = input, predicate) do
     case predicate.(byte) do
-      true -> more({rest, [byte | dest]}, predicate)
+      true -> input |> zip_one() |> more(predicate)
       false -> nil
     end
   end
@@ -27,9 +27,9 @@ defmodule Zip do
     nil
   end
 
-  defp more({[byte | rest], dest} = input, predicate) do
+  defp more({[byte | _], _} = input, predicate) do
     case predicate.(byte) do
-      true -> more({rest, [byte | dest]}, predicate)
+      true -> input |> zip_one() |> more(predicate)
       false -> input
     end
   end
@@ -58,10 +58,10 @@ defmodule Zip do
   defp create_zip_module({:&, _, _} = predicate) do
     create_module(
       quote do
-        def apply({[byte | rest] = source, dest}) do
+        def apply({[byte | rest], dest} = input) do
           case unquote(predicate).(byte) do
             false -> nil
-            true -> {rest, [byte | dest]}
+            true -> zip_one(input)
           end
         end
       end
@@ -71,8 +71,8 @@ defmodule Zip do
   defp create_zip_module(byte) do
     create_module(
       quote do
-        def apply({[unquote(byte) | rest] = source, dest}) do
-          {rest, [unquote(byte) | dest]}
+        def apply({[unquote(byte) | rest] = source, dest} = input) do
+          zip_one(input)
         end
       end
     )
