@@ -15,14 +15,14 @@ defmodule Unzip do
     ]
   end
 
-  def one_or_more({dest, [byte | rest]}, predicate) do
+  def unzip_one_or_more({dest, [byte | rest]}, predicate) do
     case predicate.(byte) do
       true -> more({[byte | dest], rest}, predicate)
       false -> nil
     end
   end
 
-  def one_or_more(_, _) do
+  def unzip_one_or_more(_, _) do
     nil
   end
 

@@ -22,7 +22,7 @@ defmodule DecVal do
 
   defunzip do
     def apply({dest, [?%, ?d | rest]} = input) do
-      one_or_more({[?d, ?% | dest], rest}, &is_digit/1)
+      unzip_one_or_more({[?d, ?% | dest], rest}, &is_digit/1)
     end
   end
 end
