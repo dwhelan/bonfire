@@ -71,6 +71,7 @@ defmodule Test do
     quote do
       use ExUnit.Case, unquote(opts)
       import Test
+      import Guards
     end
   end
 end

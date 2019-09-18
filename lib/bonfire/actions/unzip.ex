@@ -1,12 +1,42 @@
 defmodule Unzip do
   @callback apply({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | nil
 
-  defmacro defunzip(type, zipper \\ __CALLER__.module) do
+  defmacro defunzip(type, do: block) do
+    [
+      create_unzip_functions(__CALLER__.module),
+      create_module(block)
+    ]
+  end
+
+  defmacro defunzip(type, zipper) do
     [
       create_unzip_functions(zipper),
       create_unzip_module(type)
     ]
   end
+
+  def one_or_more({dest, [byte | rest]}, predicate) do
+    case predicate.(byte) do
+      true -> more({[byte | dest], rest}, predicate)
+      false -> nil
+    end
+  end
+
+  def one_or_more(_, _) do
+    nil
+  end
+
+  def more({dest, [byte | rest]} = input, predicate) do
+    case predicate.(byte) do
+      true -> more({[byte | dest], rest}, predicate)
+      false -> input
+    end
+  end
+
+  def more(input, predicate) do
+    input
+  end
+
 
   defp create_unzip_functions(zipper) do
     quote bind_quoted: [zipper: zipper] do
@@ -38,7 +68,17 @@ defmodule Unzip do
     )
   end
 
-  defp create_unzip_module(byte) do
+  defp create_unzip_module(byte) when is_integer(byte) do
+    create_module(
+      quote do
+        def apply({dest, [unquote(byte) | rest] = source} = input) do
+          {[unquote(byte) | dest], rest}
+        end
+      end
+    )
+  end
+
+  defp create_unzip_module(byte) when is_list(byte) do
     create_module(
       quote do
         def apply({dest, [unquote(byte) | rest] = source} = input) do
