@@ -1,7 +1,7 @@
 defmodule Unzip do
   @callback apply({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | nil
 
-  defmacro defunzip(type, do: block) do
+  defmacro defunzip(do: block) do
     [
       create_unzip_functions(__CALLER__.module),
       create_module(block)
@@ -26,14 +26,14 @@ defmodule Unzip do
     nil
   end
 
-  def more({dest, [byte | rest]} = input, predicate) do
+  defp more({dest, [byte | rest]} = input, predicate) do
     case predicate.(byte) do
       true -> more({[byte | dest], rest}, predicate)
       false -> input
     end
   end
 
-  def more(input, predicate) do
+  defp more(input, predicate) do
     input
   end
 

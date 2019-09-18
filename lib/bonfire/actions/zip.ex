@@ -8,6 +8,28 @@ defmodule Zip do
     ]
   end
 
+  def zip_one_or_more({[byte | rest], dest}, predicate) do
+    case predicate.(byte) do
+      true -> more({rest, [byte | dest]}, predicate)
+      false -> nil
+    end
+  end
+
+  def zip_one_or_more(_, _) do
+    nil
+  end
+
+  defp more({[byte | rest], dest} = input, predicate) do
+    case predicate.(byte) do
+      true -> more({rest, [byte | dest]}, predicate)
+      false -> input
+    end
+  end
+
+  defp more(input, predicate) do
+    input
+  end
+
   defp create_zip_functions(zipper) do
     quote do
       @spec zip(nonempty_list(byte)) :: {[byte], [byte, ...]} | nil
