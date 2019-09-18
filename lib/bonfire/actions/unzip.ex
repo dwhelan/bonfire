@@ -15,9 +15,9 @@ defmodule Unzip do
     ]
   end
 
-  def unzip_one_or_more({dest, [byte | rest]} = input, predicate) do
+  def unzip_one_or_more({_, [byte | _]} = input, predicate) do
     case predicate.(byte) do
-      true -> input |> unzip_one() |> more(predicate)
+      true -> input |> unzip_one() |> unzip_zero_or_more(predicate)
       false -> nil
     end
   end
@@ -34,14 +34,14 @@ defmodule Unzip do
     nil
   end
 
-  defp more({_, [byte | _]} = input, predicate) do
+  defp unzip_zero_or_more({_, [byte | _]} = input, predicate) do
     case predicate.(byte) do
-      true -> input |> unzip_one() |> more(predicate)
+      true -> input |> unzip_one() |> unzip_zero_or_more(predicate)
       false -> input
     end
   end
 
-  defp more(input, _) do
+  defp unzip_zero_or_more(input, _) do
     input
   end
 

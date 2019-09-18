@@ -11,17 +11,17 @@ defmodule Zipper do
     end
   end
 
-  defmacro defzipper(abnf) do
+  defmacro defzipper(zipper_or_predicate) do
     quote do
-      defzip(unquote(abnf), unquote(__CALLER__.module))
-      defunzip(unquote(abnf), unquote(__CALLER__.module))
+      defzip(unquote(zipper_or_predicate), unquote(__CALLER__.module))
+      defunzip(unquote(zipper_or_predicate), unquote(__CALLER__.module))
     end
   end
 
-  defmacro defzipper(abnf, do: block) do
+  defmacro defzipper(zipper_or_predicate, do: block) do
     quote do
-      defzip(unquote(abnf), unquote(__CALLER__.module))
-      defunzip(unquote(abnf), unquote(__CALLER__.module))
+      defzip(unquote(zipper_or_predicate), unquote(__CALLER__.module))
+      defunzip(unquote(zipper_or_predicate), unquote(__CALLER__.module))
     end
   end
 end

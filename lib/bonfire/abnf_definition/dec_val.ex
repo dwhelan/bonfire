@@ -21,7 +21,7 @@ defmodule DecVal do
   use Zipper
 
   defunzip do
-    def apply({dest, [?%, ?d | rest]} = input) do
+    def apply({dest, [?%, ?d | rest]}) do
       unzip_one_or_more({[?d, ?% | dest], rest}, &is_digit/1)
     end
   end

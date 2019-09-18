@@ -16,7 +16,25 @@ end
 ```
 
 ## To do
-- a Zipper should have an `apply` that is an identity function <- what FP representation a 
+- update ~>> operator to expect a function of arity 0. This may allow nice pipes like:
+```elixir
+# from Zip
+  def zip_one_or_more({[byte | _], _} = input, predicate) do
+    case predicate.(byte) do
+      true -> input |> zip_one() |> zip_zero_or_more(predicate)
+      false -> nil
+    end
+  end
+# hopefully
+  def zip_one_or_more({[byte | _], _} = input, can_zip?) do
+    byte
+    ~> can_zip?.()
+    ~> zip_one()
+    ~> zip_zero_or_more(can_zip?)
+  end
+
+``` 
+- a Zipper should have an `apply` that is an identity function <- what FP representation? 
 - use ABNF element comments: error messages? docs?
     - perhaps have `element.comments() :: binary` and `element.abnf() :: binary`
     - maybe other useful functions?   

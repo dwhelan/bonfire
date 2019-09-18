@@ -1,18 +1,43 @@
 defmodule Zip do
   @callback apply({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
 
-  defmacro defzip(type, zipper \\ __CALLER__.module) do
+  defmacro defzip(type, zipper_or_predicate \\ __CALLER__.module) do
     [
-      create_zip_functions(zipper),
+      create_zip_functions(zipper_or_predicate),
       create_zip_module(type)
     ]
   end
 
+  def zip_one_or_more(input, zipper) when is_atom(zipper) do
+    case zipper.zip(input) do
+      nil -> nil
+      result -> result |> zip_zero_or_more(zipper)
+    end
+  end
+
   def zip_one_or_more({[byte | _], _} = input, predicate) do
     case predicate.(byte) do
-      true -> input |> zip_one() |> more(predicate)
+      true -> input |> zip_one() |> zip_zero_or_more(predicate)
       false -> nil
     end
+  end
+
+  def zip_zero_or_more({[byte | _], _} = input, zipper) when is_atom(zipper) do
+    case zipper.zip(input) do
+      nil -> input
+      result -> input |> zip_one() |> zip_zero_or_more(zipper)
+    end
+  end
+
+  def zip_zero_or_more({[byte | _], _} = input, predicate) do
+    case predicate.(byte) do
+      true -> input |> zip_one() |> zip_zero_or_more(predicate)
+      false -> input
+    end
+  end
+
+  def zip_zero_or_more(input, _) do
+    input
   end
 
   def zip_one_or_more(_, _) do
@@ -25,17 +50,6 @@ defmodule Zip do
 
   def zip_one(_) do
     nil
-  end
-
-  defp more({[byte | _], _} = input, predicate) do
-    case predicate.(byte) do
-      true -> input |> zip_one() |> more(predicate)
-      false -> input
-    end
-  end
-
-  defp more(input, predicate) do
-    input
   end
 
   defp create_zip_functions(zipper) do
@@ -67,6 +81,7 @@ defmodule Zip do
       end
     )
   end
+
 
   defp create_zip_module(byte) do
     create_module(

@@ -30,7 +30,7 @@ defmodule Test do
         values,
         fn
           char when is_octet(char) -> [char]
-          %Range{} = range -> Enum.to_list(range)
+          range -> Enum.to_list(range)
         end
       )
       |> List.flatten()
@@ -39,7 +39,7 @@ defmodule Test do
     {valid, invalid}
   end
 
-  def assert_zipper(zipper, input, rest \\ []) do
+  def assert_zipper(zipper, input, rest \\ '') do
     assert_unzip(zipper, input, rest)
     assert_zip(zipper, input, rest)
   end
