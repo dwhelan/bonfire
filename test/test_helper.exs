@@ -40,8 +40,8 @@ defmodule Test do
   end
 
   def assert_zipper(zipper, input, rest \\ '') do
-    assert_unzip(zipper, input, rest)
-    assert_zip(zipper, input, rest)
+    assert_unzip(zipper, input ++ rest, rest)
+    assert_zip(zipper, input ++rest, rest)
   end
 
   def assert_zipper_error(zipper, input) do
