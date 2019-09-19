@@ -4,14 +4,24 @@ defmodule SplitTest do
   import Split
   doctest Split
 
-  test "split_one" do
+  test "split_one/1" do
     assert split_one({'1', ''}) == {'', '1'}
     assert split_one({'123', 'abc'}) == {'23', '1abc'}
     assert split_one({'', ''}) == nil
     assert split_one({'', 'abc'}) == nil
   end
 
-  test "split_zero_or_more" do
+  test "split_one/2" do
+    assert split_one({'1', ''}, fn _ -> true end) == {'', '1'}
+    assert split_one({'1', ''}, fn _ -> false end) == nil
+
+    assert split_one({'1', ''}, DIGIT) == {'', '1'}
+    assert split_one({'1', ''}, ALPHA) == nil
+
+    assert split_one({'', OCTET}) == nil
+  end
+
+  test "split_zero_or_more/2" do
     assert split_zero_or_more({'', ''}, DIGIT) == {'', ''}
     assert split_zero_or_more({'1', ''}, DIGIT) == {'', '1'}
   end

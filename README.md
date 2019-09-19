@@ -16,12 +16,14 @@ end
 ```
 
 ## To do
-- 
+
 - use pipe more -> first replace predicates with Codecs so return is {'', ''} or nil
-- re-align Splt, SplitTest and Merge, MergeTest
+- re-align Split, SplitTest and Merge, MergeTest
 - complete dec-val
   - implement split
   - extend to num-val with other bases
+- create a pipe operator for 'many'
+- create Pipe.macro to build pipe operators, use Pipe etc.
 
 ``` 
 - a Codec should have an `apply` that is an identity function <- what FP representation? 
