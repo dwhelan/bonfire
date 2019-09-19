@@ -16,24 +16,12 @@ end
 ```
 
 ## To do
-
-- update ~>> operator to expect a function of arity 0. This may allow nice pipes like:
-  (have predicates return value or nil)
-```elixir
-# from Split
-  def split_one_or_more({[byte | _], _} = input, predicate) do
-    case predicate.(byte) do
-      true -> input |> split_one() |> split_zero_or_more(predicate)
-      false -> nil
-    end
-  end
-# hopefully
-  def split_one_or_more({[byte | _], _} = input, can_split?) do
-    byte
-    ~> can_split?.()
-    ~> split_one()
-    ~> split_zero_or_more(can_split?)
-  end
+- 
+- use pipe more -> first replace predicates with Codecs so return is {'', ''} or nil
+- re-align Splt, SplitTest and Merge, MergeTest
+- complete dec-val
+  - implement split
+  - extend to num-val with other bases
 
 ``` 
 - a Codec should have an `apply` that is an identity function <- what FP representation? 
