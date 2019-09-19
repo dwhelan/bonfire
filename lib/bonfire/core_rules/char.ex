@@ -17,7 +17,7 @@ defmodule CHAR do
       iex> zip 'abc'
       {'bc', 'a'}
   """
-  use Zipper
+  use Codec
 
   defzipper(&is_char/1)
 end

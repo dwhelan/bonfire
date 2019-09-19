@@ -18,7 +18,7 @@ defmodule DecVal do
       nil
   """
 
-  use Zipper
+  use Codec
 
   defunzip do
     def apply({dest, [?%, ?d | rest]}) do

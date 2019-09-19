@@ -16,7 +16,8 @@ end
 ```
 
 ## To do
-- rename Zipper -> Codec, Unzip -> Split, Zip -> Merge
+
+- rename Codec -> Codec, Unzip -> Split, Zip -> Merge
 - rename source -> charlist, dest -> split?
 - reverse {source, dest} -> {dest, source}
 - better => rename Unzip -> Merge, Zip -> Split (as this will reverse args so we don't need to munge code)
@@ -39,7 +40,7 @@ end
   end
 
 ``` 
-- a Zipper should have an `apply` that is an identity function <- what FP representation? 
+- a Codec should have an `apply` that is an identity function <- what FP representation? 
 - use ABNF element comments: error messages? docs?
     - perhaps have `element.comments() :: binary` and `element.abnf() :: binary`
     - maybe other useful functions?   

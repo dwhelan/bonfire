@@ -21,7 +21,7 @@ defmodule CharVal do
       {'', '"'}
   """
 
-  use Zipper
+  use Codec
 
   defzipper(?")
 end

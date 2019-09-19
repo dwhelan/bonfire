@@ -1,11 +1,11 @@
-defmodule Zipper do
+defmodule Codec do
   import Zip
   import Unzip
 
   defmacro __using__(opts \\ []) do
     quote do
       import Guards, unquote(opts)
-      import Zipper, unquote(opts)
+      import Codec, unquote(opts)
       import Zip, unquote(opts)
       import Unzip, unquote(opts)
     end

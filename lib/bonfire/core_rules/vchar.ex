@@ -21,7 +21,7 @@ defmodule VCHAR do
       {'', 'F'}
 
   """
-  use Zipper
+  use Codec
 
   defzipper(&is_vchar/1)
 end

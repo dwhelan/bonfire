@@ -32,7 +32,7 @@ defmodule DIGIT do
       iex> zip {'3', '12'}
       {'', '123'}
   """
-  use Zipper
+  use Codec
 
   defzipper(&is_digit/1)
 end
