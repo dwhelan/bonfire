@@ -11,10 +11,10 @@ defmodule CharVal do
 
   ## Examples
 
-      iex> Unzip.apply {'', '"'}
+      iex> Unsplit.apply {'', '"'}
       {'"', ''}
 
-      iex> Unzip.apply {'', '_"'}
+      iex> Unsplit.apply {'', '_"'}
       nil
 
       iex> Split.apply {'"', ''}

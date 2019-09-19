@@ -11,10 +11,10 @@ defmodule CHAR do
 
   ## Examples
 
-      iex> unzip 'abc'
+      iex> unsplit 'abc'
       {'a', 'bc'}
 
-      iex> zip 'abc'
+      iex> split 'abc'
       {'bc', 'a'}
   """
   use Codec

@@ -8,7 +8,7 @@ defmodule HexVal do
 
   ## Examples
 
-      iex> unzip 'a'
+      iex> unsplit 'a'
       {'a', ''}
   """
   use Codec

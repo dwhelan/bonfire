@@ -8,21 +8,21 @@ defmodule DecVal do
 
   ## Examples
 
-      iex> unzip {'', '%d1'}
+      iex> unsplit {'', '%d1'}
       {'%d1', ''}
 
-      iex> unzip {'', '%d123'}
+      iex> unsplit {'', '%d123'}
       {'%d123', ''}
 
-      iex> unzip {'', 'foo'}
+      iex> unsplit {'', 'foo'}
       nil
   """
 
   use Codec
 
-  defunzip do
+  defunsplit do
     def apply({dest, [?%, ?d | rest]}) do
-      unzip_one_or_more({[?d, ?% | dest], rest}, &is_digit/1)
+      unsplit_one_or_more({[?d, ?% | dest], rest}, &is_digit/1)
     end
   end
 end

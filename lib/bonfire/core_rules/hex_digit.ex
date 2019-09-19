@@ -8,16 +8,16 @@ defmodule HEXDIGIT do
 
   ## Examples
 
-      iex> unzip '0'
+      iex> unsplit '0'
       {'0', ''}
 
-      iex> unzip 'F'
+      iex> unsplit 'F'
       {'F', ''}
 
-      iex> zip '0'
+      iex> split '0'
       {'', '0'}
 
-      iex> zip 'F'
+      iex> split 'F'
       {'', 'F'}
 
   """

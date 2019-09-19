@@ -8,13 +8,13 @@ defmodule DQUOTE do
 
   ## Examples
 
-      iex> unzip {'', '"'}
+      iex> unsplit {'', '"'}
       {'"', ''}
 
-      iex> unzip {'', '_"'}
+      iex> unsplit {'', '_"'}
       nil
 
-      iex> zip {'"', ''}
+      iex> split {'"', ''}
       {'', '"'}
   """
 

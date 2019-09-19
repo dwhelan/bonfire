@@ -11,10 +11,10 @@ defmodule BIT do
 
   ## Examples
 
-      iex> unzip [0]
+      iex> unsplit [0]
       {[0], ''}
 
-      iex> zip [0]
+      iex> split [0]
       {[], [0]}
   """
   use Codec

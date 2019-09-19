@@ -48,30 +48,30 @@ defmodule Test do
   end
 
   def assert_codec(codec, source, rest \\ '') do
-    assert_unzip(codec, source ++ rest, rest)
-    assert_zip(codec, source ++rest, rest)
+    assert_unsplit(codec, source ++ rest, rest)
+    assert_split(codec, source ++rest, rest)
   end
 
   def assert_codec_error(codec, source) do
-    assert_unzip_error(codec, source)
-    assert_zip_error(codec, source)
+    assert_unsplit_error(codec, source)
+    assert_split_error(codec, source)
   end
 
-  def assert_unzip(codec, source, rest \\ []) do
+  def assert_unsplit(codec, source, rest \\ []) do
     {bytes, rest} = Enum.split(source, length(source) - length(rest))
-    assert {^bytes, ^rest} = codec.unzip(source)
+    assert {^bytes, ^rest} = codec.unsplit(source)
   end
 
-  def assert_unzip_error(codec, source) do
-    assert codec.unzip(source) == nil
+  def assert_unsplit_error(codec, source) do
+    assert codec.unsplit(source) == nil
   end
 
-  def assert_zip(codec, source, rest \\ []) do
+  def assert_split(codec, source, rest \\ []) do
     {value, rest} = Enum.split(source, length(source) - length(rest))
-    assert {^rest, ^value} = codec.zip(source)
+    assert {^rest, ^value} = codec.split(source)
   end
 
-  def assert_zip_error(codec, source) do
-    assert codec.zip(source) == nil
+  def assert_split_error(codec, source) do
+    assert codec.split(source) == nil
   end
 end
