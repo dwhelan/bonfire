@@ -16,6 +16,11 @@ end
 ```
 
 ## To do
+- rename Zipper -> Codec, Unzip -> Split, Zip -> Merge
+- rename source -> charlist, dest -> split?
+- reverse {source, dest} -> {dest, source}
+- better => rename Unzip -> Merge, Zip -> Split (as this will reverse args so we don't need to munge code)
+
 - update ~>> operator to expect a function of arity 0. This may allow nice pipes like:
 ```elixir
 # from Zip

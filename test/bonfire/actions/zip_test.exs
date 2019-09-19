@@ -22,9 +22,9 @@ defmodule ZipTest do
     assert zip_one_or_more({'123', ''}, &is_digit/1) == {'', '321'}
     assert zip_one_or_more({'123abc', ''}, &is_digit/1) == {'abc', '321'}
 
-    assert zip_one_or_more({'', ''}, ALPHA) == nil
     assert zip_one_or_more({'a', ''}, ALPHA) == {'', 'a'}
     assert zip_one_or_more({'abc', ''}, ALPHA) == {'', 'cba'}
+    assert zip_one_or_more({'', ''}, ALPHA) == nil
 
   end
 end
