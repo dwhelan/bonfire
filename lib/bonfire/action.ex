@@ -13,7 +13,7 @@ defmodule Action do
 
   ## Examples
 
-      iex> Action.apply {ALPHA, Unsplit}, {'', 'abc'}
+      iex> Action.apply {ALPHA, Merge}, {'', 'abc'}
       {'a', 'bc'}
 
       iex> Action.apply {ALPHA, Split}, {'abc', ''}

@@ -11,7 +11,7 @@ defmodule CHAR do
 
   ## Examples
 
-      iex> unsplit 'abc'
+      iex> merge 'abc'
       {'a', 'bc'}
 
       iex> split 'abc'

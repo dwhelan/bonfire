@@ -48,22 +48,22 @@ defmodule Test do
   end
 
   def assert_codec(codec, source, rest \\ '') do
-    assert_unsplit(codec, source ++ rest, rest)
+    assert_merge(codec, source ++ rest, rest)
     assert_split(codec, source ++rest, rest)
   end
 
   def assert_codec_error(codec, source) do
-    assert_unsplit_error(codec, source)
+    assert_merge_error(codec, source)
     assert_split_error(codec, source)
   end
 
-  def assert_unsplit(codec, source, rest \\ []) do
+  def assert_merge(codec, source, rest \\ []) do
     {bytes, rest} = Enum.split(source, length(source) - length(rest))
-    assert {^bytes, ^rest} = codec.unsplit(source)
+    assert {^bytes, ^rest} = codec.merge(source)
   end
 
-  def assert_unsplit_error(codec, source) do
-    assert codec.unsplit(source) == nil
+  def assert_merge_error(codec, source) do
+    assert codec.merge(source) == nil
   end
 
   def assert_split(codec, source, rest \\ []) do

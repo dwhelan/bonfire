@@ -25,6 +25,5 @@ defmodule SplitTest do
     assert split_one_or_more({'a', ''}, ALPHA) == {'', 'a'}
     assert split_one_or_more({'abc', ''}, ALPHA) == {'', 'cba'}
     assert split_one_or_more({'', ''}, ALPHA) == nil
-
   end
 end

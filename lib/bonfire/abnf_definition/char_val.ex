@@ -11,10 +11,10 @@ defmodule CharVal do
 
   ## Examples
 
-      iex> Unsplit.apply {'', '"'}
+      iex> Merge.apply {'', '"'}
       {'"', ''}
 
-      iex> Unsplit.apply {'', '_"'}
+      iex> Merge.apply {'', '_"'}
       nil
 
       iex> Split.apply {'"', ''}

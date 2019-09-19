@@ -8,16 +8,16 @@ defmodule DIGIT do
 
   ## Examples
 
-      iex> unsplit '123'
+      iex> merge '123'
       {'1', '23'}
 
-      iex> unsplit {'', '123'}
+      iex> merge {'', '123'}
       {'1', '23'}
 
-      iex> unsplit {'1', '23'}
+      iex> merge {'1', '23'}
       {'12', '3'}
 
-      iex> unsplit {'12', '3'}
+      iex> merge {'12', '3'}
       {'123', ''}
 
       iex> split '123'

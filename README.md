@@ -17,12 +17,8 @@ end
 
 ## To do
 
-- rename Codec -> Codec, Unsplit -> Split, Split -> Merge
-- rename source -> charlist, dest -> split?
-- reverse {source, dest} -> {dest, source}
-- better => rename Unsplit -> Merge, Split -> Split (as this will reverse args so we don't need to munge code)
-
 - update ~>> operator to expect a function of arity 0. This may allow nice pipes like:
+  (have predicates return value or nil)
 ```elixir
 # from Split
   def split_one_or_more({[byte | _], _} = input, predicate) do
@@ -46,7 +42,7 @@ end
     - maybe other useful functions?   
 - split functions should expect lhs to be a list of charlists :: `{['first', 'second' | rest], 'charlist'}`
 - compose actions
-- abstraction of property of `x | split() | unsplit() == x` for a pair of functions
+- abstraction of property of `x | split() | merge() == x` for a pair of functions
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can

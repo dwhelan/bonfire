@@ -8,21 +8,21 @@ defmodule DecVal do
 
   ## Examples
 
-      iex> unsplit {'', '%d1'}
+      iex> merge {'', '%d1'}
       {'%d1', ''}
 
-      iex> unsplit {'', '%d123'}
+      iex> merge {'', '%d123'}
       {'%d123', ''}
 
-      iex> unsplit {'', 'foo'}
+      iex> merge {'', 'foo'}
       nil
   """
 
   use Codec
 
-  defunsplit do
+  defmerge do
     def apply({dest, [?%, ?d | rest]}) do
-      unsplit_one_or_more({[?d, ?% | dest], rest}, &is_digit/1)
+      merge_one_or_more({[?d, ?% | dest], rest}, &is_digit/1)
     end
   end
 end

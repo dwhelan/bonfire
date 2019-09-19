@@ -8,10 +8,10 @@ defmodule Core do
 
   # rulename = ALPHA *(ALPHA / DIGIT / "-")
   def rulename(bytes) do
-    unsplit(bytes, :rulename, &is_alpha/1, &is_rulename_char/1)
+    merge(bytes, :rulename, &is_alpha/1, &is_rulename_char/1)
   end
 
-  defp unsplit_zero_or_more(bytes, acc, is_valid?) do
+  defp merge_zero_or_more(bytes, acc, is_valid?) do
     {bytes, rest} =
       Enum.reduce_while(bytes, {acc, ''}, fn byte, {acc, rest} ->
         case is_valid?.(byte) do
@@ -23,23 +23,23 @@ defmodule Core do
     {Enum.reverse(bytes), rest}
   end
 
-  defp unsplit_one([byte | rest], is_valid?) do
+  defp merge_one([byte | rest], is_valid?) do
     case is_valid?.(byte) do
       true -> {[byte], rest}
       false -> nil
     end
   end
 
-  defp unsplit_one(_, _) do
+  defp merge_one(_, _) do
     nil
   end
 
-  defp unsplit(input, type, first, subsequent) do
+  defp merge(input, type, first, subsequent) do
     case input do
       [byte | rest] ->
         case first.(byte) do
           true ->
-            {bytes, rest} = unsplit_zero_or_more(rest, [byte], subsequent)
+            {bytes, rest} = merge_zero_or_more(rest, [byte], subsequent)
             {token(type, bytes), rest}
 
           false ->

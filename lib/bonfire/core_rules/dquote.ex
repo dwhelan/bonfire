@@ -8,10 +8,10 @@ defmodule DQUOTE do
 
   ## Examples
 
-      iex> unsplit {'', '"'}
+      iex> merge {'', '"'}
       {'"', ''}
 
-      iex> unsplit {'', '_"'}
+      iex> merge {'', '_"'}
       nil
 
       iex> split {'"', ''}

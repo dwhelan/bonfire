@@ -8,10 +8,10 @@ defmodule VCHAR do
 
   ## Examples
 
-      iex> unsplit '0'
+      iex> merge '0'
       {'0', ''}
 
-      iex> unsplit 'F'
+      iex> merge 'F'
       {'F', ''}
 
       iex> split '0'

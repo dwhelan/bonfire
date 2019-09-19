@@ -11,7 +11,7 @@ defmodule BIT do
 
   ## Examples
 
-      iex> unsplit [0]
+      iex> merge [0]
       {[0], ''}
 
       iex> split [0]
