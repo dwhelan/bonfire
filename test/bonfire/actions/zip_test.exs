@@ -1,8 +1,8 @@
-defmodule ZipTest do
+defmodule SplitTest do
   use Test, async: true
 
-  import Zip
-  doctest Zip
+  import Split
+  doctest Split
 
   test "zip_one" do
     assert zip_one({'1', ''}) == {'', '1'}

@@ -17,7 +17,7 @@ defmodule CharVal do
       iex> Unzip.apply {'', '_"'}
       nil
 
-      iex> Zip.apply {'"', ''}
+      iex> Split.apply {'"', ''}
       {'', '"'}
   """
 

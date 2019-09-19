@@ -16,7 +16,7 @@ defmodule Action do
       iex> Action.apply {ALPHA, Unzip}, {'', 'abc'}
       {'a', 'bc'}
 
-      iex> Action.apply {ALPHA, Zip}, {'abc', ''}
+      iex> Action.apply {ALPHA, Split}, {'abc', ''}
       {'bc', 'a'}
   """
   @type t :: {module, module}

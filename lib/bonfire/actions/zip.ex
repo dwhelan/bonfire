@@ -1,4 +1,4 @@
-defmodule Zip do
+defmodule Split do
   import Pipes
 
   @callback apply({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
@@ -62,7 +62,7 @@ defmodule Zip do
 
       @spec zip({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def zip({source, dest}) do
-        case unquote(codec).Zip.apply({source, Enum.reverse(dest)}) do
+        case unquote(codec).Split.apply({source, Enum.reverse(dest)}) do
           nil -> nil
           {source, dest} -> {source, Enum.reverse(dest)}
         end
@@ -98,13 +98,13 @@ defmodule Zip do
     # Not using Module.create/3 because it seems simpler to just inject the new module
     # rather than trying to computes its name.
     quote do
-      defmodule Zip do
+      defmodule Split do
         @moduledoc false
-        import :"Elixir.Zip"
+        import :"Elixir.Split"
 
-        @behaviour :"Elixir.Zip"
+        @behaviour :"Elixir.Split"
 
-        @impl :"Elixir.Zip"
+        @impl :"Elixir.Split"
         unquote(block)
 
         def apply(_) do

@@ -17,14 +17,14 @@ end
 
 ## To do
 
-- rename Codec -> Codec, Unzip -> Split, Zip -> Merge
+- rename Codec -> Codec, Unzip -> Split, Split -> Merge
 - rename source -> charlist, dest -> split?
 - reverse {source, dest} -> {dest, source}
-- better => rename Unzip -> Merge, Zip -> Split (as this will reverse args so we don't need to munge code)
+- better => rename Unzip -> Merge, Split -> Split (as this will reverse args so we don't need to munge code)
 
 - update ~>> operator to expect a function of arity 0. This may allow nice pipes like:
 ```elixir
-# from Zip
+# from Split
   def zip_one_or_more({[byte | _], _} = input, predicate) do
     case predicate.(byte) do
       true -> input |> zip_one() |> zip_zero_or_more(predicate)

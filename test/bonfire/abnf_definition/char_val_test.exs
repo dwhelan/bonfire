@@ -1,7 +1,7 @@
 defmodule CharValTest do
   use ExUnit.Case
 
-  alias CharVal.{Unzip, Zip}
+  alias CharVal.{Unzip, Split}
 
   doctest CharVal
 end
