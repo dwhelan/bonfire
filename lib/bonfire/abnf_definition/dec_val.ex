@@ -8,11 +8,11 @@ defmodule DecVal do
 
   ## Examples
 
-      iex> merge {'', '%d1'}
-      {'%d1', ''}
+     # iex> merge {'', '%d1'}
+     # {'%d1', ''}
 
-      iex> merge {'', '%d123'}
-      {'%d123', ''}
+     # iex> merge {'', '%d123'}
+     # {'%d123', ''}
 
       iex> merge {'', 'foo'}
       nil

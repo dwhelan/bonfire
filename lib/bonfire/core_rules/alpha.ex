@@ -8,11 +8,30 @@ defmodule ALPHA do
 
   ## Examples
 
-      iex> merge 'abc'
-      {'a', 'bc'}
-
       iex> split 'abc'
       {'bc', 'a'}
+
+      iex> split {'abc', 'xyz'}
+      {'bc', 'xyza'}
+
+      iex> split {'bc', 'xyza'}
+      {'c', 'xyzab'}
+
+      iex> split {'c', 'xyzab'}
+      {'', 'xyzabc'}
+
+      iex> merge 'abc'
+      {'c', 'ab'}
+
+      iex> merge {'', 'xyzabc'}
+      {'c', 'xyzab'}
+
+      iex> merge {'c', 'xyzab'}
+      {'bc', 'xyza'}
+
+      iex> merge {'bc', 'xyza'}
+      {'abc', 'xyz'}
+
   """
   use Codec
 

@@ -11,7 +11,7 @@ defmodule DQUOTE do
       iex> merge {'', '"'}
       {'"', ''}
 
-      iex> merge {'', '_"'}
+      iex> merge {'', 'x'}
       nil
 
       iex> split {'"', ''}

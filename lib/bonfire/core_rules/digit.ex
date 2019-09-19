@@ -8,18 +8,6 @@ defmodule DIGIT do
 
   ## Examples
 
-      iex> merge '123'
-      {'1', '23'}
-
-      iex> merge {'', '123'}
-      {'1', '23'}
-
-      iex> merge {'1', '23'}
-      {'12', '3'}
-
-      iex> merge {'12', '3'}
-      {'123', ''}
-
       iex> split '123'
       {'23', '1'}
 
@@ -31,6 +19,18 @@ defmodule DIGIT do
 
       iex> split {'3', '12'}
       {'', '123'}
+
+      iex> merge '123'
+      {'3', '12'}
+
+      iex> merge {'', '123'}
+      {'3', '12'}
+
+      iex> merge {'3', '12'}
+      {'23', '1'}
+
+      iex> merge {'23', '1'}
+      {'123', ''}
   """
   use Codec
 

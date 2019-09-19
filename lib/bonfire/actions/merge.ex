@@ -54,9 +54,9 @@ defmodule Merge do
 
       @spec merge({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | nil
       def merge({dest, source}) do
-        case unquote(codec).Merge.apply({Enum.reverse(dest), source}) do
+        case unquote(codec).Merge.apply({dest, Enum.reverse(source)}) do
           nil -> nil
-          {dest, source} -> {Enum.reverse(dest), source}
+          {dest, source} -> {dest, Enum.reverse(source)}
         end
       end
     end

@@ -11,11 +11,11 @@ defmodule CHAR do
 
   ## Examples
 
-      iex> merge 'abc'
-      {'a', 'bc'}
-
       iex> split 'abc'
       {'bc', 'a'}
+
+      iex> merge 'abc'
+      {'c', 'ab'}
   """
   use Codec
 
