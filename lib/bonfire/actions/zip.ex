@@ -1,4 +1,6 @@
 defmodule Zip do
+  import Pipes
+
   @callback apply({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
 
   defmacro defzip(type, zipper_or_predicate \\ __CALLER__.module) do
@@ -9,11 +11,9 @@ defmodule Zip do
   end
 
   def zip_one_or_more(input, zipper) when is_atom(zipper) do
-    input |> zip_zero_or_more(zipper)
-    case zipper.zip(input) do
-      nil -> nil
-      result -> result |> zip_zero_or_more(zipper)
-    end
+    input
+    ~> zipper.zip
+    ~> zip_zero_or_more(zipper)
   end
 
   def zip_one_or_more({[byte | _], _} = input, predicate) do
