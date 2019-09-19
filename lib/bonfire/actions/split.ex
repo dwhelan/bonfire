@@ -12,7 +12,7 @@ defmodule Split do
 
   def split_one_or_more(input, codec) when is_atom(codec) do
     input
-    ~> codec.split
+    ~> split_one()
     ~> split_zero_or_more(codec)
   end
 
@@ -24,9 +24,9 @@ defmodule Split do
   end
 
   def split_zero_or_more({[byte | _], _} = input, codec) when is_atom(codec) do
-    case codec.split(input) do
+    case codec.apply_split(input) do
       nil -> input
-      result -> input |> split_one() |> split_zero_or_more(codec)
+      result -> result |> split_zero_or_more(codec)
     end
   end
 
@@ -66,6 +66,11 @@ defmodule Split do
           nil -> nil
           {source, dest} -> {source, Enum.reverse(dest)}
         end
+      end
+
+      @spec apply_split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
+      def apply_split({source, dest}) do
+        unquote(codec).Split.apply({source, dest})
       end
     end
   end
