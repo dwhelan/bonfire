@@ -22,12 +22,12 @@ defmodule Test do
     end
   end
 
-  defmacro test_zipper(zipper, valid_values) do
+  defmacro test_codec(codec, valid_values) do
     quote do
-      test "zipper with #{inspect(unquote(valid_values))}}" do
+      test "codec with #{inspect(unquote(valid_values))}}" do
         {valid, invalid} = build_test_charlist(unquote(valid_values))
-        Enum.each(valid, fn value -> assert_zipper(unquote(zipper), [value]) end)
-        Enum.each(invalid, fn value -> assert_zipper_error(unquote(zipper), [value]) end)
+        Enum.each(valid, fn value -> assert_codec(unquote(codec), [value]) end)
+        Enum.each(invalid, fn value -> assert_codec_error(unquote(codec), [value]) end)
       end
     end
   end
@@ -47,31 +47,31 @@ defmodule Test do
     {valid, invalid}
   end
 
-  def assert_zipper(zipper, source, rest \\ '') do
-    assert_unzip(zipper, source ++ rest, rest)
-    assert_zip(zipper, source ++rest, rest)
+  def assert_codec(codec, source, rest \\ '') do
+    assert_unzip(codec, source ++ rest, rest)
+    assert_zip(codec, source ++rest, rest)
   end
 
-  def assert_zipper_error(zipper, source) do
-    assert_unzip_error(zipper, source)
-    assert_zip_error(zipper, source)
+  def assert_codec_error(codec, source) do
+    assert_unzip_error(codec, source)
+    assert_zip_error(codec, source)
   end
 
-  def assert_unzip(zipper, source, rest \\ []) do
+  def assert_unzip(codec, source, rest \\ []) do
     {bytes, rest} = Enum.split(source, length(source) - length(rest))
-    assert {^bytes, ^rest} = zipper.unzip(source)
+    assert {^bytes, ^rest} = codec.unzip(source)
   end
 
-  def assert_unzip_error(zipper, source) do
-    assert zipper.unzip(source) == nil
+  def assert_unzip_error(codec, source) do
+    assert codec.unzip(source) == nil
   end
 
-  def assert_zip(zipper, source, rest \\ []) do
+  def assert_zip(codec, source, rest \\ []) do
     {value, rest} = Enum.split(source, length(source) - length(rest))
-    assert {^rest, ^value} = zipper.zip(source)
+    assert {^rest, ^value} = codec.zip(source)
   end
 
-  def assert_zip_error(zipper, source) do
-    assert zipper.zip(source) == nil
+  def assert_zip_error(codec, source) do
+    assert codec.zip(source) == nil
   end
 end

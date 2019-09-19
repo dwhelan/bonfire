@@ -1,6 +1,6 @@
 defmodule CharVal do
   @moduledoc """
-  A zipper for a `char-val`.
+  A codec for a `char-val`.
 
   ```
   char-val =  DQUOTE *(%x20-21 / %x23-7E) DQUOTE
@@ -23,5 +23,5 @@ defmodule CharVal do
 
   use Codec
 
-  defzipper(?")
+  defcodec(?")
 end

@@ -1,6 +1,6 @@
 defmodule DQUOTE do
   @moduledoc """
-  A zipper for a `DQUOTE` (double quote).
+  A codec for a `DQUOTE` (double quote).
 
   ```
   DQUOTE =  %x22 ; " (Double Quote)
@@ -20,5 +20,5 @@ defmodule DQUOTE do
 
   use Codec
 
-  defzipper(?")
+  defcodec(?")
 end

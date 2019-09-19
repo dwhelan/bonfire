@@ -1,6 +1,6 @@
 defmodule ALPHA do
   @moduledoc """
-  A zipper for an `ALPHA`.
+  A codec for an `ALPHA`.
 
   ```
   ALPHA = %x41-5A / %x61-7A ; A-Z / a-z
@@ -16,5 +16,5 @@ defmodule ALPHA do
   """
   use Codec
 
-  defzipper(&is_alpha/1)
+  defcodec(&is_alpha/1)
 end

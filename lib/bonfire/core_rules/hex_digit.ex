@@ -1,6 +1,6 @@
 defmodule HEXDIGIT do
   @moduledoc """
-  A zipper for a `HEXDIGIT`.
+  A codec for a `HEXDIGIT`.
 
   ```
   HEXDIG =  DIGIT / "A" / "B" / "C" / "D" / "E" / "F"
@@ -23,5 +23,5 @@ defmodule HEXDIGIT do
   """
   use Codec
 
-  defzipper(&is_hex_digit/1)
+  defcodec(&is_hex_digit/1)
 end

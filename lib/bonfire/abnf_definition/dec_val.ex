@@ -1,6 +1,6 @@
 defmodule DecVal do
   @moduledoc """
-  A zipper for a `dec-val`.
+  A codec for a `dec-val`.
 
   ```
   dec-val = "d" 1*DIGIT [ 1*("." 1*DIGIT) / ("-" 1*DIGIT) ]

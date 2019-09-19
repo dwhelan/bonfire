@@ -8,9 +8,9 @@ defmodule Unzip do
     ]
   end
 
-  defmacro defunzip(type, zipper) do
+  defmacro defunzip(type, codec) do
     [
-      create_unzip_functions(zipper),
+      create_unzip_functions(codec),
       create_unzip_module(type)
     ]
   end
@@ -45,8 +45,8 @@ defmodule Unzip do
     input
   end
 
-  defp create_unzip_functions(zipper) do
-    quote bind_quoted: [zipper: zipper] do
+  defp create_unzip_functions(codec) do
+    quote bind_quoted: [codec: codec] do
       @spec unzip(nonempty_list(byte)) :: {[byte, ...], [byte]} | nil
       def unzip([_ | _] = source) do
         unzip({[], source})
@@ -54,7 +54,7 @@ defmodule Unzip do
 
       @spec unzip({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | nil
       def unzip({dest, source}) do
-        case unquote(zipper).Unzip.apply({Enum.reverse(dest), source}) do
+        case unquote(codec).Unzip.apply({Enum.reverse(dest), source}) do
           nil -> nil
           {dest, source} -> {Enum.reverse(dest), source}
         end

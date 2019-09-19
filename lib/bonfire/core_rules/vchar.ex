@@ -1,6 +1,6 @@
 defmodule VCHAR do
   @moduledoc """
-  A zipper for a `VCHAR`.
+  A codec for a `VCHAR`.
 
   ```
   VCHAR = %x21-7E ; visible (printing) characters
@@ -23,5 +23,5 @@ defmodule VCHAR do
   """
   use Codec
 
-  defzipper(&is_vchar/1)
+  defcodec(&is_vchar/1)
 end

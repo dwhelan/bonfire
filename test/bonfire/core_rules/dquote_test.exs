@@ -4,5 +4,5 @@ defmodule DQUOTETest do
   import DQUOTE
   doctest DQUOTE
 
-  test_zipper(DQUOTE, [0x22])
+  test_codec(DQUOTE, [0x22])
 end

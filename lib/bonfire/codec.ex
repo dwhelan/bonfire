@@ -11,17 +11,17 @@ defmodule Codec do
     end
   end
 
-  defmacro defzipper(zipper_or_predicate) do
+  defmacro defcodec(codec_or_predicate) do
     quote do
-      defzip(unquote(zipper_or_predicate), unquote(__CALLER__.module))
-      defunzip(unquote(zipper_or_predicate), unquote(__CALLER__.module))
+      defzip(unquote(codec_or_predicate), unquote(__CALLER__.module))
+      defunzip(unquote(codec_or_predicate), unquote(__CALLER__.module))
     end
   end
 
-  defmacro defzipper(zipper_or_predicate, do: block) do
+  defmacro defcodec(codec_or_predicate, do: block) do
     quote do
-      defzip(unquote(zipper_or_predicate), unquote(__CALLER__.module))
-      defunzip(unquote(zipper_or_predicate), unquote(__CALLER__.module))
+      defzip(unquote(codec_or_predicate), unquote(__CALLER__.module))
+      defunzip(unquote(codec_or_predicate), unquote(__CALLER__.module))
     end
   end
 end

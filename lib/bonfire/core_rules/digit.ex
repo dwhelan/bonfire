@@ -1,6 +1,6 @@
 defmodule DIGIT do
   @moduledoc """
-  A zipper for a `DIGIT`.
+  A codec for a `DIGIT`.
 
   ```
   DIGIT =  %x30-39 ; 0-9
@@ -34,5 +34,5 @@ defmodule DIGIT do
   """
   use Codec
 
-  defzipper(&is_digit/1)
+  defcodec(&is_digit/1)
 end

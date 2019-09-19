@@ -3,17 +3,17 @@ defmodule Zip do
 
   @callback apply({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
 
-  defmacro defzip(type, zipper_or_predicate \\ __CALLER__.module) do
+  defmacro defzip(type, codec_or_predicate \\ __CALLER__.module) do
     [
-      create_zip_functions(zipper_or_predicate),
+      create_zip_functions(codec_or_predicate),
       create_zip_module(type)
     ]
   end
 
-  def zip_one_or_more(input, zipper) when is_atom(zipper) do
+  def zip_one_or_more(input, codec) when is_atom(codec) do
     input
-    ~> zipper.zip
-    ~> zip_zero_or_more(zipper)
+    ~> codec.zip
+    ~> zip_zero_or_more(codec)
   end
 
   def zip_one_or_more({[byte | _], _} = input, predicate) do
@@ -23,10 +23,10 @@ defmodule Zip do
     end
   end
 
-  def zip_zero_or_more({[byte | _], _} = input, zipper) when is_atom(zipper) do
-    case zipper.zip(input) do
+  def zip_zero_or_more({[byte | _], _} = input, codec) when is_atom(codec) do
+    case codec.zip(input) do
       nil -> input
-      result -> input |> zip_one() |> zip_zero_or_more(zipper)
+      result -> input |> zip_one() |> zip_zero_or_more(codec)
     end
   end
 
@@ -53,7 +53,7 @@ defmodule Zip do
     nil
   end
 
-  defp create_zip_functions(zipper) do
+  defp create_zip_functions(codec) do
     quote do
       @spec zip(nonempty_list(byte)) :: {[byte], [byte, ...]} | nil
       def zip([_ | _] = source) do
@@ -62,7 +62,7 @@ defmodule Zip do
 
       @spec zip({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def zip({source, dest}) do
-        case unquote(zipper).Zip.apply({source, Enum.reverse(dest)}) do
+        case unquote(codec).Zip.apply({source, Enum.reverse(dest)}) do
           nil -> nil
           {source, dest} -> {source, Enum.reverse(dest)}
         end

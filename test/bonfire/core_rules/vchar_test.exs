@@ -4,5 +4,5 @@ defmodule VCHARTest do
   import VCHAR
   doctest VCHAR
 
-  test_zipper(VCHAR, [0x21..0x7E])
+  test_codec(VCHAR, [0x21..0x7E])
 end
