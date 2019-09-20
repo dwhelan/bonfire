@@ -87,14 +87,6 @@ defmodule Right do
     end
   end
 
-  def split_one(input, codec) when is_atom(codec) do
-    Module.concat(codec, Right).move_one(input)
-  end
-
-  def split_one(input, predicate) do
-    move_one(input, predicate)
-  end
-
   def split_zero_or_more(input, splitter) do
     input
     ~> split_one_or_more(splitter)
@@ -103,14 +95,14 @@ defmodule Right do
 
   def split_one_or_more(input, splitter) do
     input
-    ~> split_one(splitter)
+    ~> move_one(splitter)
     ~> wrap()
     ~> _split_zero_or_more(splitter)
   end
 
   defp _split_zero_or_more(input, splitter) do
     input
-    ~> split_one(splitter)
+    ~> move_one(splitter)
     ~> join()
     ~> _split_zero_or_more(splitter)
     ~>> return(input)

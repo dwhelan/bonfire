@@ -7,14 +7,6 @@ defmodule RightTest do
   defp _true(_), do: true
   defp _false(_), do: false
 
-  test "split_one/2" do
-    assert split_one({'ab', '_'}, &_true/1) == {'b', 'a_'}
-    assert split_one({'ab', '_'}, &_false/1) == nil
-
-    assert split_one({'ab', '_'}, ALPHA) == {'b', 'a_'}
-    assert split_one({'ab', '_'}, DIGIT) == nil
-  end
-
   test "split_zero_or_more/2" do
     assert split_zero_or_more({'', '_'}, ALPHA) == {'', '_'}
     assert split_zero_or_more({'a', '_'}, ALPHA) == {'', ['a', ?_]}
