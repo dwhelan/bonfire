@@ -41,11 +41,14 @@ defmodule Move.RightTest do
     assert move({'a', '_'}, 0, Alpha) == {'a', '_'}
 
     assert move({'', '_'}, 1, Alpha) == nil
-    assert move({'a', '_'}, 1, Alpha) == {'', 'a_'}
+    assert move({'a', '_'}, 1, Alpha) == {'', ['a', ?_]}
 
     assert move({'a', '_'}, 2, Alpha) == nil
-    assert move({'ab', '_'}, 2, Alpha) == {'', 'ba_'}
-    assert move({'abc', '_'}, 2, Alpha) == {'c', 'ba_'}
+    assert move({'ab', '_'}, 2, Alpha) == {'', ['ba', ?_]}
+    assert move({'abc', '_'}, 2, Alpha) == {'c', ['ba', ?_]}
+
+#    assert move({'a', '_'}, 1..2, Alpha) == {'', 'a_'}
+#    assert move({'ab', '_'}, 1..2, Alpha) == {'', 'ba_'}
   end
 
   test "move_zero_or_more/2" do
