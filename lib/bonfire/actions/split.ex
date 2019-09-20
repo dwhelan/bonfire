@@ -86,7 +86,7 @@ defmodule Split do
     codec.apply_split(input)
   end
 
-  def split_one(input, predicate) when is_function(predicate, 1) do
+  def split_one(input, predicate) do
     input
     ~> pipe_predicate(predicate)
     ~> split_one()
