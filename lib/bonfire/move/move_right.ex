@@ -1,5 +1,5 @@
-defmodule Move.MoveMany do
-  defmacro move_many do
+defmodule Move do
+  defmacro many do
     quote do
       import Pipes
 
@@ -63,10 +63,9 @@ defmodule Move.Right do
   @moduledoc """
   Functions for shifting elements from a left list to a right list.
   """
-  alias Move.MoveMany
-  require MoveMany
+  require Move
 
-  MoveMany.move_many
+  Move.many()
 
   def move_one({[], _}) do
     nil
