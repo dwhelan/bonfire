@@ -6,6 +6,7 @@ defmodule Right do
   import Lists.Right
 
   @callback apply(any) :: {[byte], [byte, ...]} | nil
+  @callback move(any) :: {[byte], [byte, ...]} | nil
 
   defmacro defsplit(type, codec \\ __CALLER__.module) do
     [
@@ -38,6 +39,9 @@ defmodule Right do
         def apply({[byte | rest], dest} = input) do
           split_one(input, unquote(predicate))
         end
+        def move({[byte | rest], dest} = input) do
+          split_one(input, unquote(predicate))
+        end
       end
     )
   end
@@ -46,6 +50,9 @@ defmodule Right do
     create_module(
       quote do
         def apply({[unquote(byte) | rest] = source, dest} = input) do
+          Lists.Right.move(input)
+        end
+        def move({[unquote(byte) | rest] = source, dest} = input) do
           Lists.Right.move(input)
         end
       end
