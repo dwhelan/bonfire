@@ -1,8 +1,8 @@
-defmodule ListsTest do
+defmodule Lists.RightTest do
   use Test, async: true
 
-  import Lists
-  doctest Lists
+  import Lists.Right
+  doctest Lists.Right
 
   test "move_right/1" do
     assert move_right({'a', '_'}) == {'', 'a_'}
@@ -22,11 +22,16 @@ defmodule ListsTest do
     assert wrap_right({'_', ''}) == nil
   end
 
-  test "insert_right/1" do
-    assert insert_right({'_', [?a, []]}) == {'_', ['a']}
-    assert insert_right({'_', [?a, 'b', ?c]}) == {'_', ['ab', ?c]}
-    assert insert_right({'_', 'abc'}) == {'_', [[?a | ?b], ?c]}
-    assert insert_right({'_', ''}) == nil
+  test "join_right/1" do
+    assert join_right({'_', [?a, []]}) == {'_', ['a']}
+    assert join_right({'_', [?a, 'b', ?c]}) == {'_', ['ab', ?c]}
+    assert join_right({'_', 'abc'}) == {'_', [[?a | ?b], ?c]}
+    assert join_right({'_', ''}) == nil
+  end
+
+  test "reverse_right/1" do
+    assert reverse_right({'_', 'abc'}) == {'_', 'cba'}
+    assert reverse_right({'_', ''}) == {'_', ''}
   end
 
   defp _true(_), do: true

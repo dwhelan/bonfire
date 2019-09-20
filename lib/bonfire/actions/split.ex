@@ -3,7 +3,7 @@ defmodule Split do
   Functions and macros for splitting.
   """
   import Pipes
-  import Lists
+  import Lists.Right
 
   @callback apply(any) :: {[byte], [byte, ...]} | nil
 
@@ -54,7 +54,7 @@ defmodule Split do
     create_module(
       quote do
         def apply({[unquote(byte) | rest] = source, dest} = input) do
-          Lists.move_right(input)
+          Lists.Right.move_right(input)
         end
       end
     )
@@ -104,7 +104,7 @@ defmodule Split do
   defp _split_zero_or_more(input, splitter) do
     input
     ~> split_one(splitter)
-    ~> insert_right()
+    ~> join_right()
     ~> _split_zero_or_more(splitter)
     ~>> return(input)
   end

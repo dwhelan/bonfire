@@ -1,6 +1,6 @@
-defmodule Lists do
+defmodule Lists.Right do
   @moduledoc """
-  Functions for manipulating lists.
+  Functions for shifting elements from left list to right list.
   """
 
   def move_right({[], _}) do
@@ -30,15 +30,15 @@ defmodule Lists do
     {left, [[value] | right]}
   end
 
-  def wrap_right({_, []}) do
+  def join_right({_, []}) do
     nil
   end
 
-  def insert_right({_, []}) do
-    nil
-  end
-
-  def insert_right({left, [value, values | right]}) do
+  def join_right({left, [value, values | right]}) do
     {left, [[value | values] | right]}
+  end
+
+  def reverse_right({left, right}) do
+    {left, Enum.reverse(right)}
   end
 end
