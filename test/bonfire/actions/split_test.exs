@@ -4,14 +4,6 @@ defmodule SplitTest do
   import Split
   doctest Split
 
-  test "split_one/1" do
-    assert split_one({'a', '_'}) == {'', 'a_'}
-    assert split_one({'ab', '_'}) == {'b', 'a_'}
-
-    assert split_one({'', ''}) == nil
-    assert split_one({'', '_'}) == nil
-  end
-
   defp _true(_), do: true
   defp _false(_), do: false
 

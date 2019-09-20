@@ -3,6 +3,14 @@ defmodule Lists do
   Functions for manipulating lists.
   """
 
+  def move_right({[], _}) do
+    nil
+  end
+
+  def move_right({[value | left], right}) do
+    {left, [value | right]}
+  end
+
   def wrap_right({left, [value | right]}) do
     {left, [[value] | right]}
   end

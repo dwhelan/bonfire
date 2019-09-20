@@ -54,7 +54,7 @@ defmodule Split do
     create_module(
       quote do
         def apply({[unquote(byte) | rest] = source, dest} = input) do
-          split_one(input)
+          Lists.move_right(input)
         end
       end
     )
@@ -80,14 +80,6 @@ defmodule Split do
     end
   end
 
-  def split_one({[byte | rest], dest}) do
-    {rest, [byte | dest]}
-  end
-
-  def split_one(_) do
-    nil
-  end
-
   def split_one(input, codec) when is_atom(codec) do
     codec.apply_split(input)
   end
@@ -95,7 +87,7 @@ defmodule Split do
   def split_one(input, predicate) do
     input
     ~> pipe_predicate(predicate)
-    ~> split_one()
+    ~> move_right()
   end
 
   def split_one_or_more(input, splitter) do
