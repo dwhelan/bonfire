@@ -68,19 +68,6 @@ defmodule Move.Right do
     ~> move_many(count - 1, mover)
   end
 
-  def move_one_or_more(input, mover) do
-    input
-    ~> move_first(mover)
-    ~> _move_zero_or_more(mover)
-  end
-
-  defp _move_zero_or_more(input, mover) do
-    input
-    ~> move_next(mover)
-    ~> _move_zero_or_more(mover)
-    ~>> return(input)
-  end
-
   defp move_first(input, mover) do
     input
     ~> move_one(mover)

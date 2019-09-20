@@ -73,20 +73,6 @@ defmodule Move.RightTest do
     assert move_many({'ab*', '_'}, 1..-1, Alpha) == {'*', ['ba', ?_]}
   end
 
-  test "move_one_or_more" do
-    assert move_one_or_more({'', ''}, Alpha) == nil
-    assert move_one_or_more({'a', '_'}, Alpha) == {'', ['a', ?_]}
-    assert move_one_or_more({'ab', ''}, Alpha) == {'', ['ba']}
-    assert move_one_or_more({'ab*', ''}, Alpha) == {'*', ['ba']}
-    assert move_one_or_more({'*', ''}, Alpha) == nil
-
-    assert move_one_or_more({'', ''}, &is_alpha/1) == nil
-    assert move_one_or_more({'a', ''}, &is_alpha/1) == {'', ['a']}
-    assert move_one_or_more({'ab', ''}, &is_alpha/1) == {'', ['ba']}
-    assert move_one_or_more({'ab*', ''}, &is_alpha/1) == {'*', ['ba']}
-    assert move_one_or_more({'*', ''}, &is_alpha/1) == nil
-  end
-
   test "wrap/1" do
     assert wrap({'_', 'a'}) == {'_', ['a']}
     assert wrap({'_', 'abc'}) == {'_', ['a', ?b, ?c]}
