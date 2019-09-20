@@ -85,33 +85,7 @@ defmodule Split do
   end
 
   def split_one(input, predicate) do
-    input
-    ~> pipe_predicate(predicate)
-    ~> move_right()
-  end
-
-  def split_one_or_more(input, splitter) do
-    input
-    ~> split_one(splitter)
-    ~> split_zero_or_more(splitter)
-  end
-
-  def split_zero_or_more(input, splitter) do
-    input
-    ~> split_one(splitter)
-    ~> split_zero_or_more(splitter)
-    ~>> return(input)
-  end
-
-  defp pipe_predicate({[byte | _], _} = input, predicate) do
-    case predicate.(byte) do
-      true -> input
-      false -> nil
-    end
-  end
-
-  defp pipe_predicate(_, _) do
-    nil
+    move_right(input, predicate)
   end
 
   def split_zero_or_more(input, splitter) do
