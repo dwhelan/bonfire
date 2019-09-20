@@ -3,6 +3,7 @@ defmodule Split do
   Functions and macros for splitting.
   """
   import Pipes
+  import Lists
 
   @callback apply(any) :: {[byte], [byte, ...]} | nil
 
@@ -119,5 +120,30 @@ defmodule Split do
 
   defp pipe_predicate(_, _) do
     nil
+  end
+
+  def split_zero_or_more(input, splitter) do
+    input
+    ~> split_one_or_more(splitter)
+    ~>> return(input)
+  end
+
+  def split_one_or_more(input, splitter) do
+    input
+    ~> split_one(splitter)
+    ~> wrap_right()
+    ~> _split_zero_or_more(splitter)
+  end
+
+  defp _split_zero_or_more(input, splitter) do
+    input
+    ~> split_one(splitter)
+    ~> insert_right()
+    ~> _split_zero_or_more(splitter)
+    ~>> return(input)
+  end
+
+  defp return(_, result) do
+    result
   end
 end
