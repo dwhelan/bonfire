@@ -35,7 +35,9 @@ defmodule Move.RightTest do
     assert move_one({'', '_'}, &is_alpha/1) == nil
   end
 
-  test "move_many/3" do
+  test "move_many/3 with a count" do
+    assert move_many({'', '_'}, -1, Alpha) == nil
+
     assert move_many({'', '_'}, 0, Alpha) == {'', '_'}
     assert move_many({'a', '_'}, 0, Alpha) == {'a', '_'}
 
@@ -45,6 +47,10 @@ defmodule Move.RightTest do
     assert move_many({'a', '_'}, 2, Alpha) == nil
     assert move_many({'ab', '_'}, 2, Alpha) == {'', ['ba', ?_]}
     assert move_many({'abc', '_'}, 2, Alpha) == {'c', ['ba', ?_]}
+  end
+
+  test "move_many/3 with a range" do
+    assert move_many({'a', '_'}, -1..2, Alpha) == nil
 
     assert move_many({'', '_'}, 1..2, Alpha) == nil
     assert move_many({'a', '_'}, 1..2, Alpha) == {'', ['a', ?_]}
