@@ -17,8 +17,7 @@ defmodule Split do
     quote do
       @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | nil
       def split([_ | _] = source) do
-        {source, []}
-        ~> split()
+        split({source, []})
       end
 
       @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
@@ -31,8 +30,7 @@ defmodule Split do
 
       @spec apply_split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def apply_split(input) do
-        input
-        ~> unquote(codec).Split.apply()
+        unquote(codec).Split.apply(input)
       end
 
       defp reverse_dest({source, dest}) do
@@ -99,10 +97,6 @@ defmodule Split do
     ~> split_one()
   end
 
-  def split_one(_, _) do
-    nil
-  end
-
   def split_one_or_more(input, splitter) do
     input
     ~> split_one(splitter)
@@ -114,10 +108,6 @@ defmodule Split do
     ~> split_one(splitter)
     ~> split_zero_or_more(splitter)
     ~>> (fn _ -> input end).()
-  end
-
-  def split_zero_or_more(input, _) do
-    input
   end
 
   defp pipe_predicate({[byte | _], _} = input, predicate) do
