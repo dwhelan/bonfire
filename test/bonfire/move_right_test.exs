@@ -1,6 +1,5 @@
 defmodule Alpha.Right do
   # will move an alpha character to the right, nil otherwise
-  @behaviour Move.Right
 
   import Guards
 
