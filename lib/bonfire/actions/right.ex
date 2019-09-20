@@ -36,9 +36,12 @@ defmodule Right do
   defp create_split_module({:&, _, _} = predicate) do
     create_module(
       quote do
+        @impl :"Elixir.Right"
         def apply({[byte | rest], dest} = input) do
           split_one(input, unquote(predicate))
         end
+
+        @impl :"Elixir.Right"
         def move({[byte | rest], dest} = input) do
           split_one(input, unquote(predicate))
         end
@@ -49,9 +52,12 @@ defmodule Right do
   defp create_split_module(byte) do
     create_module(
       quote do
+        @impl :"Elixir.Right"
         def apply({[unquote(byte) | rest] = source, dest} = input) do
           Lists.Right.move(input)
         end
+
+        @impl :"Elixir.Right"
         def move({[unquote(byte) | rest] = source, dest} = input) do
           Lists.Right.move(input)
         end
@@ -68,8 +74,6 @@ defmodule Right do
         import :"Elixir.Right"
 
         @behaviour :"Elixir.Right"
-
-        @impl :"Elixir.Right"
         unquote(block)
 
         def apply(_) do
