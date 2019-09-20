@@ -29,9 +29,9 @@ defmodule Lists.RightTest do
     assert join_right({'_', ''}) == nil
   end
 
-  test "reverse_right/1" do
-    assert reverse_right({'_', 'abc'}) == {'_', 'cba'}
-    assert reverse_right({'_', ''}) == {'_', ''}
+  test "reverse/1" do
+    assert reverse({'_', 'abc'}) == {'_', 'cba'}
+    assert reverse({'_', ''}) == {'_', ''}
   end
 
   defp _true(_), do: true

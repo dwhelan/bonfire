@@ -25,9 +25,9 @@ defmodule Split do
       @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def split(input) do
         input
-        ~> Right.reverse_right()
+        ~> Right.reverse()
         ~> apply_split()
-        ~> Right.reverse_right()
+        ~> Right.reverse()
       end
 
       @spec apply_split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil

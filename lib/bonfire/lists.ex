@@ -38,7 +38,7 @@ defmodule Lists.Right do
     {left, [[value | values] | right]}
   end
 
-  def reverse_right({left, right}) do
+  def reverse({left, right}) do
     {left, Enum.reverse(right)}
   end
 end
