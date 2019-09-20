@@ -30,11 +30,11 @@ defmodule Lists.Right do
     {left, [[value] | right]}
   end
 
-  def join_right({_, []}) do
+  def join({_, []}) do
     nil
   end
 
-  def join_right({left, [value, values | right]}) do
+  def join({left, [value, values | right]}) do
     {left, [[value | values] | right]}
   end
 

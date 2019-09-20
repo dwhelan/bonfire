@@ -105,7 +105,7 @@ defmodule Split do
   defp _split_zero_or_more(input, splitter) do
     input
     ~> split_one(splitter)
-    ~> join_right()
+    ~> join()
     ~> _split_zero_or_more(splitter)
     ~>> return(input)
   end

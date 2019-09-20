@@ -22,11 +22,11 @@ defmodule Lists.RightTest do
     assert wrap_right({'_', ''}) == nil
   end
 
-  test "join_right/1" do
-    assert join_right({'_', [?a, []]}) == {'_', ['a']}
-    assert join_right({'_', [?a, 'b', ?c]}) == {'_', ['ab', ?c]}
-    assert join_right({'_', 'abc'}) == {'_', [[?a | ?b], ?c]}
-    assert join_right({'_', ''}) == nil
+  test "join/1" do
+    assert join({'_', [?a, []]}) == {'_', ['a']}
+    assert join({'_', [?a, 'b', ?c]}) == {'_', ['ab', ?c]}
+    assert join({'_', 'abc'}) == {'_', [[?a | ?b], ?c]}
+    assert join({'_', ''}) == nil
   end
 
   test "reverse/1" do
