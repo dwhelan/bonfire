@@ -27,23 +27,23 @@ defmodule Move.Right do
     Module.concat(mover, Right).move_one(input)
   end
 
-  def move(input, 0, _) do
+  def move_many(input, 0, _) do
     input
   end
 
-  def move({[], _}, count, _) when is_integer(count) and count > 0 do
+  def move_many({[], _}, count, _) when is_integer(count) and count > 0 do
     nil
   end
 
-  def move(input, count, mover) when is_integer(count) do
+  def move_many(input, count, mover) when is_integer(count) do
     input
     ~> move_first(mover)
-    ~> _move(count - 1, mover)
+    ~> _move_many(count - 1, mover)
   end
 
-  def move(input, from..to = range, mover) do
+  def move_many(input, from..to = range, mover) do
     input
-    ~> move(from, mover)
+    ~> move_many(from, mover)
     ~> _move_up_to(to - from, mover)
   end
 
@@ -58,14 +58,14 @@ defmodule Move.Right do
     ~>> return(input)
   end
 
-  defp _move(input, 0, _) do
+  defp _move_many(input, 0, _) do
     input
   end
 
-  defp _move(input, count, mover) when is_integer(count) do
+  defp _move_many(input, count, mover) when is_integer(count) do
     input
     ~> move_next(mover)
-    ~> move(count - 1, mover)
+    ~> move_many(count - 1, mover)
   end
 
   def move_zero_or_more(input, mover) do
