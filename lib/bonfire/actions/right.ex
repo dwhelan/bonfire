@@ -87,24 +87,24 @@ defmodule Right do
     end
   end
 
-  def split_zero_or_more(input, splitter) do
+  def move_zero_or_more(input, mover) do
     input
-    ~> split_one_or_more(splitter)
+    ~> move_one_or_more(mover)
     ~>> return(input)
   end
 
-  def split_one_or_more(input, splitter) do
+  def move_one_or_more(input, mover) do
     input
-    ~> move_one(splitter)
+    ~> move_one(mover)
     ~> wrap()
-    ~> _split_zero_or_more(splitter)
+    ~> _move_zero_or_more(mover)
   end
 
-  defp _split_zero_or_more(input, splitter) do
+  defp _move_zero_or_more(input, mover) do
     input
-    ~> move_one(splitter)
+    ~> move_one(mover)
     ~> join()
-    ~> _split_zero_or_more(splitter)
+    ~> _move_zero_or_more(mover)
     ~>> return(input)
   end
 
