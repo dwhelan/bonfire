@@ -2,10 +2,10 @@ defmodule Alpha.Right do
   # will move an alpha character to the right, nil otherwise
   @behaviour :"Elixir.Right"
 
-  alias Lists.Right
+  import Guards
 
-  def move_one({[char | _], _} = input) when char in ?a..?z or char in ?A..?Z do
-    Right.move_one(input)
+  def move_one({[char | _], _} = input) when is_alpha(char) do
+    Move.Right.move_one(input)
   end
 
   def move_one(_) do
@@ -13,11 +13,12 @@ defmodule Alpha.Right do
   end
 end
 
-defmodule Lists.RightTest do
+defmodule Move.RightTest do
   use Test, async: true
 
-  import Lists.Right
-  doctest Lists.Right
+  import Guards
+  import Move.Right
+  doctest Move.Right
 
   test "move_one/1" do
     assert move_one({'a', '_'}) == {'', 'a_'}
@@ -26,12 +27,12 @@ defmodule Lists.RightTest do
   end
 
   test "move_one/2 with a predicate" do
-    assert move_one({'a', '_'}, &_true/1) == {'', 'a_'}
-    assert move_one({'a', '_'}, &_false/1) == nil
-    assert move_one({'', '_'}, &_true/1) == nil
+    assert move_one({'a', '_'}, &is_alpha/1) == {'', 'a_'}
+    assert move_one({'*', '_'}, &is_alpha/1) == nil
+    assert move_one({'', '_'}, &is_alpha/1) == nil
   end
 
-  test "move_one/2 with a Lists" do
+  test "move_one/2 with a Move" do
     assert move_one({'a', '_'}, Alpha) == {'', 'a_'}
     assert move_one({'*', '_'}, Alpha) == nil
     assert move_one({'', '_'}, Alpha) == nil
@@ -54,7 +55,4 @@ defmodule Lists.RightTest do
     assert reverse({'_', 'abc'}) == {'_', 'cba'}
     assert reverse({'_', ''}) == {'_', ''}
   end
-
-  defp _true(_), do: true
-  defp _false(_), do: false
 end

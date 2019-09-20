@@ -3,7 +3,7 @@ defmodule Right do
   Functions and macros for splitting.
   """
   import Pipes
-  import Lists.Right
+  import Move.Right
 
   @callback apply(any) :: {[byte], [byte, ...]} | nil
   @callback move_one(any) :: {[byte], [byte, ...]} | nil
@@ -17,7 +17,7 @@ defmodule Right do
 
   defp create_split_functions(codec) do
     quote do
-      alias Lists.Right
+      alias Move.Right
       @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | nil
       def split([_ | _] = left) do
         split({left, []})
@@ -38,12 +38,12 @@ defmodule Right do
       quote do
         @impl :"Elixir.Right"
         def apply({[byte | rest], dest} = input) do
-          Lists.Right.move_one(input, unquote(predicate))
+          Move.Right.move_one(input, unquote(predicate))
         end
 
         @impl :"Elixir.Right"
         def move_one({[byte | rest], dest} = input) do
-          Lists.Right.move_one(input, unquote(predicate))
+          Move.Right.move_one(input, unquote(predicate))
         end
       end
     )
@@ -54,12 +54,12 @@ defmodule Right do
       quote do
         @impl :"Elixir.Right"
         def apply({[unquote(byte) | rest] = source, dest} = input) do
-          Lists.Right.move_one(input)
+          Move.Right.move_one(input)
         end
 
         @impl :"Elixir.Right"
         def move_one({[unquote(byte) | rest] = source, dest} = input) do
-          Lists.Right.move_one(input)
+          Move.Right.move_one(input)
         end
       end
     )

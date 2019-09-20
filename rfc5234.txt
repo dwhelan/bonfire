@@ -364,7 +364,7 @@ RFC 5234                          ABNF                      January 2008
    alternatives, with later rule definitions adding to the set of
    alternatives.  This is particularly useful for otherwise independent
    specifications that derive from the same parent ruleset, such as
-   often occurs with parameter lists.  ABNF permits this incremental
+   often occurs with parameter move.  ABNF permits this incremental
    definition through the construct:
 
          oldrule     =/ additional-alternatives

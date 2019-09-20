@@ -4,19 +4,16 @@ defmodule RightTest do
   import Right
   doctest Right
 
-  defp _true(_), do: true
-  defp _false(_), do: false
-
   test "move_zero_or_more/2" do
     assert move_zero_or_more({'', '_'}, ALPHA) == {'', '_'}
     assert move_zero_or_more({'a', '_'}, ALPHA) == {'', ['a', ?_]}
     assert move_zero_or_more({'ab', '_'}, ALPHA) == {'', ['ba', ?_]}
     assert move_zero_or_more({'1', '_'}, ALPHA) == {'1', '_'}
 
-    assert move_zero_or_more({'', '_'}, &_true/1) == {'', '_'}
-    assert move_zero_or_more({'a', '_'}, &_true/1) == {'', ['a', ?_]}
-    assert move_zero_or_more({'ab', '_'}, &_true/1) == {'', ['ba', ?_]}
-    assert move_zero_or_more({'a', '_'}, &_false/1) == {'a', '_'}
+    assert move_zero_or_more({'', '_'}, &is_alpha/1) == {'', '_'}
+    assert move_zero_or_more({'a', '_'}, &is_alpha/1) == {'', ['a', ?_]}
+    assert move_zero_or_more({'ab', '_'}, &is_alpha/1) == {'', ['ba', ?_]}
+    assert move_zero_or_more({'*', '_'}, &is_alpha/1) == {'*', '_'}
   end
 
   test "move_one_or_more" do

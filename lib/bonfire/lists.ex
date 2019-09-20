@@ -1,6 +1,6 @@
-defmodule Lists.Right do
+defmodule Move.Right do
   @moduledoc """
-  Functions for shifting elements from left list to right list.
+  Functions for shifting elements from a left list to a right list.
   """
 
   def move_one({[], _}) do
@@ -22,8 +22,8 @@ defmodule Lists.Right do
     end
   end
 
-  def move_one({[value | _], _} = input, lists) do
-    Module.concat(lists, Right).move_one(input)
+  def move_one({[value | _], _} = input, move) do
+    Module.concat(move, Right).move_one(input)
   end
 
   def wrap({_, []}) do
