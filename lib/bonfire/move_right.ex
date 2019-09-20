@@ -23,8 +23,22 @@ defmodule Move.Right do
     end
   end
 
-  def move_one({[value | _], _} = input, move) do
-    Module.concat(move, Right).move_one(input)
+  def move_one({[value | _], _} = input, mover) do
+    Module.concat(mover, Right).move_one(input)
+  end
+
+  def move(input, 0, _) do
+    input
+  end
+
+  def move({[], _}, count, _) when is_integer(count) and count > 0 do
+    nil
+  end
+
+  def move({[value | _], _} = input, count, mover) do
+    input
+    ~> move_one(mover)
+    ~> move(count - 1, mover)
   end
 
   def move_zero_or_more(input, mover) do
