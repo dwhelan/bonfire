@@ -1,7 +1,7 @@
 defmodule CharValTest do
   use ExUnit.Case
 
-  alias CharVal.{Merge, Split}
+  alias CharVal.{Merge, Right}
 
   doctest CharVal
 end

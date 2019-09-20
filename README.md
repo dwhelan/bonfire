@@ -18,11 +18,11 @@ end
 ## To do
 - complete split to handle multiple and return a list as the value 
 - use pipe more -> first replace predicates with Codecs so return is {'', ''} or nil
-- re-align Split, SplitTest and Merge, MergeTest
+- re-align Right, RightTest and Merge, MergeTest
 - complete dec-val
   - implement split
   - extend to num-val with other bases
-- extend core to be an codec that takes arbitrary lists and has move_left/1, move_right/1 functions  
+- extend core to be an codec that takes arbitrary lists and has move_left/1, move/1 functions  
 - create a pipe operator for 'many'?
 - rules
   if BNF for a rule has more than one rulename use the first for Codec and make others

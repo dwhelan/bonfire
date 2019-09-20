@@ -1,4 +1,4 @@
-defmodule Split do
+defmodule Right do
   @moduledoc """
   Functions and macros for splitting.
   """
@@ -18,8 +18,8 @@ defmodule Split do
     quote do
       alias Lists.Right
       @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | nil
-      def split([_ | _] = source) do
-        split({source, []})
+      def split([_ | _] = left) do
+        split({left, []})
       end
 
       @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
@@ -32,11 +32,7 @@ defmodule Split do
 
       @spec apply_split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def apply_split(input) do
-        unquote(codec).Split.apply(input)
-      end
-
-      defp reverse_dest({source, dest}) do
-        {source, Enum.reverse(dest)}
+        unquote(codec).Right.apply(input)
       end
     end
   end
@@ -55,7 +51,7 @@ defmodule Split do
     create_module(
       quote do
         def apply({[unquote(byte) | rest] = source, dest} = input) do
-          Lists.Right.move_right(input)
+          Lists.Right.move(input)
         end
       end
     )
@@ -65,13 +61,13 @@ defmodule Split do
     # Not using Module.create/3 because it seems simpler to just inject the new module
     # rather than trying to computes its name.
     quote do
-      defmodule Split do
+      defmodule Right do
         @moduledoc false
-        import :"Elixir.Split"
+        import :"Elixir.Right"
 
-        @behaviour :"Elixir.Split"
+        @behaviour :"Elixir.Right"
 
-        @impl :"Elixir.Split"
+        @impl :"Elixir.Right"
         unquote(block)
 
         def apply(_) do
@@ -86,7 +82,7 @@ defmodule Split do
   end
 
   def split_one(input, predicate) do
-    move_right(input, predicate)
+    move(input, predicate)
   end
 
   def split_zero_or_more(input, splitter) do

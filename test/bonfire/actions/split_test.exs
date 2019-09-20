@@ -1,8 +1,8 @@
-defmodule SplitTest do
+defmodule RightTest do
   use Test, async: true
 
-  import Split
-  doctest Split
+  import Right
+  doctest Right
 
   defp _true(_), do: true
   defp _false(_), do: false

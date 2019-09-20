@@ -1,12 +1,12 @@
 defmodule Codec do
-  import Split
+  import Right
   import Merge
 
   defmacro __using__(opts \\ []) do
     quote do
       import Guards, unquote(opts)
       import Codec, unquote(opts)
-      import Split, unquote(opts)
+      import Right, unquote(opts)
       import Merge, unquote(opts)
     end
   end

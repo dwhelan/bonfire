@@ -17,7 +17,7 @@ defmodule CharVal do
       iex> Merge.apply {'', '_"'}
       nil
 
-      iex> Split.apply {'"', ''}
+      iex> Right.apply {'"', ''}
       {'', '"'}
   """
 
