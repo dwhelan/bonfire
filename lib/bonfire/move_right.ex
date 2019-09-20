@@ -23,7 +23,7 @@ defmodule Move.Right do
     end
   end
 
-  def move_one({[value | _], _} = input, mover) do
+  def move_one(input, mover) do
     Module.concat(mover, Right).move_one(input)
   end
 
@@ -41,13 +41,13 @@ defmodule Move.Right do
     ~> _move_many(count - 1, mover)
   end
 
-  def move_many(input, from..to = range, mover) do
+  def move_many(input, from..to, mover) do
     input
     ~> move_many(from, mover)
     ~> _move_up_to(to - from, mover)
   end
 
-  defp _move_up_to(input, 0, mover) do
+  defp _move_up_to(input, 0, _) do
     input
   end
 
