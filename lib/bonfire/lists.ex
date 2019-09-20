@@ -11,6 +11,10 @@ defmodule Lists do
     {left, [value | right]}
   end
 
+  def wrap_right({_, []}) do
+    nil
+  end
+
   def wrap_right({left, [value | right]}) do
     {left, [[value] | right]}
   end

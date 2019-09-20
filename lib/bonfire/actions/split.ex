@@ -100,7 +100,7 @@ defmodule Split do
     input
     ~> split_one(splitter)
     ~> split_zero_or_more(splitter)
-    ~>> (fn _ -> input end).()
+    ~>> return(input)
   end
 
   defp pipe_predicate({[byte | _], _} = input, predicate) do
