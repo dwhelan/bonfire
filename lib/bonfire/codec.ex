@@ -17,11 +17,4 @@ defmodule Codec do
       defmerge(unquote(codec_or_predicate), unquote(__CALLER__.module))
     end
   end
-
-  defmacro defcodec(codec_or_predicate, do: block) do
-    quote do
-      defsplit(unquote(codec_or_predicate), unquote(__CALLER__.module))
-      defmerge(unquote(codec_or_predicate), unquote(__CALLER__.module))
-    end
-  end
 end

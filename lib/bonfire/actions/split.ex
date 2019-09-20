@@ -1,11 +1,14 @@
 defmodule Split do
+  @moduledoc """
+  Functions and macros for splitting.
+  """
   import Pipes
 
   @callback apply(any) :: {[byte], [byte, ...]} | nil
 
-  defmacro defsplit(type, codec_or_predicate \\ __CALLER__.module) do
+  defmacro defsplit(type, codec \\ __CALLER__.module) do
     [
-      create_split_functions(codec_or_predicate),
+      create_split_functions(codec),
       create_split_module(type)
     ]
   end
@@ -19,10 +22,9 @@ defmodule Split do
 
       @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def split({source, dest}) do
-        case unquote(codec).Split.apply({source, Enum.reverse(dest)}) do
-          nil -> nil
-          {source, dest} -> {source, Enum.reverse(dest)}
-        end
+        {source, Enum.reverse(dest)}
+        ~> apply_split()
+        ~> fn {source, dest} -> {source, Enum.reverse(dest)} end.()
       end
 
       @spec apply_split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
@@ -36,10 +38,7 @@ defmodule Split do
     create_module(
       quote do
         def apply({[byte | rest], dest} = input) do
-          case unquote(predicate).(byte) do
-            false -> nil
-            true -> split_one(input)
-          end
+          split_one(input, unquote(predicate))
         end
       end
     )
