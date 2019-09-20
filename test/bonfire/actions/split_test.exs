@@ -5,20 +5,21 @@ defmodule SplitTest do
   doctest Split
 
   test "split_one/1" do
-    assert split_one({'1', ''}) == {'', '1'}
-    assert split_one({'123', 'abc'}) == {'23', '1abc'}
+    assert split_one({'a', ''}) == {'', 'a'}
+    assert split_one({'ab', '_'}) == {'b', 'a_'}
     assert split_one({'', ''}) == nil
-    assert split_one({'', 'abc'}) == nil
+    assert split_one({'', '_'}) == nil
   end
 
   test "split_one/2" do
-    assert split_one({'1', ''}, fn _ -> true end) == {'', '1'}
-    assert split_one({'1', ''}, fn _ -> false end) == nil
+    assert split_one({'a', ''}, fn _ -> true end) == {'', 'a'}
+    assert split_one({'a', ''}, fn _ -> false end) == nil
 
-    assert split_one({'1', ''}, DIGIT) == {'', '1'}
-    assert split_one({'1', ''}, ALPHA) == nil
+    assert split_one({'a', ''}, &(not is_boolean &1)) == {'', 'a'}
+    assert split_one({'a', ''}, &(is_boolean &1)) == nil
 
-    assert split_one({'', OCTET}) == nil
+    assert split_one({'a', ''}, ALPHA) == {'', 'a'}
+    assert split_one({'a', ''}, DIGIT) == nil
   end
 
   test "split_zero_or_more/2" do
@@ -27,10 +28,10 @@ defmodule SplitTest do
   end
 
   test "split_one_or_more" do
-    assert split_one_or_more({'1', ''}, &is_digit/1) == {'', '1'}
-    assert split_one_or_more({'123', ''}, &is_digit/1) == {'', '321'}
-    assert split_one_or_more({'123abc', ''}, &is_digit/1) == {'abc', '321'}
-    assert split_one_or_more({'', ''}, &is_digit/1) == nil
+    assert split_one_or_more({'a', ''}, &is_alpha/1) == {'', 'a'}
+    assert split_one_or_more({'abc', ''}, &is_alpha/1) == {'', 'cba'}
+    assert split_one_or_more({'abc123', ''}, &is_alpha/1) == {'123', 'cba'}
+    assert split_one_or_more({'', ''}, &is_alpha/1) == nil
 
     assert split_one_or_more({'a', ''}, ALPHA) == {'', 'a'}
 #    assert split_one_or_more({'abc', ''}, ALPHA) == {'', 'cba'}

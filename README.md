@@ -16,7 +16,7 @@ end
 ```
 
 ## To do
-
+- complete split to handle multiple and return a charlist
 - use pipe more -> first replace predicates with Codecs so return is {'', ''} or nil
 - re-align Split, SplitTest and Merge, MergeTest
 - complete dec-val
