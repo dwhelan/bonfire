@@ -16,6 +16,7 @@ defmodule Split do
 
   defp create_split_functions(codec) do
     quote do
+      alias Lists.Right
       @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | nil
       def split([_ | _] = source) do
         split({source, []})
@@ -24,9 +25,9 @@ defmodule Split do
       @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def split(input) do
         input
-        ~> reverse_dest()
+        ~> Right.reverse_right()
         ~> apply_split()
-        ~> reverse_dest()
+        ~> Right.reverse_right()
       end
 
       @spec apply_split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
