@@ -86,11 +86,10 @@ defmodule Split do
     codec.apply_split(input)
   end
 
-  def split_one({[byte | _], _} = input, predicate) when is_function(predicate, 1) do
-    case predicate.(byte) do
-      true -> split_one(input)
-      false -> nil
-    end
+  def split_one(input, predicate) when is_function(predicate, 1) do
+    input
+    ~> pipe_predicate(predicate)
+    ~> split_one()
   end
 
   def split_one(_, _) do
@@ -103,21 +102,25 @@ defmodule Split do
     ~> split_zero_or_more(splitter)
   end
 
-  def split_zero_or_more(input, splitter) when is_atom(splitter) do
+  def split_zero_or_more(input, splitter) do
     input
-    |> split_one(splitter)
+    ~> split_one(splitter)
+    ~> split_zero_or_more(splitter)
     ~>> fn _ -> input end.()
-  end
-
-
-  def split_zero_or_more({[byte | _], _} = input, predicate) do
-    case predicate.(byte) do
-      true -> input |> split_one() |> split_zero_or_more(predicate)
-      false -> input
-    end
   end
 
   def split_zero_or_more(input, _) do
     input
+  end
+
+  defp pipe_predicate({[byte | _], _} = input, predicate) do
+    case predicate.(byte) do
+      true -> input
+      false -> nil
+    end
+  end
+
+  defp pipe_predicate(_, _) do
+    nil
   end
 end

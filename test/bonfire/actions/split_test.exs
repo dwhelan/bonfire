@@ -25,6 +25,7 @@ defmodule SplitTest do
   test "split_zero_or_more/2" do
     assert split_zero_or_more({'', ''}, DIGIT) == {'', ''}
     assert split_zero_or_more({'1', ''}, DIGIT) == {'', '1'}
+    assert split_zero_or_more({'123', ''}, DIGIT) == {'', '321'}
   end
 
   test "split_one_or_more" do
