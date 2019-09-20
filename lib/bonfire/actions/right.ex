@@ -79,6 +79,7 @@ defmodule Right do
         def apply(_) do
           nil
         end
+
         def move_one(_) do
           nil
         end

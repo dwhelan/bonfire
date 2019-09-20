@@ -10,7 +10,13 @@ defmodule Lists.RightTest do
     assert move_one({'', ''}) == nil
   end
 
-  test "move_one/2" do
+  test "move_one/2 with a predicate" do
+    assert move_one({'a', '_'}, &_true/1) == {'', 'a_'}
+    assert move_one({'a', '_'}, &_false/1) == nil
+    assert move_one({'', '_'}, &_true/1) == nil
+  end
+
+  test "move_one/2 with a Right" do
     assert move_one({'a', '_'}, &_true/1) == {'', 'a_'}
     assert move_one({'a', '_'}, &_false/1) == nil
     assert move_one({'', '_'}, &_true/1) == nil
