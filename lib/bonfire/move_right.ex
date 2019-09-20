@@ -35,26 +35,11 @@ defmodule Move.Right do
     nil
   end
 
-  def move({[value | _], _} = input, count, mover) when is_integer(count) do
+  def move(input, count, mover) when is_integer(count) do
     input
     ~> move_one(mover)
     ~> wrap()
     ~> _move(count - 1, mover)
-  end
-
-  defp _move(input, 0, _) do
-    input
-  end
-
-  defp _move({[], _}, count, _) when is_integer(count) and count > 0 do
-    nil
-  end
-
-  defp _move({[value | _], _} = input, count, mover) when is_integer(count) do
-    input
-    ~> move_one(mover)
-    ~> join()
-    ~> move(count - 1, mover)
   end
 
   def move(input, %Range{} = range, mover) do
@@ -63,6 +48,17 @@ defmodule Move.Right do
     input
     ~> move(from, mover)
     ~> move_zero_or_more(mover)
+  end
+
+  defp _move(input, 0, _) do
+    input
+  end
+
+  defp _move(input, count, mover) when is_integer(count) do
+    input
+    ~> move_one(mover)
+    ~> join()
+    ~> move(count - 1, mover)
   end
 
   def move_zero_or_more(input, mover) do
