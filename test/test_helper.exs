@@ -49,7 +49,7 @@ defmodule Test do
 
   def assert_codec(codec, source, rest \\ '') do
     assert_merge(codec, source ++ rest, rest)
-    assert_split(codec, source ++rest, rest)
+    assert_split(codec, source ++ rest, rest)
   end
 
   def assert_codec_error(codec, source) do

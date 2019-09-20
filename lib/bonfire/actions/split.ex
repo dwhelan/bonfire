@@ -17,19 +17,26 @@ defmodule Split do
     quote do
       @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | nil
       def split([_ | _] = source) do
-        split({source, []})
+        {source, []}
+        ~> split()
       end
 
       @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
-      def split({source, dest}) do
-        {source, Enum.reverse(dest)}
+      def split(input) do
+        input
+        ~> reverse_dest()
         ~> apply_split()
-        ~> fn {source, dest} -> {source, Enum.reverse(dest)} end.()
+        ~> reverse_dest()
       end
 
       @spec apply_split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
-      def apply_split({source, dest}) do
-        unquote(codec).Split.apply({source, dest})
+      def apply_split(input) do
+        input
+        ~> unquote(codec).Split.apply()
+      end
+
+      defp reverse_dest({source, dest}) do
+        {source, Enum.reverse(dest)}
       end
     end
   end
@@ -106,7 +113,7 @@ defmodule Split do
     input
     ~> split_one(splitter)
     ~> split_zero_or_more(splitter)
-    ~>> fn _ -> input end.()
+    ~>> (fn _ -> input end).()
   end
 
   def split_zero_or_more(input, _) do
