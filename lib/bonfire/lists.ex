@@ -15,11 +15,15 @@ defmodule Lists.Right do
     nil
   end
 
-  def move_one({[value | _], _} = input, predicate) do
+  def move_one({[value | _], _} = input, predicate) when is_function(predicate, 1) do
     case predicate.(value) do
       true -> move_one(input)
       false -> nil
     end
+  end
+
+  def move_one({[value | _], _} = input, lists) do
+    Module.concat(lists, Right).move_one(input)
   end
 
   def wrap({_, []}) do
