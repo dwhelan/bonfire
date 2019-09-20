@@ -2,6 +2,7 @@ defmodule Move.Right do
   @moduledoc """
   Functions for shifting elements from a left list to a right list.
   """
+  import Pipes
 
   def move_one({[], _}) do
     nil
@@ -24,6 +25,31 @@ defmodule Move.Right do
 
   def move_one({[value | _], _} = input, move) do
     Module.concat(move, Right).move_one(input)
+  end
+
+  def move_zero_or_more(input, mover) do
+    input
+    ~> move_one_or_more(mover)
+    ~>> return(input)
+  end
+
+  def move_one_or_more(input, mover) do
+    input
+    ~> move_one(mover)
+    ~> wrap()
+    ~> _move_zero_or_more(mover)
+  end
+
+  defp _move_zero_or_more(input, mover) do
+    input
+    ~> move_one(mover)
+    ~> join()
+    ~> _move_zero_or_more(mover)
+    ~>> return(input)
+  end
+
+  defp return(_, result) do
+    result
   end
 
   def wrap({_, []}) do

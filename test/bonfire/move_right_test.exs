@@ -1,6 +1,6 @@
 defmodule Alpha.Right do
   # will move an alpha character to the right, nil otherwise
-  @behaviour :"Elixir.Right"
+  @behaviour Move.Right
 
   import Guards
 
@@ -26,16 +26,42 @@ defmodule Move.RightTest do
     assert move_one({'', ''}) == nil
   end
 
-  test "move_one/2 with a predicate" do
+  test "move_one/2" do
+    assert move_one({'a', '_'}, Alpha) == {'', 'a_'}
+    assert move_one({'*', '_'}, Alpha) == nil
+    assert move_one({'', '_'}, Alpha) == nil
+
     assert move_one({'a', '_'}, &is_alpha/1) == {'', 'a_'}
     assert move_one({'*', '_'}, &is_alpha/1) == nil
     assert move_one({'', '_'}, &is_alpha/1) == nil
   end
 
-  test "move_one/2 with a Move" do
-    assert move_one({'a', '_'}, Alpha) == {'', 'a_'}
-    assert move_one({'*', '_'}, Alpha) == nil
-    assert move_one({'', '_'}, Alpha) == nil
+  test "move_zero_or_more/2" do
+    assert move_zero_or_more({'', '_'}, Alpha) == {'', '_'}
+    assert move_zero_or_more({'a', '_'}, Alpha) == {'', ['a', ?_]}
+    assert move_zero_or_more({'ab', '_'}, Alpha) == {'', ['ba', ?_]}
+    assert move_zero_or_more({'ab*', '_'}, Alpha) == {'*', ['ba', ?_]}
+    assert move_zero_or_more({'*', '_'}, Alpha) == {'*', '_'}
+
+    assert move_zero_or_more({'', '_'}, &is_alpha/1) == {'', '_'}
+    assert move_zero_or_more({'a', '_'}, &is_alpha/1) == {'', ['a', ?_]}
+    assert move_zero_or_more({'ab', '_'}, &is_alpha/1) == {'', ['ba', ?_]}
+    assert move_zero_or_more({'ab*', '_'}, &is_alpha/1) == {'*', ['ba', ?_]}
+    assert move_zero_or_more({'*', '_'}, &is_alpha/1) == {'*', '_'}
+  end
+
+  test "move_one_or_more" do
+    assert move_one_or_more({'', ''}, Alpha) == nil
+    assert move_one_or_more({'a', '_'}, Alpha) == {'', ['a', ?_]}
+    assert move_one_or_more({'ab', ''}, Alpha) == {'', ['ba']}
+    assert move_one_or_more({'ab*', ''}, Alpha) == {'*', ['ba']}
+    assert move_one_or_more({'*', ''}, Alpha) == nil
+
+    assert move_one_or_more({'', ''}, &is_alpha/1) == nil
+    assert move_one_or_more({'a', ''}, &is_alpha/1) == {'', ['a']}
+    assert move_one_or_more({'ab', ''}, &is_alpha/1) == {'', ['ba']}
+    assert move_one_or_more({'ab*', ''}, &is_alpha/1) == {'*', ['ba']}
+    assert move_one_or_more({'*', ''}, &is_alpha/1) == nil
   end
 
   test "wrap/1" do

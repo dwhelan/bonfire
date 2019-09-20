@@ -86,29 +86,4 @@ defmodule Split do
       end
     end
   end
-
-  def move_zero_or_more(input, mover) do
-    input
-    ~> move_one_or_more(mover)
-    ~>> return(input)
-  end
-
-  def move_one_or_more(input, mover) do
-    input
-    ~> move_one(mover)
-    ~> wrap()
-    ~> _move_zero_or_more(mover)
-  end
-
-  defp _move_zero_or_more(input, mover) do
-    input
-    ~> move_one(mover)
-    ~> join()
-    ~> _move_zero_or_more(mover)
-    ~>> return(input)
-  end
-
-  defp return(_, result) do
-    result
-  end
 end
