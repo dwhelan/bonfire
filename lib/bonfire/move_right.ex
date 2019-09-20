@@ -37,8 +37,7 @@ defmodule Move.Right do
 
   def move(input, count, mover) when is_integer(count) do
     input
-    ~> move_one(mover)
-    ~> wrap()
+    ~> move_first(mover)
     ~> _move(count - 1, mover)
   end
 
@@ -56,8 +55,7 @@ defmodule Move.Right do
 
   defp _move(input, count, mover) when is_integer(count) do
     input
-    ~> move_one(mover)
-    ~> join()
+    ~> move_next(mover)
     ~> move(count - 1, mover)
   end
 
@@ -69,17 +67,27 @@ defmodule Move.Right do
 
   def move_one_or_more(input, mover) do
     input
-    ~> move_one(mover)
-    ~> wrap()
+    ~> move_first(mover)
     ~> _move_zero_or_more(mover)
   end
 
   defp _move_zero_or_more(input, mover) do
     input
-    ~> move_one(mover)
-    ~> join()
+    ~> move_next(mover)
     ~> _move_zero_or_more(mover)
     ~>> return(input)
+  end
+
+  defp move_first(input, mover) do
+    input
+    ~> move_one(mover)
+    ~> wrap()
+  end
+
+  defp move_next(input, mover) do
+    input
+    ~> move_one(mover)
+    ~> join()
   end
 
   defp return(_, result) do
