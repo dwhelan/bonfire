@@ -11,6 +11,17 @@ defmodule Lists do
     {left, [value | right]}
   end
 
+  def move_right({[], _}, _) do
+    nil
+  end
+
+  def move_right({[value | _], _} = input, predicate) do
+    case predicate.(value) do
+      true -> move_right(input)
+      false -> nil
+    end
+  end
+
   def wrap_right({_, []}) do
     nil
   end

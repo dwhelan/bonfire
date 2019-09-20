@@ -10,6 +10,12 @@ defmodule ListsTest do
     assert move_right({'', ''}) == nil
   end
 
+  test "move_right/2" do
+    assert move_right({'a', '_'}, &_true/1) == {'', 'a_'}
+    assert move_right({'a', '_'}, &_false/1) == nil
+    assert move_right({'', '_'}, &_true/1) == nil
+  end
+
   test "wrap_right/1" do
     assert wrap_right({'_', 'a'}) == {'_', ['a']}
     assert wrap_right({'_', 'abc'}) == {'_', ['a', ?b, ?c]}
@@ -18,8 +24,11 @@ defmodule ListsTest do
 
   test "insert_right/1" do
     assert insert_right({'_', [?a, []]}) == {'_', ['a']}
-    assert insert_right({'_', [?a, 'b' | ?c]}) == {'_', ['ab' | ?c]}
+    assert insert_right({'_', [?a, 'b', ?c]}) == {'_', ['ab', ?c]}
     assert insert_right({'_', 'abc'}) == {'_', [[?a | ?b], ?c]}
     assert insert_right({'_', ''}) == nil
   end
+
+  defp _true(_), do: true
+  defp _false(_), do: false
 end
