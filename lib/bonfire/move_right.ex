@@ -41,12 +41,21 @@ defmodule Move.Right do
     ~> _move(count - 1, mover)
   end
 
-  def move(input, %Range{} = range, mover) do
-    from..to = range
-
+  def move(input, from..to = range, mover) do
     input
     ~> move(from, mover)
-    ~> move_zero_or_more(mover)
+    ~> _move_up_to(to - from, mover)
+  end
+
+  defp _move_up_to(input, 0, mover) do
+    input
+  end
+
+  defp _move_up_to(input, count, mover) do
+    input
+    ~> move_next(mover)
+    ~> _move_up_to(count - 1, mover)
+    ~>> return(input)
   end
 
   defp _move(input, 0, _) do
