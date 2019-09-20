@@ -42,39 +42,35 @@ defmodule Move.RightTest do
     assert move_many({'a', '_'}, 0, Alpha) == {'a', '_'}
 
     assert move_many({'', '_'}, 1, Alpha) == nil
+    assert move_many({'*', '_'}, 1, Alpha) == nil
     assert move_many({'a', '_'}, 1, Alpha) == {'', ['a', ?_]}
+    assert move_many({'ab', '_'}, 1, Alpha) == {'b', ['a', ?_]}
 
     assert move_many({'a', '_'}, 2, Alpha) == nil
+    assert move_many({'a*', '_'}, 2, Alpha) == nil
     assert move_many({'ab', '_'}, 2, Alpha) == {'', ['ba', ?_]}
     assert move_many({'abc', '_'}, 2, Alpha) == {'c', ['ba', ?_]}
+    assert move_many({'ab*', '_'}, 2, Alpha) == {'*', ['ba', ?_]}
   end
 
   test "move_many/3 with a range" do
     assert move_many({'a', '_'}, -1..2, Alpha) == nil
 
     assert move_many({'', '_'}, 1..2, Alpha) == nil
+    assert move_many({'*', '_'}, 1..2, Alpha) == nil
     assert move_many({'a', '_'}, 1..2, Alpha) == {'', ['a', ?_]}
+    assert move_many({'a*', '_'}, 1..2, Alpha) == {'*', ['a', ?_]}
     assert move_many({'ab', '_'}, 1..2, Alpha) == {'', ['ba', ?_]}
     assert move_many({'abc', '_'}, 1..2, Alpha) == {'c', ['ba', ?_]}
+    assert move_many({'ab*', '_'}, 1..2, Alpha) == {'*', ['ba', ?_]}
 
     assert move_many({'', '_'}, 1..-1, Alpha) == nil
+    assert move_many({'*', '_'}, 1..-1, Alpha) == nil
     assert move_many({'a', '_'}, 1..-1, Alpha) == {'', ['a', ?_]}
+    assert move_many({'a*', '_'}, 1..-1, Alpha) == {'*', ['a', ?_]}
     assert move_many({'ab', '_'}, 1..-1, Alpha) == {'', ['ba', ?_]}
     assert move_many({'abc', '_'}, 1..-1, Alpha) == {'', ['cba', ?_]}
-  end
-
-  test "move_zero_or_more/2" do
-    assert move_zero_or_more({'', '_'}, Alpha) == {'', '_'}
-    assert move_zero_or_more({'a', '_'}, Alpha) == {'', ['a', ?_]}
-    assert move_zero_or_more({'ab', '_'}, Alpha) == {'', ['ba', ?_]}
-    assert move_zero_or_more({'ab*', '_'}, Alpha) == {'*', ['ba', ?_]}
-    assert move_zero_or_more({'*', '_'}, Alpha) == {'*', '_'}
-
-    assert move_zero_or_more({'', '_'}, &is_alpha/1) == {'', '_'}
-    assert move_zero_or_more({'a', '_'}, &is_alpha/1) == {'', ['a', ?_]}
-    assert move_zero_or_more({'ab', '_'}, &is_alpha/1) == {'', ['ba', ?_]}
-    assert move_zero_or_more({'ab*', '_'}, &is_alpha/1) == {'*', ['ba', ?_]}
-    assert move_zero_or_more({'*', '_'}, &is_alpha/1) == {'*', '_'}
+    assert move_many({'ab*', '_'}, 1..-1, Alpha) == {'*', ['ba', ?_]}
   end
 
   test "move_one_or_more" do
