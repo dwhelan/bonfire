@@ -98,7 +98,7 @@ defmodule Split do
   def split_one_or_more(input, splitter) do
     input
     ~> split_one(splitter)
-    ~> wrap_right()
+    ~> wrap()
     ~> _split_zero_or_more(splitter)
   end
 

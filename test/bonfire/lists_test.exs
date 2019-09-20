@@ -16,10 +16,10 @@ defmodule Lists.RightTest do
     assert move_right({'', '_'}, &_true/1) == nil
   end
 
-  test "wrap_right/1" do
-    assert wrap_right({'_', 'a'}) == {'_', ['a']}
-    assert wrap_right({'_', 'abc'}) == {'_', ['a', ?b, ?c]}
-    assert wrap_right({'_', ''}) == nil
+  test "wrap/1" do
+    assert wrap({'_', 'a'}) == {'_', ['a']}
+    assert wrap({'_', 'abc'}) == {'_', ['a', ?b, ?c]}
+    assert wrap({'_', ''}) == nil
   end
 
   test "join/1" do

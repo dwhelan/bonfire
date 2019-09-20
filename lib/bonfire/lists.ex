@@ -22,11 +22,11 @@ defmodule Lists.Right do
     end
   end
 
-  def wrap_right({_, []}) do
+  def wrap({_, []}) do
     nil
   end
 
-  def wrap_right({left, [value | right]}) do
+  def wrap({left, [value | right]}) do
     {left, [[value] | right]}
   end
 
