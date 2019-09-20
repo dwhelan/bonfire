@@ -1,8 +1,69 @@
+defmodule Move.MoveMany do
+  defmacro __using__(_) do
+    quote do
+      import Pipes
+
+      def move_many(input, 0, _) do
+        input
+      end
+
+      def move_many(input, from..to, mover) do
+        input
+        ~> move_many(from, mover)
+        ~> _move_up_to(to - from, mover)
+      end
+
+      def move_many(input, count, mover) do
+        input
+        ~> move_first(mover)
+        ~> _move_many(count - 1, mover)
+      end
+
+      defp _move_up_to(input, 0, _) do
+        input
+      end
+
+      defp _move_up_to(input, count, mover) do
+        input
+        ~> move_next(mover)
+        ~> _move_up_to(count - 1, mover)
+        ~>> return(input)
+      end
+
+      defp _move_many(input, 0, _) do
+        input
+      end
+
+      defp _move_many(input, count, mover) when is_integer(count) do
+        input
+        ~> move_next(mover)
+        ~> _move_many(count - 1, mover)
+      end
+
+      defp move_first(input, mover) do
+        input
+        ~> move_one(mover)
+        ~> wrap()
+      end
+
+      defp move_next(input, mover) do
+        input
+        ~> move_one(mover)
+        ~> join()
+      end
+
+      defp return(_, result) do
+        result
+      end
+    end
+  end
+end
+
 defmodule Move.Right do
   @moduledoc """
   Functions for shifting elements from a left list to a right list.
   """
-  import Pipes
+  use Move.MoveMany
 
   def move_one({[], _}) do
     nil
@@ -25,63 +86,6 @@ defmodule Move.Right do
 
   def move_one(input, mover) do
     Module.concat(mover, Right).move_one(input)
-  end
-
-  def move_many(input, 0, _) do
-    input
-  end
-
-  def move_many({[], _}, count, _) when is_integer(count) and count > 0 do
-    nil
-  end
-
-  def move_many(input, count, mover) when is_integer(count) do
-    input
-    ~> move_first(mover)
-    ~> _move_many(count - 1, mover)
-  end
-
-  def move_many(input, from..to, mover) do
-    input
-    ~> move_many(from, mover)
-    ~> _move_up_to(to - from, mover)
-  end
-
-  defp _move_up_to(input, 0, _) do
-    input
-  end
-
-  defp _move_up_to(input, count, mover) do
-    input
-    ~> move_next(mover)
-    ~> _move_up_to(count - 1, mover)
-    ~>> return(input)
-  end
-
-  defp _move_many(input, 0, _) do
-    input
-  end
-
-  defp _move_many(input, count, mover) when is_integer(count) do
-    input
-    ~> move_next(mover)
-    ~> move_many(count - 1, mover)
-  end
-
-  defp move_first(input, mover) do
-    input
-    ~> move_one(mover)
-    ~> wrap()
-  end
-
-  defp move_next(input, mover) do
-    input
-    ~> move_one(mover)
-    ~> join()
-  end
-
-  defp return(_, result) do
-    result
   end
 
   def wrap({_, []}) do
