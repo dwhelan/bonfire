@@ -26,13 +26,8 @@ defmodule Right do
       def split(input) do
         input
         ~> Right.reverse()
-        ~> apply_split()
+        ~> unquote(codec).Right.apply()
         ~> Right.reverse()
-      end
-
-      @spec apply_split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
-      def apply_split(input) do
-        unquote(codec).Right.apply(input)
       end
     end
   end
@@ -78,7 +73,7 @@ defmodule Right do
   end
 
   def split_one(input, codec) when is_atom(codec) do
-    codec.apply_split(input)
+    Module.concat(codec, Right).apply(input)
   end
 
   def split_one(input, predicate) do
