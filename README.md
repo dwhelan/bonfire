@@ -16,12 +16,13 @@ end
 ```
 
 ## To do
-- complete split to handle multiple and return a charlist
+- complete split to handle multiple and return a list as the value 
 - use pipe more -> first replace predicates with Codecs so return is {'', ''} or nil
 - re-align Split, SplitTest and Merge, MergeTest
 - complete dec-val
   - implement split
   - extend to num-val with other bases
+- extend core to be an codec that takes arbitrary lists and has move_left/1, move_right/1 functions  
 - create a pipe operator for 'many'?
 - rules
   if BNF for a rule has more than one rulename use the first for Codec and make others
@@ -31,7 +32,7 @@ end
   - replaces ABNF with Elixir equivalents
   - using AST may not work due to explicitness of white space handling in ABNF
   - might be better to build a CODEC to parse ABNF
-  - table below in ABNF order of operations
+  - table below in ABNF order of operations shows a pre-parse that would allow `quote do end` to work
     
  | ABNF    | String replacement | As operator | AST handling |
  |:--- |:--- |:--- |:--- |
