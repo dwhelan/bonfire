@@ -1,8 +1,8 @@
-defmodule RightTest do
+defmodule SplitTest do
   use Test, async: true
 
-  import Right
-  doctest Right
+  import Split
+  doctest Split
 
   test "move_zero_or_more/2" do
     assert move_zero_or_more({'', '_'}, ALPHA) == {'', '_'}

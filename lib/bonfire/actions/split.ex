@@ -1,4 +1,4 @@
-defmodule Right do
+defmodule Split do
   @moduledoc """
   Functions and macros for splitting.
   """
@@ -26,9 +26,9 @@ defmodule Right do
       @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def split(input) do
         input
-        ~> Right.reverse()
+        ~> Move.Right.reverse()
         ~> unquote(codec).Right.move_one()
-        ~> Right.reverse()
+        ~> Move.Right.reverse()
       end
     end
   end
@@ -36,12 +36,12 @@ defmodule Right do
   defp create_split_module({:&, _, _} = predicate) do
     create_module(
       quote do
-        @impl :"Elixir.Right"
+        @impl :"Elixir.Split"
         def apply({[byte | rest], dest} = input) do
           Move.Right.move_one(input, unquote(predicate))
         end
 
-        @impl :"Elixir.Right"
+        @impl :"Elixir.Split"
         def move_one({[byte | rest], dest} = input) do
           Move.Right.move_one(input, unquote(predicate))
         end
@@ -52,12 +52,12 @@ defmodule Right do
   defp create_split_module(byte) do
     create_module(
       quote do
-        @impl :"Elixir.Right"
+        @impl :"Elixir.Split"
         def apply({[unquote(byte) | rest] = source, dest} = input) do
           Move.Right.move_one(input)
         end
 
-        @impl :"Elixir.Right"
+        @impl :"Elixir.Split"
         def move_one({[unquote(byte) | rest] = source, dest} = input) do
           Move.Right.move_one(input)
         end
@@ -71,9 +71,9 @@ defmodule Right do
     quote do
       defmodule Right do
         @moduledoc false
-        import :"Elixir.Right"
+        import :"Elixir.Split"
 
-        @behaviour :"Elixir.Right"
+        @behaviour :"Elixir.Split"
         unquote(block)
 
         def apply(_) do
