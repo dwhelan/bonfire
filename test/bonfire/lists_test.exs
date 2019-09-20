@@ -4,16 +4,16 @@ defmodule Lists.RightTest do
   import Lists.Right
   doctest Lists.Right
 
-  test "move/1" do
-    assert move({'a', '_'}) == {'', 'a_'}
-    assert move({'ab', '_'}) == {'b', 'a_'}
-    assert move({'', ''}) == nil
+  test "move_one/1" do
+    assert move_one({'a', '_'}) == {'', 'a_'}
+    assert move_one({'ab', '_'}) == {'b', 'a_'}
+    assert move_one({'', ''}) == nil
   end
 
-  test "move/2" do
-    assert move({'a', '_'}, &_true/1) == {'', 'a_'}
-    assert move({'a', '_'}, &_false/1) == nil
-    assert move({'', '_'}, &_true/1) == nil
+  test "move_one/2" do
+    assert move_one({'a', '_'}, &_true/1) == {'', 'a_'}
+    assert move_one({'a', '_'}, &_false/1) == nil
+    assert move_one({'', '_'}, &_true/1) == nil
   end
 
   test "wrap/1" do

@@ -6,7 +6,7 @@ defmodule Right do
   import Lists.Right
 
   @callback apply(any) :: {[byte], [byte, ...]} | nil
-  @callback move(any) :: {[byte], [byte, ...]} | nil
+  @callback move_one(any) :: {[byte], [byte, ...]} | nil
 
   defmacro defsplit(type, codec \\ __CALLER__.module) do
     [
@@ -27,7 +27,7 @@ defmodule Right do
       def split(input) do
         input
         ~> Right.reverse()
-        ~> unquote(codec).Right.apply()
+        ~> unquote(codec).Right.move_one()
         ~> Right.reverse()
       end
     end
@@ -38,12 +38,12 @@ defmodule Right do
       quote do
         @impl :"Elixir.Right"
         def apply({[byte | rest], dest} = input) do
-          split_one(input, unquote(predicate))
+          Lists.Right.move_one(input, unquote(predicate))
         end
 
         @impl :"Elixir.Right"
-        def move({[byte | rest], dest} = input) do
-          split_one(input, unquote(predicate))
+        def move_one({[byte | rest], dest} = input) do
+          Lists.Right.move_one(input, unquote(predicate))
         end
       end
     )
@@ -54,12 +54,12 @@ defmodule Right do
       quote do
         @impl :"Elixir.Right"
         def apply({[unquote(byte) | rest] = source, dest} = input) do
-          Lists.Right.move(input)
+          Lists.Right.move_one(input)
         end
 
         @impl :"Elixir.Right"
-        def move({[unquote(byte) | rest] = source, dest} = input) do
-          Lists.Right.move(input)
+        def move_one({[unquote(byte) | rest] = source, dest} = input) do
+          Lists.Right.move_one(input)
         end
       end
     )
@@ -79,16 +79,19 @@ defmodule Right do
         def apply(_) do
           nil
         end
+        def move_one(_) do
+          nil
+        end
       end
     end
   end
 
   def split_one(input, codec) when is_atom(codec) do
-    Module.concat(codec, Right).apply(input)
+    Module.concat(codec, Right).move_one(input)
   end
 
   def split_one(input, predicate) do
-    move(input, predicate)
+    move_one(input, predicate)
   end
 
   def split_zero_or_more(input, splitter) do

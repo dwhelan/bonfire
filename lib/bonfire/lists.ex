@@ -3,21 +3,21 @@ defmodule Lists.Right do
   Functions for shifting elements from left list to right list.
   """
 
-  def move({[], _}) do
+  def move_one({[], _}) do
     nil
   end
 
-  def move({[value | left], right}) do
+  def move_one({[value | left], right}) do
     {left, [value | right]}
   end
 
-  def move({[], _}, _) do
+  def move_one({[], _}, _) do
     nil
   end
 
-  def move({[value | _], _} = input, predicate) do
+  def move_one({[value | _], _} = input, predicate) do
     case predicate.(value) do
-      true -> move(input)
+      true -> move_one(input)
       false -> nil
     end
   end

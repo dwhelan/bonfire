@@ -173,7 +173,7 @@ defmodule Guards do
   ```
   (ALPHA / DIGIT / "-")
 
-  This should move to a Rulename module and made private
+  This should move_one to a Rulename module and made private
   ```
 
   ## Examples
