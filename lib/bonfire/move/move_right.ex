@@ -30,20 +30,35 @@ defmodule ListProcessor.MoveRight do
     {left, [value | right]}
   end
 
-  @spec move_one(ListProcessor.t(), ListProcessor.mover()) :: ListProcessor.t()
+  @doc """
+  Move one item from the left list to the right if accepted by the processor.
+
+  The head item from the left list will be removed and will become the head item in the right list.
+
+  A `nil` will be returned if the left list is empty.
+
+  ## Examples
+
+      iex> move_one {'abc', '...'}
+      {'bc', 'a...'}
+
+      iex> move_one {'', ''}
+      nil
+  """
+  @spec move_one(ListProcessor.t(), ListProcessor.processor()) :: ListProcessor.t()
   def move_one({[], _}, _) do
     nil
   end
 
-  def move_one({[value | _], _} = input, predicate) when is_function(predicate, 1) do
-    case predicate.(value) do
+  def move_one({[value | _], _} = input, processor) when is_function(processor, 1) do
+    case processor.(value) do
       true -> move_one(input)
       false -> nil
     end
   end
 
-  def move_one(input, mover) do
-    Module.concat(mover, MoveRight).move_one(input)
+  def move_one(input, processor) do
+    Module.concat(processor, MoveRight).move_one(input)
   end
 
   @doc """

@@ -1,36 +1,53 @@
+defmodule ListProcessor.Error do
+  @moduledoc """
+  Represents an error in the list processing.
+
+  Currently an error is simply represented as `nil`. This makes
+  error handling simple. By updating
+  """
+  @type t :: nil
+end
+
 defmodule ListProcessor do
+
   @moduledoc """
   Support for building a bi-directional data pipeline for two lists.
 
-  The `move_one` function moves an item from one list to the other.
-  `The `move_to_list` functions moves zero or more items from one
-  list and moves them as a list to the other list. This enables
-  deeply nested lists to be on either side.
+  Either list can be deeply nested.
 
-  Moves from the left to the right
-
+  For speed purposes all list operations are done at the head of either list.
   """
+  @doc """
+  Move an item from one list to the other.
+  """
+  @callback move_one(t) :: t | nil
+
+  @doc """
+  Moves zero or more items from one list to the other list as a list.
+
+  The number of items to move can be either an integer or a range.
+  A `processor` is passed and is used to determine whether processing should continue.
+  """
+  @callback move_to_list(t, Range.t() | integer, processor) :: t | nil
 
   @typedoc """
-  A two element tuple of lists.
-
-  Represents the
+  A two element tuple of lists: `{left, right}`.
   """
-
   @type t :: {list, list}
 
   @typedoc """
-  A mover is used to compose move left and move right operations.
+  A predicate or module used to compose move operations.
 
-  If the mover is a predicate, it will be passed the first element in the list
-  being consumed. If `predicate` returns `true` then processing will continue with the input tuple,
+  If the processor is a predicate, it will be called with the first element in the list
+  being consumed. If the processor returns `true` then processing will continue with the input tuple,
   otherwise processing will continue with `nil`.
 
-  If the mover is a module, it is expected to have submodules named `Left` and `MoveRight`
-  with `move_one/1` functions. Those functions will be called with an input tuple and
-  processing will continue with the result of the function call.
+  If the processor is a module, it is expected to have submodules named `MoveLeft` and `MoveRight`
+  that implement `ListProcessor` behaviour. Those functions will be called with an input tuple and
+  processing will continue with the result of that function call.
   """
-  @type mover :: module | (t -> boolean)
+  @type processor :: module | (t -> boolean)
+
 
   @doc """
   A macro that inserts functions for moving multiple items in a list.
@@ -61,7 +78,7 @@ defmodule ListProcessor do
       If `count.last` is less than `count.first` then items will
       be moved until the #{@source} list is empty or an error occurs.
 
-      The `mover` will be called with each item from the #{@source} list and the
+      The `processor` will be called with each item from the #{@source} list and the
       result will be used to insert into the #{@target} list.
 
       All items consumed will be combined into a list which will be
@@ -70,31 +87,31 @@ defmodule ListProcessor do
       ## Examples
 
       """
-      @spec move_to_list(ListProcessor.t(), Range.t() | integer, ListProcessor.mover()) :: ListProcessor.t()
-      def move_to_list(input, first..last, mover) do
+      @spec move_to_list(ListProcessor.t(), Range.t() | integer, ListProcessor.processor()) :: ListProcessor.t()
+      def move_to_list(input, first..last, processor) do
         input
-        ~> move_to_list(first, mover)
-        ~> _move_up_to(last - first, mover)
+        ~> move_to_list(first, processor)
+        ~> _move_up_to(last - first, processor)
       end
 
       def move_to_list(input, 0, _) do
         input
       end
 
-      def move_to_list(input, count, mover) do
+      def move_to_list(input, count, processor) do
         input
-        ~> move_first(mover)
-        ~> _move_many(count - 1, mover)
+        ~> move_first(processor)
+        ~> _move_many(count - 1, processor)
       end
 
       defp _move_up_to(input, 0, _) do
         input
       end
 
-      defp _move_up_to(input, count, mover) do
+      defp _move_up_to(input, count, processor) do
         input
-        ~> move_next(mover)
-        ~> _move_up_to(count - 1, mover)
+        ~> move_next(processor)
+        ~> _move_up_to(count - 1, processor)
         ~>> return(input)
       end
 
@@ -102,21 +119,21 @@ defmodule ListProcessor do
         input
       end
 
-      defp _move_many(input, count, mover) when is_integer(count) do
+      defp _move_many(input, count, processor) when is_integer(count) do
         input
-        ~> move_next(mover)
-        ~> _move_many(count - 1, mover)
+        ~> move_next(processor)
+        ~> _move_many(count - 1, processor)
       end
 
-      defp move_first(input, mover) do
+      defp move_first(input, processor) do
         input
-        ~> move_one(mover)
+        ~> move_one(processor)
         ~> wrap()
       end
 
-      defp move_next(input, mover) do
+      defp move_next(input, processor) do
         input
-        ~> move_one(mover)
+        ~> move_one(processor)
         ~> join()
       end
 
