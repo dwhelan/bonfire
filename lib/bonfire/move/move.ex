@@ -25,39 +25,37 @@ defmodule Move do
     quote do
       import Pipes
 
-      @doc """
-      Move a range of items from one list to another.
+      case __MODULE__ do
+        Move.Left ->
+          @target "left"
+          @source "right"
 
-      This function will move as many items from one list to the other list
-      as possible, staying within the range. When called from a `Left` module
-      it will move items to the left list and when called from a `Right` module
-      it will move items to the right list.
-
-      It will wrap all items consumed into a list which will be
-      inserted into the target list.
-
-      A negative `from` value in the range will always return nil.
-      If the `to` value is less than the `from` value then moving will
-      continue until the list being consumed is empty or an error occurs.
-      """
-      @spec move_many(Move.t(), Range.t(), Move.mover()) :: Move.t()
-      def move_many(input, from..to, mover) do
-        input
-        ~> move_many(from, mover)
-        ~> _move_up_to(to - from, mover)
+        Move.Right ->
+          @target "right"
+          @source "left"
       end
 
       @doc """
-      Move a count of items from one list to another.
+      Move many items from the #{@source} list to the #{@target}.
 
-      This function will `count` items from one list to the other list.
-      When called from a `Left` module it will move items to the left list
-      and when called from a `Right` module it will move items to the right list.
+      If `count` is an `t:Integer.t/0` then `count` items will be moved.
 
-      It will wrap all items consumed into a list which will be
-      inserted into the target list.
+      If `count` is a `t:Range.t/0` then as many items as possible will be
+      moved, staying within the range.
+      If `count.first` is negative, `nil` will be returned.
+      If `count.last` is less than `count.first` then items will
+      be moved until the #{@source} list is empty or an error occurs.
+
+      This function will wrap all items consumed into a list which will be
+      inserted into the #{@target} list.
       """
-      @spec move_many(Move.t(), integer, Move.mover()) :: Move.t()
+      @spec move_many(Move.t(), Range.t() | integer, Move.mover()) :: Move.t()
+      def move_many(input, first..last, mover) do
+        input
+        ~> move_many(first, mover)
+        ~> _move_up_to(last - first, mover)
+      end
+
       def move_many(input, 0, _) do
         input
       end
