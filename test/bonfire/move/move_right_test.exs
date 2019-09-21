@@ -33,41 +33,41 @@ defmodule ListProcessor.RightTest do
     assert move_one({'', '_'}, &is_alpha/1) == nil
   end
 
-  test "move_many/3 with a count" do
-    assert move_many({'', '_'}, -1, Alphabetic) == nil
+  test "move_to_list/3 with a count" do
+    assert move_to_list({'', '_'}, -1, Alphabetic) == nil
 
-    assert move_many({'', '_'}, 0, Alphabetic) == {'', '_'}
-    assert move_many({'a', '_'}, 0, Alphabetic) == {'a', '_'}
+    assert move_to_list({'', '_'}, 0, Alphabetic) == {'', '_'}
+    assert move_to_list({'a', '_'}, 0, Alphabetic) == {'a', '_'}
 
-    assert move_many({'', '_'}, 1, Alphabetic) == nil
-    assert move_many({'*', '_'}, 1, Alphabetic) == nil
-    assert move_many({'a', '_'}, 1, Alphabetic) == {'', ['a', ?_]}
-    assert move_many({'ab', '_'}, 1, Alphabetic) == {'b', ['a', ?_]}
+    assert move_to_list({'', '_'}, 1, Alphabetic) == nil
+    assert move_to_list({'*', '_'}, 1, Alphabetic) == nil
+    assert move_to_list({'a', '_'}, 1, Alphabetic) == {'', ['a', ?_]}
+    assert move_to_list({'ab', '_'}, 1, Alphabetic) == {'b', ['a', ?_]}
 
-    assert move_many({'a', '_'}, 2, Alphabetic) == nil
-    assert move_many({'a*', '_'}, 2, Alphabetic) == nil
-    assert move_many({'ab', '_'}, 2, Alphabetic) == {'', ['ba', ?_]}
-    assert move_many({'abc', '_'}, 2, Alphabetic) == {'c', ['ba', ?_]}
-    assert move_many({'ab*', '_'}, 2, Alphabetic) == {'*', ['ba', ?_]}
+    assert move_to_list({'a', '_'}, 2, Alphabetic) == nil
+    assert move_to_list({'a*', '_'}, 2, Alphabetic) == nil
+    assert move_to_list({'ab', '_'}, 2, Alphabetic) == {'', ['ba', ?_]}
+    assert move_to_list({'abc', '_'}, 2, Alphabetic) == {'c', ['ba', ?_]}
+    assert move_to_list({'ab*', '_'}, 2, Alphabetic) == {'*', ['ba', ?_]}
   end
 
-  test "move_many/3 with a range" do
-    assert move_many({'a', '_'}, -1..2, Alphabetic) == nil
+  test "move_to_list/3 with a range" do
+    assert move_to_list({'a', '_'}, -1..2, Alphabetic) == nil
 
-    assert move_many({'', '_'}, 1..2, Alphabetic) == nil
-    assert move_many({'*', '_'}, 1..2, Alphabetic) == nil
-    assert move_many({'a', '_'}, 1..2, Alphabetic) == {'', ['a', ?_]}
-    assert move_many({'a*', '_'}, 1..2, Alphabetic) == {'*', ['a', ?_]}
-    assert move_many({'ab', '_'}, 1..2, Alphabetic) == {'', ['ba', ?_]}
-    assert move_many({'abc', '_'}, 1..2, Alphabetic) == {'c', ['ba', ?_]}
-    assert move_many({'ab*', '_'}, 1..2, Alphabetic) == {'*', ['ba', ?_]}
+    assert move_to_list({'', '_'}, 1..2, Alphabetic) == nil
+    assert move_to_list({'*', '_'}, 1..2, Alphabetic) == nil
+    assert move_to_list({'a', '_'}, 1..2, Alphabetic) == {'', ['a', ?_]}
+    assert move_to_list({'a*', '_'}, 1..2, Alphabetic) == {'*', ['a', ?_]}
+    assert move_to_list({'ab', '_'}, 1..2, Alphabetic) == {'', ['ba', ?_]}
+    assert move_to_list({'abc', '_'}, 1..2, Alphabetic) == {'c', ['ba', ?_]}
+    assert move_to_list({'ab*', '_'}, 1..2, Alphabetic) == {'*', ['ba', ?_]}
 
-    assert move_many({'', '_'}, 1..-1, Alphabetic) == nil
-    assert move_many({'*', '_'}, 1..-1, Alphabetic) == nil
-    assert move_many({'a', '_'}, 1..-1, Alphabetic) == {'', ['a', ?_]}
-    assert move_many({'a*', '_'}, 1..-1, Alphabetic) == {'*', ['a', ?_]}
-    assert move_many({'ab', '_'}, 1..-1, Alphabetic) == {'', ['ba', ?_]}
-    assert move_many({'abc', '_'}, 1..-1, Alphabetic) == {'', ['cba', ?_]}
-    assert move_many({'ab*', '_'}, 1..-1, Alphabetic) == {'*', ['ba', ?_]}
+    assert move_to_list({'', '_'}, 1..-1, Alphabetic) == nil
+    assert move_to_list({'*', '_'}, 1..-1, Alphabetic) == nil
+    assert move_to_list({'a', '_'}, 1..-1, Alphabetic) == {'', ['a', ?_]}
+    assert move_to_list({'a*', '_'}, 1..-1, Alphabetic) == {'*', ['a', ?_]}
+    assert move_to_list({'ab', '_'}, 1..-1, Alphabetic) == {'', ['ba', ?_]}
+    assert move_to_list({'abc', '_'}, 1..-1, Alphabetic) == {'', ['cba', ?_]}
+    assert move_to_list({'ab*', '_'}, 1..-1, Alphabetic) == {'*', ['ba', ?_]}
   end
 end

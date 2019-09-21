@@ -70,18 +70,18 @@ defmodule ListProcessor do
       ## Examples
 
       """
-      @spec move_many(ListProcessor.t(), Range.t() | integer, ListProcessor.mover()) :: ListProcessor.t()
-      def move_many(input, first..last, mover) do
+      @spec move_to_list(ListProcessor.t(), Range.t() | integer, ListProcessor.mover()) :: ListProcessor.t()
+      def move_to_list(input, first..last, mover) do
         input
-        ~> move_many(first, mover)
+        ~> move_to_list(first, mover)
         ~> _move_up_to(last - first, mover)
       end
 
-      def move_many(input, 0, _) do
+      def move_to_list(input, 0, _) do
         input
       end
 
-      def move_many(input, count, mover) do
+      def move_to_list(input, count, mover) do
         input
         ~> move_first(mover)
         ~> _move_many(count - 1, mover)
