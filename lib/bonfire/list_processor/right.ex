@@ -4,7 +4,7 @@ defmodule ListProcessor.Right do
   """
   require ListProcessor
 
-  ListProcessor.many()
+  ListProcessor.list_many()
 
   @doc """
   Move one item from the left list to the right.

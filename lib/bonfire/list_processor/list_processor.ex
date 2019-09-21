@@ -42,7 +42,7 @@ defmodule ListProcessor do
   @doc """
   A macro that inserts functions for moving multiple items in a list.
   """
-  defmacro many do
+  defmacro list_many do
     quote do
       import ListProcessor.Pipes
 

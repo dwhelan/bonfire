@@ -47,12 +47,12 @@ defmodule Merge do
 
   defp create_merge_functions(codec) do
     quote bind_quoted: [codec: codec] do
-      @spec merge(nonempty_list(byte)) :: {[byte, ...], [byte]} | nil
+      @spec merge(nonempty_list(byte)) :: {[byte, ...], [byte]} | ListProcessor.Error.t
       def merge([_ | _] = source) do
         merge({[], source})
       end
 
-      @spec merge({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | nil
+      @spec merge({[byte], [byte, ...]}) :: {[byte, ...], [byte]} | ListProcessor.Error.t
       def merge({dest, source}) do
         case unquote(codec).Merge.apply({dest, Enum.reverse(source)}) do
           nil -> nil

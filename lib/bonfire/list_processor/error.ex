@@ -6,5 +6,7 @@ defmodule ListProcessor.Error do
   error handling simple.
   """
   @type t :: nil
+
+  # Note that any chanes to `Error` should align with pipe operators.
 end
 
