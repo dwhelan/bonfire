@@ -9,9 +9,8 @@ defmodule Bonfire.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
-      preferred_cli_env: [
-        build: :test
-      ]
+      preferred_cli_env: [build: :test],
+      default_task: "build"
     ]
   end
 
@@ -32,12 +31,7 @@ defmodule Bonfire.MixProject do
 
   defp aliases do
     [
-      build: [
-        "format",
-        "compile",
-        "docs",
-        "dialyzer"
-      ]
+      build: ["format", "compile", "docs", "dialyzer"]
     ]
   end
 end
