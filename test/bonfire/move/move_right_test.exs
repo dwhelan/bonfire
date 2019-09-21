@@ -2,7 +2,7 @@ defmodule Alphabetic.Right do
   import Guards
 
   def move_one({[char | _], _} = input) when is_alpha(char) do
-    Move.Right.move_one(input)
+    ListProcessor.Right.move_one(input)
   end
 
   def move_one(_) do
@@ -10,12 +10,12 @@ defmodule Alphabetic.Right do
   end
 end
 
-defmodule Move.RightTest do
+defmodule ListProcessor.RightTest do
   use Test, async: true
 
   import Guards
-  import Move.Right
-  doctest Move.Right
+  import ListProcessor.Right
+  doctest ListProcessor.Right
 
   test "move_one/1" do
     assert move_one({'a', '_'}) == {'', 'a_'}

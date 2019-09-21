@@ -1,13 +1,13 @@
-defmodule Move.Right do
+defmodule ListProcessor.Right do
   @moduledoc """
   Functions for moving elements from a left list to a right list.
   """
-  require Move
+  require ListProcessor
 
-  Move.many()
+  ListProcessor.many()
 
   @doc """
-  Move one item from the left list to the right.
+  ListProcessor one item from the left list to the right.
 
   The head item from the left list will be removed and will become the head item in the right list.
 
@@ -21,7 +21,7 @@ defmodule Move.Right do
       iex> move_one {'', ''}
       nil
   """
-  @spec move_one(Move.t()) :: Move.t()
+  @spec move_one(ListProcessor.t()) :: ListProcessor.t()
   def move_one({[], _} = _input) do
     nil
   end
@@ -30,7 +30,7 @@ defmodule Move.Right do
     {left, [value | right]}
   end
 
-  @spec move_one(Move.t(), Move.mover()) :: Move.t()
+  @spec move_one(ListProcessor.t(), ListProcessor.mover()) :: ListProcessor.t()
   def move_one({[], _}, _) do
     nil
   end
@@ -54,7 +54,7 @@ defmodule Move.Right do
       iex> reverse {'...', '123'}
       {'...', '321'}
   """
-  @spec reverse(Move.t()) :: Move.t()
+  @spec reverse(ListProcessor.t()) :: ListProcessor.t()
   def reverse({left, right}) do
     {left, Enum.reverse(right)}
   end

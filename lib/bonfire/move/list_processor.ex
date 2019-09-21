@@ -1,4 +1,4 @@
-defmodule Move do
+defmodule ListProcessor do
   @typedoc """
   A two element tuple of lists.
 
@@ -28,17 +28,17 @@ defmodule Move do
       import Pipes
 
       case __MODULE__ do
-        Move.Left ->
+        ListProcessor.Left ->
           @target "left"
           @source "right"
 
-        Move.Right ->
+        ListProcessor.Right ->
           @target "right"
           @source "left"
       end
 
       @doc """
-      Move many items from the #{@source} list to the #{@target}.
+      ListProcessor many items from the #{@source} list to the #{@target}.
 
       If `count` is an `t:Integer.t/0` then `count` items will be moved
       or `nil` will be returned.
@@ -58,7 +58,7 @@ defmodule Move do
       ## Examples
 
       """
-      @spec move_many(Move.t(), Range.t() | integer, Move.mover()) :: Move.t()
+      @spec move_many(ListProcessor.t(), Range.t() | integer, ListProcessor.mover()) :: ListProcessor.t()
       def move_many(input, first..last, mover) do
         input
         ~> move_many(first, mover)
