@@ -18,12 +18,12 @@ defmodule Split do
   defp create_split_functions(codec) do
     quote do
       alias ListProcessor.Right
-      @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | ListProcessor.Error.t
+      @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | ListProcessor.Error.t()
       def split([_ | _] = left) do
         split({left, []})
       end
 
-      @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | ListProcessor.Error.t
+      @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | ListProcessor.Error.t()
       def split(input) do
         input
         ~> reverse_dest()

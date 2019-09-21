@@ -1,5 +1,4 @@
 defmodule ListProcessor do
-
   @moduledoc """
   Support for building a bi-directional data pipeline for two lists.
 
@@ -7,10 +6,26 @@ defmodule ListProcessor do
 
   For speed purposes all list operations are done at the head of either list.
   """
-  @doc """
-  Move an item from one list to the other.
+
+  @typedoc """
+  A tuple with two lists: `{left, right}`.
   """
-  @callback move_one(t) :: t | nil
+  @type t :: {list, list}
+
+  @typedoc """
+  The result from a move operation.
+  """
+  @type result :: t | ListProcessor.Error.t()
+
+  @doc """
+  Move an item from one list to another.
+  """
+  @callback move_one(t) :: result
+
+  @doc """
+  Move an item from one list to another.
+  """
+  @callback move_one(t, processor) :: result
 
   @doc """
   Moves zero or more items from one list to the other list as a list.
@@ -18,12 +33,7 @@ defmodule ListProcessor do
   The number of items to list_processor can be either an integer or a range.
   A `processor` is passed and is used to determin≤e whether processing should continue.
   """
-  @callback move_to_list(t, Range.t() | integer, processor) :: t | nil
-
-  @typedoc """
-  A tuple with two lists: `{left, right}`.
-  """
-  @type t :: {list, list}
+  @callback move_to_list(t, Range.t() | integer, processor) :: result
 
   @typedoc """
   A predicate or module used to compose list processor operations.
@@ -38,11 +48,10 @@ defmodule ListProcessor do
   """
   @type processor :: module | (t -> boolean)
 
-
   @doc """
   A macro that inserts functions for moving multiple items in a list.
   """
-  defmacro list_many do
+  defmacro move_to_list do
     quote do
       import ListProcessor.Pipes
 
@@ -54,10 +63,18 @@ defmodule ListProcessor do
         ListProcessor.Right ->
           @target "right"
           @source "left"
+
+          defp insert_list({left, right}) do
+            {left, [[] | right]}
+          end
+
+          defp move_one_to_list({left, [value, list | right]}) do
+            {left, [[value | list] | right]}
+          end
       end
 
       @doc """
-      ListProcessor many items from the #{@source} list to the #{@target}.
+      Move items from the #{@source} into the #{@target} as a list.
 
       If `count` is an `t:Integer.t/0` then `count` items will be moved
       or `nil` will be returned.
@@ -77,7 +94,8 @@ defmodule ListProcessor do
       ## Examples
 
       """
-      @spec move_to_list(ListProcessor.t(), Range.t() | integer, ListProcessor.processor()) :: ListProcessor.t()
+      @spec move_to_list(ListProcessor.t(), Range.t() | integer, ListProcessor.processor()) ::
+              ListProcessor.result()
       def move_to_list(input, first..last, processor) do
         input
         ~> move_to_list(first, processor)
@@ -90,8 +108,8 @@ defmodule ListProcessor do
 
       def move_to_list(input, count, processor) do
         input
-        ~> move_first(processor)
-        ~> _move_many(count - 1, processor)
+        ~> insert_list()
+        ~> _move_to_list(count, processor)
       end
 
       defp _move_up_to(input, 0, _) do
@@ -100,31 +118,21 @@ defmodule ListProcessor do
 
       defp _move_up_to(input, count, processor) do
         input
-        ~> move_next(processor)
+        ~> move_one(processor)
+        ~> move_one_to_list()
         ~> _move_up_to(count - 1, processor)
         ~>> return(input)
       end
 
-      defp _move_many(input, 0, _) do
+      defp _move_to_list(input, 0, _) do
         input
       end
 
-      defp _move_many(input, count, processor) when is_integer(count) do
-        input
-        ~> move_next(processor)
-        ~> _move_many(count - 1, processor)
-      end
-
-      defp move_first(input, processor) do
+      defp _move_to_list(input, count, processor) when is_integer(count) do
         input
         ~> move_one(processor)
-        ~> wrap()
-      end
-
-      defp move_next(input, processor) do
-        input
-        ~> move_one(processor)
-        ~> join()
+        ~> move_one_to_list()
+        ~> _move_to_list(count - 1, processor)
       end
 
       defp return(_, result) do

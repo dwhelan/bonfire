@@ -1,10 +1,10 @@
 defmodule ListProcessor.Right do
   @moduledoc """
-  Functions for moving items from the left list to the right one: `left -> right`.
+  Functions for moving items from the left list to the right list: `left -> right`.
   """
   require ListProcessor
 
-  ListProcessor.list_many()
+  ListProcessor.move_to_list()
 
   @doc """
   Move one item from the left list to the right.
@@ -21,7 +21,7 @@ defmodule ListProcessor.Right do
       iex> move_one {'', ''}
       nil
   """
-  @spec move_one(ListProcessor.t()) :: ListProcessor.t()
+  @spec move_one(ListProcessor.t()) :: ListProcessor.result()
   def move_one({[], _} = _input) do
     nil
   end
@@ -45,7 +45,7 @@ defmodule ListProcessor.Right do
       iex> move_one {'', ''}
       nil
   """
-  @spec move_one(ListProcessor.t(), ListProcessor.processor()) :: ListProcessor.t()
+  @spec move_one(ListProcessor.t(), ListProcessor.processor()) :: ListProcessor.result()
   def move_one({[], _}, _) do
     nil
   end
@@ -59,21 +59,5 @@ defmodule ListProcessor.Right do
 
   def move_one(input, processor) do
     Module.concat(processor, Right).move_one(input)
-  end
-
-  defp wrap({_, []}) do
-    nil
-  end
-
-  defp wrap({left, [value | right]}) do
-    {left, [[value] | right]}
-  end
-
-  defp join({_, []}) do
-    nil
-  end
-
-  defp join({left, [value, values | right]}) do
-    {left, [[value | values] | right]}
   end
 end
