@@ -18,7 +18,7 @@ end
 ## To do
 - complete split to handle multiple and return a list as the value 
 - use pipe more -> first replace predicates with Codecs so return is {'', ''} or nil
-- re-align Right, RightTest and Merge, MergeTest
+- re-align MoveRight, RightTest and Merge, MergeTest
 - complete dec-val
   - implement split
   - extend to num-val with other bases

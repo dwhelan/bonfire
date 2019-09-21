@@ -1,8 +1,20 @@
 defmodule ListProcessor do
+  @moduledoc """
+  Support for building a bi-directional data pipeline for two lists.
+
+  The `move_one` function moves an item from one list to the other.
+  `The `move_to_list` functions moves zero or more items from one
+  list and moves them as a list to the other list. This enables
+  deeply nested lists to be on either side.
+
+  Moves from the left to the right
+
+  """
+
   @typedoc """
   A two element tuple of lists.
 
-
+  Represents the
   """
 
   @type t :: {list, list}
@@ -14,7 +26,7 @@ defmodule ListProcessor do
   being consumed. If `predicate` returns `true` then processing will continue with the input tuple,
   otherwise processing will continue with `nil`.
 
-  If the mover is a module, it is expected to have submodules named `Left` and `Right`
+  If the mover is a module, it is expected to have submodules named `Left` and `MoveRight`
   with `move_one/1` functions. Those functions will be called with an input tuple and
   processing will continue with the result of the function call.
   """
@@ -32,7 +44,7 @@ defmodule ListProcessor do
           @target "left"
           @source "right"
 
-        ListProcessor.Right ->
+        ListProcessor.MoveRight ->
           @target "right"
           @source "left"
       end

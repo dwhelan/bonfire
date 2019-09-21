@@ -1,13 +1,13 @@
-defmodule ListProcessor.Right do
+defmodule ListProcessor.MoveRight do
   @moduledoc """
-  Functions for moving elements from a left list to a right list.
+  Functions for moving items from the left list to the right one: `left -> right`.
   """
   require ListProcessor
 
   ListProcessor.many()
 
   @doc """
-  ListProcessor one item from the left list to the right.
+  Move one item from the left list to the right.
 
   The head item from the left list will be removed and will become the head item in the right list.
 
@@ -43,7 +43,7 @@ defmodule ListProcessor.Right do
   end
 
   def move_one(input, mover) do
-    Module.concat(mover, Right).move_one(input)
+    Module.concat(mover, MoveRight).move_one(input)
   end
 
   @doc """
