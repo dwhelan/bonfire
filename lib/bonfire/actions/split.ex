@@ -2,7 +2,7 @@ defmodule Split do
   @moduledoc """
   Functions and macros for splitting.
   """
-  import Pipes
+  import ListProcessor.Pipes
   import ListProcessor.MoveRight
 
   @callback apply(any) :: {[byte], [byte, ...]} | nil
@@ -26,9 +26,13 @@ defmodule Split do
       @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | nil
       def split(input) do
         input
-        ~> ListProcessor.MoveRight.reverse()
+        ~> reverse_dest()
         ~> unquote(codec).MoveRight.move_one()
-        ~> ListProcessor.MoveRight.reverse()
+        ~> reverse_dest()
+      end
+
+      defp reverse_dest({source, dest}) do
+        {source, Enum.reverse(dest)}
       end
     end
   end

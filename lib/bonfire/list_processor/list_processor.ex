@@ -1,13 +1,3 @@
-defmodule ListProcessor.Error do
-  @moduledoc """
-  Represents an error in the list processing.
-
-  Currently an error is simply represented as `nil`. This makes
-  error handling simple. By updating
-  """
-  @type t :: nil
-end
-
 defmodule ListProcessor do
 
   @moduledoc """
@@ -25,18 +15,18 @@ defmodule ListProcessor do
   @doc """
   Moves zero or more items from one list to the other list as a list.
 
-  The number of items to move can be either an integer or a range.
-  A `processor` is passed and is used to determine whether processing should continue.
+  The number of items to list_processor can be either an integer or a range.
+  A `processor` is passed and is used to determin≤e whether processing should continue.
   """
   @callback move_to_list(t, Range.t() | integer, processor) :: t | nil
 
   @typedoc """
-  A two element tuple of lists: `{left, right}`.
+  A tuple with two lists: `{left, right}`.
   """
   @type t :: {list, list}
 
   @typedoc """
-  A predicate or module used to compose move operations.
+  A predicate or module used to compose list processor operations.
 
   If the processor is a predicate, it will be called with the first element in the list
   being consumed. If the processor returns `true` then processing will continue with the input tuple,
@@ -54,7 +44,7 @@ defmodule ListProcessor do
   """
   defmacro many do
     quote do
-      import Pipes
+      import ListProcessor.Pipes
 
       case __MODULE__ do
         ListProcessor.Left ->

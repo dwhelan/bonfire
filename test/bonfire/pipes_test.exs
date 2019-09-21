@@ -1,6 +1,6 @@
 defmodule PipesTest do
   use Test, async: true
 
-  import Pipes
-  doctest Pipes
+  import ListProcessor.Pipes
+  doctest ListProcessor.Pipes
 end

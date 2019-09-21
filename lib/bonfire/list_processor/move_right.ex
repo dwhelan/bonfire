@@ -61,19 +61,6 @@ defmodule ListProcessor.MoveRight do
     Module.concat(processor, MoveRight).move_one(input)
   end
 
-  @doc """
-  Reverses the right list.
-
-  ## Examples
-
-      iex> reverse {'...', '123'}
-      {'...', '321'}
-  """
-  @spec reverse(ListProcessor.t()) :: ListProcessor.t()
-  def reverse({left, right}) do
-    {left, Enum.reverse(right)}
-  end
-
   defp wrap({_, []}) do
     nil
   end
