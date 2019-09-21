@@ -20,7 +20,6 @@ defmodule Move.Right do
 
       iex> move_one {'', ''}
       nil
-
   """
   @spec move_one(Move.t()) :: Move.t()
   def move_one({[], _} = _input) do

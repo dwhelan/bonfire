@@ -1,6 +1,8 @@
 defmodule Move do
   @typedoc """
-  A two element tuple of lists
+  A two element tuple of lists.
+
+
   """
 
   @type t :: {list, list}
@@ -13,7 +15,7 @@ defmodule Move do
   otherwise processing will continue with `nil`.
 
   If the mover is a module, it is expected to have submodules named `Left` and `Right`
-  with `move_one/1` functions. Those functions will be passed an input tuple and
+  with `move_one/1` functions. Those functions will be called with an input tuple and
   processing will continue with the result of the function call.
   """
   @type mover :: module | (t -> boolean)
@@ -38,7 +40,8 @@ defmodule Move do
       @doc """
       Move many items from the #{@source} list to the #{@target}.
 
-      If `count` is an `t:Integer.t/0` then `count` items will be moved.
+      If `count` is an `t:Integer.t/0` then `count` items will be moved
+      or `nil` will be returned.
 
       If `count` is a `t:Range.t/0` then as many items as possible will be
       moved, staying within the range.
@@ -46,8 +49,14 @@ defmodule Move do
       If `count.last` is less than `count.first` then items will
       be moved until the #{@source} list is empty or an error occurs.
 
-      This function will wrap all items consumed into a list which will be
-      inserted into the #{@target} list.
+      The `mover` will be called with each item from the #{@source} list and the
+      result will be used to insert into the #{@target} list.
+
+      All items consumed will be combined into a list which will be
+      inserted as a single item into the #{@target} list.
+
+      ## Examples
+
       """
       @spec move_many(Move.t(), Range.t() | integer, Move.mover()) :: Move.t()
       def move_many(input, first..last, mover) do
