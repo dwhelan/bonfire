@@ -16,7 +16,7 @@ defmodule Action do
       iex> Action.apply {ALPHA, Merge}, {'', 'abc'}
       {'a', 'bc'}
 
-      iex> Action.apply {ALPHA, MoveRight}, {'abc', ''}
+      iex> Action.apply {ALPHA, Right}, {'abc', ''}
       {'bc', 'a'}
   """
   @type t :: {module, module}

@@ -1,4 +1,4 @@
-defmodule ListProcessor.MoveRight do
+defmodule ListProcessor.Right do
   @moduledoc """
   Functions for moving items from the left list to the right one: `left -> right`.
   """
@@ -58,7 +58,7 @@ defmodule ListProcessor.MoveRight do
   end
 
   def move_one(input, processor) do
-    Module.concat(processor, MoveRight).move_one(input)
+    Module.concat(processor, Right).move_one(input)
   end
 
   defp wrap({_, []}) do

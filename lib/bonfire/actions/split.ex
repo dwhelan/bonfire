@@ -3,7 +3,7 @@ defmodule Split do
   Functions and macros for splitting.
   """
   import ListProcessor.Pipes
-  import ListProcessor.MoveRight
+  import ListProcessor.Right
 
   @callback apply(any) :: {[byte], [byte, ...]} | nil
   @callback move_one(any) :: {[byte], [byte, ...]} | nil
@@ -17,7 +17,7 @@ defmodule Split do
 
   defp create_split_functions(codec) do
     quote do
-      alias ListProcessor.MoveRight
+      alias ListProcessor.Right
       @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | nil
       def split([_ | _] = left) do
         split({left, []})
@@ -27,7 +27,7 @@ defmodule Split do
       def split(input) do
         input
         ~> reverse_dest()
-        ~> unquote(codec).MoveRight.move_one()
+        ~> unquote(codec).Right.move_one()
         ~> reverse_dest()
       end
 
@@ -42,12 +42,12 @@ defmodule Split do
       quote do
         @impl :"Elixir.Split"
         def apply({[byte | rest], dest} = input) do
-          ListProcessor.MoveRight.move_one(input, unquote(predicate))
+          ListProcessor.Right.move_one(input, unquote(predicate))
         end
 
         @impl :"Elixir.Split"
         def move_one({[byte | rest], dest} = input) do
-          ListProcessor.MoveRight.move_one(input, unquote(predicate))
+          ListProcessor.Right.move_one(input, unquote(predicate))
         end
       end
     )
@@ -58,12 +58,12 @@ defmodule Split do
       quote do
         @impl :"Elixir.Split"
         def apply({[unquote(byte) | rest] = source, dest} = input) do
-          ListProcessor.MoveRight.move_one(input)
+          ListProcessor.Right.move_one(input)
         end
 
         @impl :"Elixir.Split"
         def move_one({[unquote(byte) | rest] = source, dest} = input) do
-          ListProcessor.MoveRight.move_one(input)
+          ListProcessor.Right.move_one(input)
         end
       end
     )
@@ -73,7 +73,7 @@ defmodule Split do
     # Not using Module.create/3 because it seems simpler to just inject the new module
     # rather than trying to computes its name.
     quote do
-      defmodule MoveRight do
+      defmodule Right do
         @moduledoc false
         import :"Elixir.Split"
 

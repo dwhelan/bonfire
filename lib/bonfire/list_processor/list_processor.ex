@@ -32,7 +32,7 @@ defmodule ListProcessor do
   being consumed. If the processor returns `true` then processing will continue with the input tuple,
   otherwise processing will continue with `nil`.
 
-  If the processor is a module, it is expected to have submodules named `MoveLeft` and `MoveRight`
+  If the processor is a module, it is expected to have submodules named `MoveLeft` and `Right`
   that implement `ListProcessor` behaviour. Those functions will be called with an input tuple and
   processing will continue with the result of that function call.
   """
@@ -51,7 +51,7 @@ defmodule ListProcessor do
           @target "left"
           @source "right"
 
-        ListProcessor.MoveRight ->
+        ListProcessor.Right ->
           @target "right"
           @source "left"
       end
