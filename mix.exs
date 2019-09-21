@@ -10,7 +10,7 @@ defmodule Bonfire.MixProject do
       deps: deps(),
       aliases: aliases(),
       preferred_cli_env: [
-        test: :test
+        build: :test
       ]
     ]
   end
@@ -33,6 +33,7 @@ defmodule Bonfire.MixProject do
   defp aliases do
     [
       build: [
+        "format",
         "compile",
         "docs",
         "dialyzer"

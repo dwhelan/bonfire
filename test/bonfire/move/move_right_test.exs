@@ -1,6 +1,4 @@
 defmodule Alpha.Right do
-  # will move an alpha character to the right, nil otherwise
-
   import Guards
 
   def move_one({[char | _], _} = input) when is_alpha(char) do

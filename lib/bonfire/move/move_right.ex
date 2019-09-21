@@ -1,72 +1,12 @@
-defmodule Move do
-  defmacro many do
-    quote do
-      import Pipes
-
-      def move_many(input, 0, _) do
-        input
-      end
-
-      def move_many(input, from..to, mover) do
-        input
-        ~> move_many(from, mover)
-        ~> _move_up_to(to - from, mover)
-      end
-
-      def move_many(input, count, mover) do
-        input
-        ~> move_first(mover)
-        ~> _move_many(count - 1, mover)
-      end
-
-      defp _move_up_to(input, 0, _) do
-        input
-      end
-
-      defp _move_up_to(input, count, mover) do
-        input
-        ~> move_next(mover)
-        ~> _move_up_to(count - 1, mover)
-        ~>> return(input)
-      end
-
-      defp _move_many(input, 0, _) do
-        input
-      end
-
-      defp _move_many(input, count, mover) when is_integer(count) do
-        input
-        ~> move_next(mover)
-        ~> _move_many(count - 1, mover)
-      end
-
-      defp move_first(input, mover) do
-        input
-        ~> move_one(mover)
-        ~> wrap()
-      end
-
-      defp move_next(input, mover) do
-        input
-        ~> move_one(mover)
-        ~> join()
-      end
-
-      defp return(_, result) do
-        result
-      end
-    end
-  end
-end
-
 defmodule Move.Right do
   @moduledoc """
-  Functions for shifting elements from a left list to a right list.
+  Functions for moving elements from a left list to a right list.
   """
   require Move
 
   Move.many()
 
+  #  @spec move_one({list(any)}) :: {[any], [byte, ...]} | nil
   def move_one({[], _}) do
     nil
   end
