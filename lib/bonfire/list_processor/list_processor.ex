@@ -67,14 +67,6 @@ defmodule ListProcessor do
       The head item from the left list will be removed and will become the head item in the right list.
 
       A `nil` will be returned if the left list is empty.
-
-      ## Examples
-
-          iex> move_one {'abc', '...'}
-          {'bc', 'a...'}
-
-          iex> move_one {'', ''}
-          nil
       """
       @spec move_one(ListProcessor.t()) :: ListProcessor.result()
 
@@ -183,7 +175,7 @@ defmodule ListProcessor do
       end
     end
 
-  right =
+  source =
     quote do
       unquote(block)
 
@@ -198,5 +190,22 @@ defmodule ListProcessor do
 
   __MODULE__
   |> Module.concat(Right)
-  |> Module.create(right, Macro.Env.location(__ENV__))
+  |> Module.create(source, Macro.Env.location(__ENV__))
+
+  left =
+    quote do
+      unquote(block)
+
+      defp to_source_dest({dest, source}) do
+        {source, dest}
+      end
+
+      defp from_source_dest({source, dest}) do
+        {dest, source}
+      end
+    end
+
+  __MODULE__
+  |> Module.concat(Left)
+  |> Module.create(left, Macro.Env.location(__ENV__))
 end

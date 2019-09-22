@@ -1,7 +1,8 @@
 defmodule Alphabetic.Right do
   import Guards
+  import ListProcessor.Right
 
-  def move_one({[char | _], _} = input) when is_alpha(char) do
+  def move_one({[value | _], _} = input) when is_alpha(value) do
     ListProcessor.Right.move_one(input)
   end
 
