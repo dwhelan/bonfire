@@ -17,8 +17,11 @@ defmodule CharVal do
       iex> Merge.apply {'', '_"'}
       nil
 
-      iex> Right.apply {'"', ''}
+      iex> Right.move_one {'"', ''}
       {'', '"'}
+
+      iex> Right.move_one {'*', ''}
+      nil
   """
 
   use Codec
