@@ -1,4 +1,4 @@
-defmodule ListProcessor do
+defmodule DualStack do
   @moduledoc """
   Support for building a bi-directional data pipeline for two lists.
 
@@ -15,7 +15,7 @@ defmodule ListProcessor do
   @typedoc """
   The result from a move operation.
   """
-  @type result :: t | ListProcessor.Error.t()
+  @type result :: t | DualStack.Error.t()
 
   @doc """
   Move an item from one list to another.
@@ -30,7 +30,7 @@ defmodule ListProcessor do
   @doc """
   Moves zero or more items from one list to the other list as a list.
 
-  The number of items to list_processor can be either an integer or a range.
+  The number of items to dual_stack can be either an integer or a range.
   A `processor` is passed and is used to determin≤e whether processing should continue.
   """
   @callback move_to_list(t, Range.t() | integer, processor) :: result
@@ -43,7 +43,7 @@ defmodule ListProcessor do
   otherwise processing will continue with `nil`.
 
   If the processor is a module, it is expected to have submodules named `MoveLeft` and `Right`
-  that implement `ListProcessor` behaviour. Those functions will be called with an input tuple and
+  that implement `DualStack` behaviour. Those functions will be called with an input tuple and
   processing will continue with the result of that function call.
   """
   @type processor :: module | (t -> boolean)
@@ -52,7 +52,7 @@ defmodule ListProcessor do
 
   block =
     quote do
-      import ListProcessor.Pipes
+      import DualStack.Pipes
 
       @doc """
       Move one item from the left list to the right.
@@ -61,7 +61,7 @@ defmodule ListProcessor do
 
       A `nil` will be returned if the left list is empty.
       """
-      @spec move_one(ListProcessor.t()) :: ListProcessor.result()
+      @spec move_one(DualStack.t()) :: DualStack.result()
 
       def move_one(input) do
         input
@@ -121,8 +121,8 @@ defmodule ListProcessor do
       ## Examples
 
       """
-      @spec move_to_list(ListProcessor.t(), Range.t() | integer, ListProcessor.processor()) ::
-              ListProcessor.result()
+      @spec move_to_list(DualStack.t(), Range.t() | integer, DualStack.processor()) ::
+              DualStack.result()
       def move_to_list(input, first..last, processor) do
         input
         ~> move_to_list(first, processor)

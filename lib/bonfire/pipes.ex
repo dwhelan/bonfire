@@ -1,4 +1,4 @@
-defmodule ListProcessor.Pipes do
+defmodule DualStack.Pipes do
   @moduledoc """
   Pipe operators for short-circuiting truthy or non-truthy values.
   """

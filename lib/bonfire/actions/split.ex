@@ -2,7 +2,7 @@ defmodule Split do
   @moduledoc """
   Functions and macros for splitting.
   """
-  import ListProcessor.{Right, Pipes}
+  import DualStack.{Right, Pipes}
 
   @callback move_one(any) :: {[byte], [byte, ...]} | nil
 
@@ -15,12 +15,12 @@ defmodule Split do
 
   defp create_split_functions(codec) do
     quote do
-      @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | ListProcessor.Error.t()
+      @spec split(nonempty_list(byte)) :: {[byte], [byte, ...]} | DualStack.Error.t()
       def split([_ | _] = left) do
         split({left, []})
       end
 
-      @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | ListProcessor.Error.t()
+      @spec split({[byte, ...], [byte]}) :: {[byte], [byte, ...]} | DualStack.Error.t()
       def split(input) do
         input
         ~> reverse_dest()
@@ -38,7 +38,7 @@ defmodule Split do
     create_module(
       quote do
         def move_one({[byte | rest], dest} = input) do
-          ListProcessor.Right.move_one(input, unquote(predicate))
+          DualStack.Right.move_one(input, unquote(predicate))
         end
       end
     )
@@ -48,7 +48,7 @@ defmodule Split do
     create_module(
       quote do
         def move_one({[unquote(byte) | rest] = source, dest} = input) do
-          ListProcessor.Right.move_one(input)
+          DualStack.Right.move_one(input)
         end
       end
     )

@@ -1,4 +1,4 @@
-defmodule ListProcessor.Error do
+defmodule DualStack.Error do
   @moduledoc """
   Represents a list processing error.
 
@@ -7,5 +7,5 @@ defmodule ListProcessor.Error do
   """
   @type t :: nil
 
-  # Note that any changes to `ListProcessor.Error` should align with pipe operators and vice-versa.
+  # Note that any changes to `DualStack.Error` should align with pipe operators and vice-versa.
 end

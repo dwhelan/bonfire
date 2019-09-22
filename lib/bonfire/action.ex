@@ -21,7 +21,7 @@ defmodule Action do
   """
   @type t :: {module, module}
 
-  @spec apply(t, Bonfire.t()) :: Bonfire.t() | ListProcessor.Error.t()
+  @spec apply(t, Bonfire.t()) :: Bonfire.t() | DualStack.Error.t()
   def apply({element, verb}, arg) do
     Module.concat([element, verb]).apply(arg)
   end
