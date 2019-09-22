@@ -29,9 +29,9 @@ defmodule ListProcessor.LeftTest do
     assert move_one({ '_','*'}, Alphabetic) == nil
     assert move_one({ '_',''}, Alphabetic) == nil
 
-#    assert move_one({ '_','a'}, &is_alpha/1) == { 'a_',''}
-#    assert move_one({ '_','*'}, &is_alpha/1) == nil
-#    assert move_one({ '_',''}, &is_alpha/1) == nil
+    assert move_one({ '_','a'}, &is_alpha/1) == { 'a_',''}
+    assert move_one({ '_','*'}, &is_alpha/1) == nil
+    assert move_one({ '_',''}, &is_alpha/1) == nil
   end
 
 #  test "move_to_list/3 with a count" do

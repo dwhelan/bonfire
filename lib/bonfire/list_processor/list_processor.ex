@@ -54,13 +54,6 @@ defmodule ListProcessor do
     quote do
       import ListProcessor.Pipes
 
-      def move_one(input, processor) do
-        input
-        ~> to_source_dest()
-        ~> _move_one(processor)
-        ~> from_source_dest()
-      end
-
       @doc """
       Move one item from the left list to the right.
 
@@ -77,7 +70,7 @@ defmodule ListProcessor do
         ~> from_source_dest()
       end
 
-      def _move_one({[], _} = _input) do
+      def _move_one({[], _}) do
         nil
       end
 
@@ -89,9 +82,16 @@ defmodule ListProcessor do
         nil
       end
 
-      defp _move_one({[value | _], _} = input, processor) when is_function(processor, 1) do
-        case processor.(value) do
-          true -> move_one(input)
+      def move_one(input, processor) do
+        input
+        ~> to_source_dest()
+        ~> _move_one(processor)
+        ~> from_source_dest()
+      end
+
+      defp _move_one({[value | _], _} = input, predicate) when is_function(predicate, 1) do
+        case predicate.(value) do
+          true -> _move_one(input)
           false -> nil
         end
       end
