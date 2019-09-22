@@ -48,29 +48,64 @@ defmodule ListProcessor do
   """
   @type processor :: module | (t -> boolean)
 
-  @doc """
-  A macro that inserts functions for moving multiple items in a list.
-  """
-  defmacro move_to_list do
+  direction = Right
+
+  block =
     quote do
       import ListProcessor.Pipes
 
-      case __MODULE__ do
-        ListProcessor.Left ->
-          @target "left"
-          @source "right"
+      def move_one(input, processor) do
+        input
+        ~> to_source_dest()
+        ~> _move_one(processor)
+        ~> from_source_dest()
+      end
 
-        ListProcessor.Right ->
-          @target "right"
-          @source "left"
+      @doc """
+      Move one item from the left list to the right.
 
-          defp insert_list({left, right}) do
-            {left, [[] | right]}
-          end
+      The head item from the left list will be removed and will become the head item in the right list.
 
-          defp move_one_to_list({left, [value, list | right]}) do
-            {left, [[value | list] | right]}
-          end
+      A `nil` will be returned if the left list is empty.
+
+      ## Examples
+
+          iex> move_one {'abc', '...'}
+          {'bc', 'a...'}
+
+          iex> move_one {'', ''}
+          nil
+      """
+      @spec move_one(ListProcessor.t()) :: ListProcessor.result()
+
+      def move_one(input) do
+        input
+        ~> to_source_dest()
+        ~> _move_one()
+        ~> from_source_dest()
+      end
+
+      def _move_one({[], _} = _input) do
+        nil
+      end
+
+      def _move_one({[value | source], dest}) do
+        {source, [value | dest]}
+      end
+
+      defp _move_one({[], _}, _) do
+        nil
+      end
+
+      defp _move_one({[value | _], _} = input, processor) when is_function(processor, 1) do
+        case processor.(value) do
+          true -> move_one(input)
+          false -> nil
+        end
+      end
+
+      defp _move_one(input, processor) do
+        Module.concat(processor, unquote(direction)).move_one(input)
       end
 
       @doc """
@@ -119,7 +154,7 @@ defmodule ListProcessor do
       defp _move_up_to(input, count, processor) do
         input
         ~> move_one(processor)
-        ~> move_one_to_list()
+        ~> move_dest_value_into_list()
         ~> _move_up_to(count - 1, processor)
         ~>> return(input)
       end
@@ -131,13 +166,37 @@ defmodule ListProcessor do
       defp _move_to_list(input, count, processor) when is_integer(count) do
         input
         ~> move_one(processor)
-        ~> move_one_to_list()
+        ~> move_dest_value_into_list()
         ~> _move_to_list(count - 1, processor)
       end
 
       defp return(_, result) do
         result
       end
+
+      defp insert_list({source, dest}) do
+        {source, [[] | dest]}
+      end
+
+      defp move_dest_value_into_list({source, [value, list | dest]}) do
+        {source, [[value | list] | dest]}
+      end
     end
-  end
+
+  right =
+    quote do
+      unquote(block)
+
+      defp to_source_dest(input) do
+        input
+      end
+
+      defp from_source_dest(input) do
+        input
+      end
+    end
+
+  __MODULE__
+  |> Module.concat(Right)
+  |> Module.create(right, Macro.Env.location(__ENV__))
 end
